@@ -1,0 +1,382 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<div>
+
+Hello!
+
+</div>
+
+<div>
+
+My name is <em>Rich Jones</em>
+
+</div>
+
+<div>
+
+Founder/CTO of <em>gun.io</em>
+
+</div>
+
+<div>
+
+(we help hackers get paid!)
+
+</div>
+
+<div>
+
+Also author of
+
+</div>
+
+<div>
+
+<ul>
+  <li>django-knockout-modeler</li>
+  <li>django-easy-timezones</li>
+  <li>django-easy-api</li>
+  <li>django-easy-split</li>
+  <li>And more!..
+</ul>
+
+</div>
+
+<div>
+Zappa!
+</div>
+
+<div>
+Serverless Python Web Apps
+</div>
+
+<div>
+AWS Lambda + AWS API Gateway
+</div>
+
+<div>
+Serverless?
+</div>
+
+<div>
+Traditional web server:
+
+<ul>
+  <li>Web server (Apache/NX) listens for request</li>
+  <li>Converts to WSGI environ</li>
+  <li>Sends to WSGI server (Gunicorn)</li>
+  <li>Django processes the request</li>
+  <li>Web server returns it to the client</li>
+  <li>Web server goes back to listening</li>
+</ul>
+
+</div>
+
+<div>
+Serverless:
+
+<ul>
+  <li>Request comes into API Gateway</li>
+  <li>API request mapped to dict with VTL</li>
+  <li>Server is <em>created</em></li>
+  <li>Server converts dict to WSGI, feeds WSGI to Django</li>
+  <li>Returns response to API Gateway</li>
+  <li>Server is <em>destroyed</em></li>
+  <li>API Gateway returns response to client</li>
+</ul>
+</div>
+
+<div>
+~150ms
+</div>
+
+<div>
+Advantages!
+</div>
+
+<div>
+Super <em>scalable</em>!
+</div>
+
+<div>
+1 request = 1 server
+</div>
+
+<div>
+100 requests = 100 servers
+</div>
+
+<div>
+1000 requests* = 1000 servers
+</div>
+
+<div>
+Zero <em>maintainance</em>!
+</div>
+
+<div>
+<ul>
+    <li>
+      Zero load balancing needed!
+    </li>
+    <li>
+      Zero security holes to patch!
+    </li>
+    <li>
+      Zero downtime!
+    </li>
+  </ul>
+</div>
+
+<div>
+(fire your ops team)
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ python manage.py deploy prod
+</pre>
+</div>
+
+<div>
+Orders of magnitude <em>less expensive</em>!
+</div>
+
+<div>
+$0.000001/ms
+</div>
+
+<div>
+VPS: 4 * $20 * 12 = <em>$960/yr</em>
+</div>
+
+<div>
+Zappa: $0.75 * 12 = <em>$9/yr</em>
+</div>
+
+<div>
+<em>Demo</em>!
+</div>
+
+<div>
+Want to <em>contribute</em>?
+</div>
+
+<div>
+On the <em>roadmap</em>:
+</div>
+
+<div>
+Let's Encrypt Support
+</div>
+
+<div>
+Flask / Pylons / Etc. Clients
+</div>
+
+<div>
+Logging
+</div>
+
+<div>
+Testing
+</div>
+
+<div>
+How do you test AWS libraries?
+¯\_(ツ)_/¯
+</div>
+
+<div>
+Performance optimization
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/Miserlou/django-zappa</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+
+@GUNdotIO
+https://gun.io
+</div>
+
+<div>
+Questions?
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
