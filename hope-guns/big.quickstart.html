@@ -1,0 +1,191 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family: 'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#ff0000;
+}
+
+a {
+  background: #34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), cur = 0, ti;
+    if (!s) return;
+    function go(n) {
+        cur = n;
+        var i = 1e3, e = s[n], t;
+        document.body.className = e.dataset.bodyclass || '';
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline';
+        e.style.fontSize = i + 'px';
+        if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url(' + e.firstChild.src + ')';
+            e.firstChild.style.display = 'none';
+            if ('classList' in e) e.classList.add('imageText');
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        if (ti !== undefined) window.clearInterval(ti);
+        t = parseInt(e.dataset.timeToNext || 0, 10);
+        if (t > 0) ti = window.setTimeout(fwd, (t * 1000));
+        while (
+            e.offsetWidth > window.innerWidth ||
+            e.offsetHeight > window.innerHeight) {
+            e.style.fontSize = (i -= 2) + 'px';
+            if (i < 0) break;
+        }
+        e.style.marginTop = ((window.innerHeight - e.offsetHeight) / 2) + 'px';
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() { go(++cur % (s.length)); };
+    function fwd() { go(Math.min(s.length - 1, ++cur)); }
+    function rev() { go(Math.max(0, --cur)); }
+    document.onkeydown = function(e) {
+        if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+        if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+    };
+    document.ontouchstart = function(e) {
+        var x0 = e.changedTouches[0].pageX;
+        document.ontouchend = function(e) {
+            var x1 = e.changedTouches[0].pageX;
+            if (x1 - x0 < 0) fwd();
+            if (x1 - x0 > 0) rev();
+        };
+    };
+    function parse_hash() {
+        return Math.max(Math.min(
+            s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) cur = parse_hash() || cur;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== cur) go(c);
+    };
+    go(cur);
+};
+</script></head><body>
+
+
+<div>So, you want to print a <em>gun</em>.</div>
+<div>What's wrong with you?</div>
+<div>Don't do that.</div>
+<div>You're going to <em>blow your hand off</em>.</div>
+<div>You idiot.</div>
+<div>Okay fine.</div>
+<div><em>History</em></div>
+<div>People have been making homemade guns for a while.</div>
+<div><img src="http://thehomegunsmith.com/pics/KnuckledusterZipGun-01.jpg"></div>
+<div>Zip guns.</div> 
+<div>(Think <i>West Side Story</i>)</div>
+<div>Prison guns.</div>
+<div><img src="https://www.busaccagallery.com/userfiles/9009PrisonZipGun2.jpg"></div>
+<div>Crazy sci fi fantasty guns.</div>
+<div><img src="http://cdn2.armslist.com/sites/armslist/uploads/posts/2013/05/06/1576989_03__usfa_zip_gun_22lr_nib_w_extra_640.jpg"></div>
+<div>Requires tools, skill and time to do properly.</div>
+<div><em>Enter The Bot</em></div>
+<div>Click, print, <em>shoot</em>.</div>
+<div>Late 2012: People start making gun accessories.</div>
+<div>Thingiverse bans weapons.</div>
+<div>Cody Wilson founds <em>Defense Distributed</em>.</div>
+<div><img src="http://cleversurvivalist.com/wp-content/uploads/2013/05/codywilson.jpg"></div>
+<div>"Wikiweapon"</div>
+<div>Starts with magazines.</div>
+<div><img src="http://www.ammoland.com/wp-content/uploads/2013/03/3D-Printed-AR15-Magazine.jpg"></div>
+<div>Next is the lower receiver.</div>
+<div><img src="http://www.3ders.org/images/firearm-3d-printed-2.jpg"></div>
+<div><iframe width="1280" height="720" src="http://www.youtube.com/embed/tAW72Y_XPF4?list=UUsKjElNP5r8fXVYdGxuGo6Q" frameborder="0" allowfullscreen></iframe></div>
+<div><em>The Liberator</em></div>
+<div><img src="http://b-i.forbesimg.com/andygreenberg/files/2013/05/Screen-Shot-2013-05-13-at-1.42.42-PM.png"></div>
+<div>~100% printable.</div>
+<div>Single shot.</div>
+<div>Butt ugly.</div>
+<div>Incredibly inaccurate.</div>
+<div>Result?</div>
+<div>Everybody <em>loses their shit</em>.</div>
+<div>Congress wants to ban them.</div>
+<div>Media tries to recreate it,</div>
+<div>fuck it up, use the wrong kind of plasic.</div>
+<div><img src="http://i.imgur.com/kJlAOfv.png"></div>
+<div>State department takedown.</div>
+<div>Cody kind of backs down, forms a company.</div>
+<div>Community (kind of) revolts.</div>
+<div><em>DefCad</em> becomes <em style="color: #00ff00">FOSSCAD</em>.</div>
+<div><em>Present</em></div>
+<div>Way more guns!</div>
+<div>Rifles</div>
+<div><iframe width="1280" height="720" src="http://www.youtube.com/embed/It_YufR2gvs" frameborder="0" allowfullscreen></iframe></div>
+<div>Revolvers</div>
+<div><img src="http://images.derstandard.at/2014/05/16/1399539884452-reprringer532.jpg"></div>
+<div>Shotguns</div>
+<div>Japanese guy got arrested</div>
+<div><iframe width="1280" height="720" src="http://www.youtube.com/embed/HfOAMQPM7Sw" frameborder="0" allowfullscreen></iframe></div>
+<div>All metal prints</div>
+<div><img src="http://blog.solidconcepts.com/wp-content/uploads/2013/11/3D-Printed-Metal-Gun-Components-Disassembled-Low-Res.jpg"></div>
+<div><em>Who is designing these things?</em></div>
+<div>Gun Nuts (duh)</div>
+<div>Libertarian whackos</div>
+<div>Exmilitary dudes</div>
+<div>Internet freedom people</div>
+<div>Pirates/Kopimi folks</div>
+<div>Scary and pretty weird people</div>
+<div><em>Future</em></div>
+<div>Mortars</div>
+<div><img src="https://pbs.twimg.com/media/BkhFb9oCYAEwgha.png"></div>
+<div>(On track for the end of the summer)</div>
+<div>IEDs</div>
+<div>Ammo</div>
+<div>Fully-printable 3D AR-15</div>
+<div><img src="https://pbs.twimg.com/media/Bnm3ORtIIAELZRs.jpg:large"></div>
+<div>Rifling</div>
+<div><img src="https://pbs.twimg.com/media/BrXmgsEIgAAAY2f.png:large"></div>
+<div><em>Don't do this!</em></div>
+<div>It's super dangerous.</div>
+<div>If you do, please film it and put it online.</div>
+<div>I love this shit.</div>
+<div>But seriously, please don't shoot anybody.</div>
+<div>You idiot.</div>
+<div>&lt;3 R</div>
+
+
