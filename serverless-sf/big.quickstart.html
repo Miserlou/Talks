@@ -132,46 +132,34 @@ Hello!
 
 <div>
 
-My name is <em>Rich Jones</em>
+My name is <em>Rich Jones</em>!
 
 </div>
 
 <div>
 
-Founder/CTO of <em>gun.io</em>
+Founder/CTO of <em>gun.io</em>!
 
 </div>
 
 <div>
 
-(we help hackers get paid!)
+(we help companies build awesome stuff!)
 
 </div>
 
 <div>
-
-Also author of
+I'm here to talk about..
+</div>
 
 </div>
 
 <div>
-
-<ul>
-  <li>django-knockout-modeler</li>
-  <li>django-easy-timezones</li>
-  <li>django-easy-api</li>
-  <li>django-easy-split</li>
-  <li>And more!..
-</ul>
-
+<i>Zappa!</i>
 </div>
 
 <div>
-Zappa!
-</div>
-
-<div>
-Serverless Python Web Apps
+Serverless Python Web Apps!
 </div>
 
 <div>
@@ -183,7 +171,7 @@ Serverless?
 </div>
 
 <div>
-aka: <i>"no permanent infrastructure"</i>
+<i>aka</i>: "<em>no permanent infrastructure</em>"
 </div>
 
 <div>
@@ -220,7 +208,7 @@ Zappa:
 </div>
 
 <div>
-~30ms
+~30ms!
 </div>
 
 <div>
@@ -266,18 +254,26 @@ Zero <em>maintainance</em>!
 </div>
 
 <div>
+Super easy to <em>start</em>!
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
 Super easy to <em>deploy</em>!
 </div>
 
 <div>
 <pre>
-$ python manage.py deploy prod
-</pre>
-</div>
-
-<div>
-<pre>
-$ zappa deploy prod
+$ zappa deploy
 </pre>
 </div>
 
@@ -306,68 +302,208 @@ Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
 </div>
 
 <div>
-Works with any <em>WSGI</em> application
+Works with any <em>WSGI</em> application!
 </div>
 
 <div>
-Great for microservices! (Flask)
+Don't need to modify your existing apps!
 </div>
 
 <div>
-Great for macroservices! (Django)
+<img src="http://i.imgur.com/W2Ndw3l.png">
 </div>
 
 <div>
-Manage multiple environments
+<img src="http://i.imgur.com/BNmJV5w.png">
 </div>
 
 <div>
-Let's Encrypt (Kinda)
+Great for <em>microservices</em>! (Flask)
 </div>
 
 <div>
-Cron / Celery Replacement
+Great for <em>macroservices</em>! (Django)
+</div>
+
+<div>
+Even <em>CMS</em>es! <i>wagtail, django-cms, etc.</i>!
+</div>
+
+<div>
+Manage multiple environments!
+</div>
+
+<div>
+<pre>
+$ zappa update dev;
+$ zappa update staging;
+$ zappa update production;
+</pre>
+</div>
+
+<div>
+Let's Encrypt (Kinda)!
+</div>
+
+<div>
+Cron / Celery Replacement!
 </div>
 
 <div>
 <pre>
  "events": [{
      "function": "your_module.your_function",
-     "expression": "rate(1 minute)"
+     "expression": "<em>rate(1 minute)</em>"
  }]
 </pre>
 </div>
 
 <div>
-React to AWS events (S3/SQS/etc.)
+React to AWS events (S3/SQS/etc.)!
 </div>
 
 <div>
-Log Tailing
+<pre>
+ "events": [{
+      "function": "your_module.your_function",
+      "event_source": {
+            "arn":  "arn:aws:s3:::my-bucket",
+            "events": [
+              "<em>s3:ObjectCreated:*</em>"
+            ]
+         }
+      }]
+</pre>
 </div>
 
 <div>
-Rollback
+<pre>
+$ zappa schedule
+$ zappa unschedule
+</pre>
 </div>
 
 <div>
-Auto keep warm
+Log Tailing!
 </div>
 
 <div>
-VPC Awareness
+<pre>
+$ zappa tail
+</pre>
 </div>
 
 <div>
-Use C-Extensions via <em>lambda-packages</em>
+Rollback!
 </div>
 
 <div>
-Load remote environment variables from S3
+<pre>
+$ zappa rollback -n 2
+</pre>
 </div>
 
 <div>
-Highly configurable with sane defaults
+Auto <em>keep-warm</em>!
+</div>
+
+<div>
+<em>VPC</em> Awareness!
+</div>
+
+<div>
+<pre>
+"vpc_config": { 
+    "SubnetIds": [ "subnet-12345678" ],
+    "SecurityGroupIds": [ "sg-12345678" ]
+}
+</pre>
+</div>
+
+<div>
+Use C-Extensions via <em>lambda-packages</em>!
+</div>
+
+<div>
+  <ul>
+    <li>MySQL-Python</li>
+    <li>numpy</li>
+    <li>OpenCV</li>
+    <li>psycopg2</li>
+    <li>Pillow (PIL)</li>
+    <li>LXML</li>
+    <li>PyCrypto</li>
+    <li>PyNaCl</li>
+    <li>cryptography</li>
+    <li>cffi</li>
+</div>
+
+<div>
+Load <em>remote environment variables</em> from S3!
+</div>
+
+<div>
+<pre>
+// my-config-bucket/super-secret-config.json
+{   
+    "<em>DB_CONNECTION_STRING</em>": "super-secret:database"
+}
+</pre>
+
+</div>
+
+<div>
+<pre>
+// zappa_settings.json
+"remote_env_bucket": "my-config-bucket",
+"remote_env_file": "super-secret-config.json"
+</pre>
+</div>
+
+<div>
+<pre>
+# your_zappa_app.py
+import os
+db_string = os.environ('<em>DB_CONNECTION_STRING</em>')
+</pre>
+</div>
+
+<div>
+Remote command <em>invocation</em>!
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'my_app.my_func'
+</pre>
+</div>
+
+<div>
+<em>Django</em> management commands!
+</div>
+
+<div>
+<pre>
+$ zappa manage makemigrations
+</pre>
+</div>
+
+<div>
+<em>Secure</em> API-keyed deployments!
+</div>
+
+<div>
+<pre>
+"api_key_required": true 
+</pre>
+</div>
+
+<div>
+No vendor <em>lock-in</em>!
+</div>
+
+<div>
+(sorry Jeff!)
 </div>
 
 <div>
@@ -375,11 +511,15 @@ Highly configurable with sane defaults
 </div>
 
 <div>
-Want to <em>contribute</em>? :-D
+Want to <em>contribute</em>? 😃
 </div>
 
 <div>
-Use it!
+Use Zappa!
+</div>
+
+<div>
+(your favorite companies are!)
 </div>
 
 <div>
@@ -419,7 +559,15 @@ Replace Boto with Troposphere for APIGW
 </div>
 
 <div>
-Increase test coverage
+Compile more lambda-packages
+</div>
+
+<div>
+Increase test coverage (90%)
+</div>
+
+<div>
+Give me 💸💸💸
 </div>
 
 <div>
@@ -445,48 +593,21 @@ https://gun.io
 Questions?
 </div>
 
+<div>
+Bonus!
+</div>
+
+<div>
+Microservice.. in a <em>tweet</em>!
+</div>
+
+<div>
+<i>Norwegian Greeter Microservice</i>
+</div>
+
+<div>
+echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return ‘Hei\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
+</div>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
