@@ -1,0 +1,784 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<div>
+
+Hello!
+
+</div>
+
+<div>
+
+My name is <em>Rich Jones</em>!
+
+</div>
+
+<div>
+
+Founder/CTO of <em>gun.io</em>!
+
+</div>
+
+<div>
+
+(we help companies build awesome stuff!)
+
+</div>
+
+<div>
+I'm here to talk about..
+</div>
+
+</div>
+
+<!--
+
+Building Serverless API Backends
+
+Are you having trouble keeping servers up and costs down? This talk will show you how to build mobile backends using new “server-less” technologies that never have any down-time, require zero maintenance, and cost orders of magnitude less money than traditional alternatives!
+I’ll take you on a tour of this exciting new class of cloud technologies that use event-driven cached microservice architectures to replace bulky, fickle and expensive monolithic backends. Gone are the days of tedious VPSes, expensive PaaSes and locked-in BaaSes – save hundreds of thousands of dollars and weeks of time by going serverless!
+
+Instead of worrying about keeping your farm of servers online, patched, and properly scaled, serverless architectures instead react into events that happen inside your cloud infrastructure, only running when needed and automatically shutting down when not. For instance, when a new video gets uploaded to your storage provider from a mobile client, your serverless application activates, runs your transformation, saves the result to a database, and sends a notification back to the client before terminating, all without any other calls being sent to the client! There’s no limitations on horizontal scalability, and best of all, you only pay for the milliseconds of compute time you use, potentially saving you hundreds of thousands of dollars!
+
+In this talk, I’ll show you real word examples of a serverless API using AWS Lambda and API Gateway with Zappa, as well as show how we leveraged serverless technologies to build our open source mobile live video streaming SDK, Kickflip.io. Attendees will leave with a great understanding of how serverless backends work, how to avoid common serverless pitfalls, and hopefully a ton of great ideas about how to save money on servers and operational costs by going serverless with their APIs.
+
+http://nordicapis.com/?post_type=sessions&p=4796
+
+-->
+
+<div>
+Building <b>Server-less</b> API Backends
+</div>
+
+<div>
+<i>Zappa!</i>
+</div>
+
+<div>
+AWS Lambda + AWS API Gateway
+</div>
+
+<div>
+Server-less?
+</div>
+
+<div>
+<i>aka</i>: "<em>no permanent infrastructure</em>"
+</div>
+
+<div>
+Zero <em>maintainance</em>!
+</div>
+
+<div>
+<ul>
+    <li>
+      Zero load balancing!
+    </li>
+    <li>
+      Zero security patches!
+    </li>
+    <li>
+      Zero downtime!
+    </li>
+  </ul>
+</div>
+
+<div>
+(fire your ops team)
+</div>
+
+<div>
+Traditional web server:
+</div>
+
+<div>
+<ul>
+  <li>Web server (Apache/NX) listens for request</li>
+  <li>Converts to WSGI environ</li>
+  <li>Sends to WSGI server (Gunicorn)</li>
+  <li>Django processes the request</li>
+  <li>Web server returns it to the client</li>
+  <li>Web server goes back to listening</li>
+</ul>
+
+</div>
+
+<div>
+Zappa:
+</div>
+
+<div>
+
+<ul>
+  <li>Request comes into API Gateway</li>
+  <li>API request mapped to dict with VTL</li>
+  <li>Server is <em>created</em></li>
+  <li>Server converts dict to WSGI, feeds WSGI to Django</li>
+  <li>Returns response to API Gateway</li>
+  <li>Server is <em>destroyed</em></li>
+  <li>API Gateway returns response to client</li>
+</ul>
+</div>
+
+<div>
+~30ms!
+</div>
+
+<div>
+Advantages!
+</div>
+
+<div>
+Super <em>scalable</em>!
+</div>
+
+<div>
+1 request = 1 server
+</div>
+
+<div>
+100 requests = 100 servers
+</div>
+
+<div>
+100000 requests = 100000 servers
+</div>
+
+<div>
+Super easy to <em>start</em>!
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+</pre>
+</div>
+
+<div>
+Orders of magnitude <em>less expensive</em>!
+</div>
+
+<div>
+$0.000000002<em>/ms</em>
+</div>
+
+<div>
+(0.000000018kr<em>/ms</em>)
+</div>
+
+<div>
+Plus 3,200,000 <em>free</em> seconds!
+</div>
+
+<div>
+VPS: 4 * $20 * 12 = <em>$960/yr</em>
+</div>
+
+<div>
+Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
+</div>
+
+<div>
+<em>Other Features</em>!
+</div>
+
+<div>
+Works with any <em>WSGI</em> application!
+</div>
+
+<div>
+No vendor <em>lock-in</em>!
+</div>
+
+<div>
+Don't need to modify your existing apps!
+</div>
+
+<div>
+<img src="http://i.imgur.com/W2Ndw3l.png">
+</div>
+
+<div>
+<img src="http://i.imgur.com/BNmJV5w.png">
+</div>
+
+<div>
+Great for <em>microservices</em>! (Flask APIs, IOT, etc.)
+</div>
+
+<div>
+Great for <em>macroservices</em>! (Django, CMSes, etc.)
+</div>
+
+<div>
+React to AWS events (S3/SQS/etc.)!
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+
+ "events": [{
+      "function": "<em>your_module.your_function</em>",
+      "event_source": {
+            "arn":  "arn:aws:s3:::my-bucket",
+            "events": [
+              "<em>s3:ObjectCreated:*</em>"
+            ]
+         }
+      }]
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa schedule
+$ zappa unschedule
+</pre>
+</div>
+
+<div>
+Let's Encrypt!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
+Cron / Celery Replacement!
+</div>
+
+<div>
+<pre>
+ "events": [{
+     "function": "your_module.your_function",
+     "expression": "<em>rate(1 minute)</em>"
+ }]
+</pre>
+</div>
+
+<div>
+..and many, many more features!
+</div>
+
+<div>
+<i>Use Case! </i> <em>Kickflip</em>
+</div>
+
+<div>
+<img src="http://i.imgur.com/XpVyU0L.jpg">
+</div>
+
+<div>
+Mobile video streaming SDK
+</div>
+
+<div>
+Upload <em>live video</em> stream
+</div>
+
+<div>
+Video Parts (mp4) + Manifest (m3u8) = <em>Video Stream</em>
+</div>
+
+<div>
+Mobile -> Web -> Mobile
+</div>
+
+<div>
+<i>"<em>Hybrid</em> Architecture"</i>
+</div>
+
+<div>
+<em>HTTP</em> (API) and <em>Non-HTTP</em> (Upload) Event Sources
+</div>
+
+<div>
+<em>No</em> permanent infrastructure!
+</div>
+
+<div>
+No ops!
+</div>
+
+<div>
+Requirements:
+</div>
+
+<div>
+  <ul>
+    <li>
+      API Authentication
+    </li>
+    <li>
+      Low-latency
+    </li>
+    <li>
+      Low-cost
+    </li>
+    <li>
+      Super-scalable
+    </li>
+    <li>
+      No-ops!
+    </li>
+</div>
+
+<div>
+<i>Let's rock!</i>
+</div>
+
+<div>
+1) Client authenticates with API
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+"api_key_required": <em>true</em>
+</pre>
+</div>
+
+<div>
+<pre>
+GET /get_token HTTP/1.1
+Host: api.kickflip.io
+Content-Type: application/json
+<em>x-api-key</em>: hzYAVO9Sg98nsNh81M84O2kyXVy6K1xwHD8
+</pre>
+</div>
+
+<div>
+2) API returns temporary S3 upload token
+</div>
+
+<!--
+
+https://www.whitneyindustries.com/aws/2014/11/16/boto-plus-s3-plus-sts-tokens.html
+
+from boto import sts
+from json
+stsconn = sts.connect_to_region('us-east-1',
+                                aws_access_key_id='<access id>',
+                                aws_secret_access_key='<secret key>')
+
+-->
+
+<div>
+<pre>
+<span class="grey"># kickflip_server.py</span>
+from <em>boto</em> import sts
+<span class="grey"># this is cached</span>
+stsconn = sts.connect_to_region('us-east-1')
+
+from <em>flask</em> import Flask, jsonify
+app = Flask(__name__)
+
+@app.route('/get_token')
+def get_token():
+  policy = (<em>get_policy</em>()
+  token = sts_conn.get_federation_token(
+                            name=temporary_token_name(),
+                            duration=900,
+                            policy=json.dumps(<em>policy</em>)
+                      )
+  return jsonify({'token': <em>token</em>})
+
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># kickflip_server.py</span>
+
+def get_policy():
+  user = os.environ.get('REMOTE_USER')
+  stream_id = get_new_stream_id()
+  resource_arn = 'arn:aws:s3:::your-bucket/' +
+      <em>user</em> + '/'  + <em>stream_id</em> + '/*.mp4'</em>
+
+  <span class="grey">// allow uploading any mp4 to, for example: </span>
+  <span class="grey">// https://my-bucket.kickflip.io/example-user/stream-abc123/1234567.mp4</span>
+
+  policy = {
+    'Statement': [{
+          'Action': [
+              's3:GetObject', '<em>s3:PutObject</em>'
+          ],
+          'Effect': 'Allow',
+          'Resource': [ <em>resource_arn</em> ]
+        }]}
+  return policy
+</pre>
+</div>
+
+<div>
+3) Client uploads video part to S3 bucket
+</div>
+
+<div>
+<pre>
+<span class="grey"># client.py</span>
+
+<span class="grey">// Get our S3 token</span>
+<em>token</em> = requests.get('<em>https://api.kickflip.io/get_token</em>',
+  headers={'x-api-key': CLIENT_API_KEY
+}).json()
+
+<span class="grey">// connect to S3</span>
+s3_conn = s3.connect_to_region('us-east-1',
+      aws_access_key_id=<em>token</em>.credentials.access_key,
+      aws_secret_access_key=<em>token</em>.credentials.secret_key,
+      security_token=<em>token</em>.credentials.session_token)
+
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># client.py</span>
+
+<span class="grey">// Get our bucket</span>
+bucket = s3_conn.get_bucket('<em>your-bucket</em>',
+    validate=False,
+    headers={
+        'x-amz-security-token': <em>token</em>.credentials.session_token
+      }
+    )
+
+<span class="grey">// Upload to S3</span>
+key = s3.key.Key()
+key.bucket = bucket
+key.name = video_part.filename
+key.<em>set_contents_from_file</em>(open(video_part))
+<span class="grey">// Done.. until then next video chunk!</span>
+</pre>
+</div>
+
+<div>
+4) Lambda function executes <em>in response to new video part</em>, updates stream manifest
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+
+"events": [{
+  "function": "<em>kickflip.update_manifest</em>",
+  "event_source": {
+        "arn":  "arn:aws:s3:::<em>your-bucket/*/*/*.mp4</em>",
+        "events": [
+          "<em>s3:ObjectCreated:*</em>"
+        ]
+     }
+  }]
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># kickflip_server.py</span>
+
+def update_manifest(<em>event</em>, context):
+
+    key = event[<em>'s3'</em>][<em>'key'</em>]
+    <span class="grey">// see more sample events here:
+    // http://docs.aws.amazon.com/lambda/latest/dg/eventsources.html
+    </span>
+    user, stream, part = key.split('/')
+    parts = list_video_parts_for_stream(user, stream)
+    manifest = create_manifest_file(parts)
+    <em>upload_new_manifest</em>(manifest)
+
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+</pre>
+</div>
+
+<div>
+5) Content is served via CloudFront CDN!
+</div>
+
+<div>
+<pre>
+$ vlc https://streams.kickflip.io/<em>user-123</em>/<em>stream-789</em>/<em>stream.m3u8</em>
+</pre>
+</div>
+
+<div>
+<img src="http://i.imgur.com/5Rp3VFQ.jpg">
+</div>
+
+<div>
+<em>Done</em>!
+</div>
+
+<div>
+Server-less streaming video server in <em>42 lines</em> of Python!
+</div>
+
+<div>
+<pre>
+
+from boto import sts
+from flask import Flask, jsonify
+from json import dumps
+
+# S3
+sts = sts.connect_to_region('us-east-1')
+
+# Flask
+app = Flask(__name__)
+
+@app.route('/get_token')
+def get_token():
+  policy = get_policy()
+  token = sts.get_federation_token(
+                            name=temporary_token_name(),
+                            duration=900,
+                            policy=dumps(<em>policy</em>)
+                      )
+  return jsonify({'token': token})
+
+def get_policy():
+  user = os.environ.get('REMOTE_USER')
+  stream_id = get_new_stream_id()
+  resource_arn = 'arn:aws:s3:::your-bucket/' +
+          <em>user</em> + '/'  +
+          <em>stream_id</em> +
+          '/*.m4a'</em>
+  policy = {
+        'Statement': [
+            {
+              'Action': [
+                  's3:GetObject', '<em>s3:PutObject</em>'
+              ],
+              'Effect': 'Allow',
+              'Resource': [
+                  resource_arn
+              ]
+            }
+          ]
+        }
+  return policy
+
+def <em>update_manifest</em>(<em>event</em>, context):
+    stream = event.get('bucket') # path
+    parts = list_bucket_parts()
+    manifest = create_manifest_file()
+    upload_new_manifest(manifest)
+
+</pre>
+</div>
+
+<div>
+Want to <em>contribute</em>? 😃
+</div>
+
+<div>
+Use Zappa!
+</div>
+
+<div>
+(your favorite companies are!)
+</div>
+
+<div>
+Hire me! 💸💸💸
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/Miserlou/Zappa
+</em>
+</div>
+
+<div>
+<em>Slack</em>:
+http://bit.do/zappa
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+
+@GUNdotIO
+https://gun.io
+</div>
+
+<div>
+Questions?
+</div>
+
+<div>
+Bonus!
+</div>
+
+<div>
+Microservice.. in a <em>tweet</em>!
+</div>
+
+<div>
+<i>Swedish Greeter Microservice</i>
+</div>
+
+<div>
+echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return ‘Hej\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
+</div>
+
+</body>
+</html>
