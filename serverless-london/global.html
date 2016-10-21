@@ -1,0 +1,506 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<div>
+
+Hello!
+
+</div>
+
+<div>
+
+My name is <em>Rich Jones</em>!
+
+</div>
+
+<div>
+
+Founder/CTO of <em>gun.io</em>!
+
+</div>
+
+<div>
+(we help companies build awesome stuff!)
+</div>
+
+<div>
+Author of <em>Zappa</em>!
+</div>
+
+<div>
+(The best damn server-less framework in the world!)
+</div>
+
+<div>
+I'm here to talk about..
+</div>
+
+<div>
+<em>Globally Available</em> Server-Less Architectures!
+</div>
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+Applications designed to run in <em>multiple regions around the globe</em> simultaneously
+</div>
+
+<div>
+Why?
+</div>
+
+<div>
+<i>#1</i>: <em>Speed</em>!
+</div>
+
+<div>
+<pre>
+$ ping apigateway.us-east-2.amazonaws.com <span class="grey"># Ohio</span>
+--- apigateway.us-east-2.amazonaws.com ping statistics ---
+round-trip min/avg/max/stddev = 35.274/<em>39.257</em>/42.731/2.499 ms
+</pre>
+</div>
+
+<div>
+<pre>
+$ ping apigateway.ap-northeast-1.amazonaws.com <span class="grey"># Tokyo</span>
+--- apigateway.ap-northeast-1.amazonaws.com ping statistics ---
+round-trip min/avg/max/stddev = 177.616/<em>202.745</em>/305.468/46.281 ms
+</pre>
+</div>
+
+<div>
+<em>&gt;200ms</em> just for the round trip!
+</div>
+
+<div>
+Please provide <em>non-US</em> (or non eu-west-1) users with equally great service!
+</div>
+
+<div>
+<i>#2</i>: <em>Scalability</em>!
+</div>
+
+<div>
+1 region: ~<em>5,000</em> simultaneous connections
+</div>
+
+<div>
+9 regions: ~<em>45,000</em> simultaneous connections!
+</div>
+
+<div>
+<em>1,420,092,000,000</em> hits/year!
+</div>
+
+<div>
+<i>#3</i>: <em>Redunancy</em>!
+</div>
+
+<div>
+Cloud computing is an act of faith
+</div>
+
+<div>
+Amazon goes down too!
+</div>
+
+<div>
+<i>*gasp*</i>
+</div>
+
+<div>
+<img src="http://i.imgur.com/vJYLaQA.png">
+</div>
+
+<div>
+Amazon goes down too..
+</div>
+
+<div>
+..but (usually) <em>not across the planet</em>.
+</div>
+
+<div>
+<i>#4</i>: <em>Security</em>!
+</div>
+
+<div>
+<em>Compartmentalize</em> data, <em>limit</em> damage.
+</div>
+
+<div>
+<i>#5</i>: <em>Regulatory compliance</em>!
+</div>
+
+<div>
+Different <em>countries</em> have different <em>laws</em>.
+</div>
+
+<div>
+    <li>Medical Data</li>
+</div>
+<div>
+    <li>Financial Data</li>
+</div>
+<div>
+    <li>Personally Identifying Information</li>
+</div>
+<div>
+    <li>Private Communications</li>
+</div>
+<div>
+    <li>Data Retention</li>
+</div>
+<div>
+    <li>Etcetera..</li>
+</div>
+
+<div>
+One product may have different compliance needs in different countries.
+</div>
+
+
+
+
+
+
+
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+</pre>
+</div>
+
+<div>
+Orders of magnitude <em>less expensive</em>!
+</div>
+
+<div>
+$0.000000002<em>/ms</em>
+</div>
+
+<div>
+(0.000000018kr<em>/ms</em>)
+</div>
+
+<div>
+Plus 3,200,000 <em>free</em> seconds!
+</div>
+
+<div>
+VPS: 4 * $20 * 12 = <em>$960/yr</em>
+</div>
+
+<div>
+Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
+</div>
+
+<div>
+<em>Other Features</em>!
+</div>
+
+<div>
+Works with any <em>WSGI</em> application!
+</div>
+
+<div>
+No vendor <em>lock-in</em>!
+</div>
+
+<div>
+Don't need to modify your existing apps!
+</div>
+
+<div>
+<img src="http://i.imgur.com/W2Ndw3l.png">
+</div>
+
+<div>
+<img src="http://i.imgur.com/BNmJV5w.png">
+</div>
+
+<div>
+Great for <em>microservices</em>! (Flask APIs, IOT, etc.)
+</div>
+
+<div>
+Great for <em>macroservices</em>! (Django, CMSes, etc.)
+</div>
+
+<div>
+React to AWS events (S3/SQS/etc.)!
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+
+ "events": [{
+      "function": "<em>your_module.your_function</em>",
+      "event_source": {
+            "arn":  "arn:aws:s3:::my-bucket",
+            "events": [
+              "<em>s3:ObjectCreated:*</em>"
+            ]
+         }
+      }]
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa schedule
+$ zappa unschedule
+</pre>
+</div>
+
+<div>
+Let's Encrypt!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
+Cron / Celery Replacement!
+</div>
+
+<div>
+<pre>
+ "events": [{
+     "function": "your_module.your_function",
+     "expression": "<em>rate(1 minute)</em>"
+ }]
+</pre>
+</div>
+
+<div>
+..and many, many more features!
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+Want to <em>contribute</em>? 😃
+</div>
+
+<div>
+Use Zappa!
+</div>
+
+<div>
+(your favorite companies are!)
+</div>
+
+<div>
+Hire me! 💸💸💸
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/Miserlou/Zappa
+</em>
+</div>
+
+<div>
+<em>Slack</em>:
+http://slack.zappa.io
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+
+@GUNdotIO
+https://gun.io
+</div>
+
+<div>
+Questions?
+</div>
+
+<div>
+Bonus!
+</div>
+
+<div>
+Microservice.. in a <em>tweet</em>!
+</div>
+
+<div>
+<i>Swedish Greeter Microservice</i>
+</div>
+
+<div>
+echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return ‘Hej\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
+</div>
+
+</body>
+</html>
