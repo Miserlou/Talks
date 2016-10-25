@@ -30,7 +30,7 @@ a {
 }
 
 img {
-  width:100%;
+  width: 120%;
 }
 
 div {
@@ -278,6 +278,14 @@ Zappa:
 </div>
 
 <div>
+By the time the user sees the page, the server has disappeared.
+</div>
+
+<div>
+ॐ
+</div>
+
+<div>
 Advantages!
 </div>
 
@@ -290,7 +298,19 @@ Super <em>scalable</em>!
 </div>
 
 <div>
+10 request = 10 server
+</div>
+
+<div>
 100 requests = 100 servers
+</div>
+
+<div>
+1000 requests = 1000 servers
+</div>
+
+<div>
+10000 requests = 10000 servers
 </div>
 
 <div>
@@ -448,6 +468,10 @@ $ zappa certify
 </div>
 
 <div>
+Robust, capable applications with no permanent infrastructure.
+</div>
+
+<div>
 Main point:
 </div>
 
@@ -480,6 +504,10 @@ Database writes!
 </div>
 
 <div>
+But..
+</div>
+
+<div>
 Your API is still your source of truth!
 </div>
 
@@ -493,6 +521,10 @@ Rather than <em>maintaining machines</em> to poll your event sources, use <em>cl
 
 <div>
 <em>Time</em> is an event source - use scheduled events rather than forking/polling, etc.
+</div>
+
+<div>
+Protip:
 </div>
 
 <div>
@@ -546,11 +578,29 @@ ex: <em>zappa-bittorrent-tracker</em> can server millions of peers with S3-datab
 </div>
 
 <div>
-Use CI/CD for Unit/Integration/Deployment
+Use <em>CI</em> for Unit/Integration Testing + Blue/Green Deployment
+</div>
+
+<div>
+<pre>
+$ zappa deploy test
+$ zappa update test
+$ zappa undeploy test
+$ zappa update staging
+$ zappa update prod
+</pre>
+</div>
+
+<div>
+Deploy <em>globally</em> for better speed/security/redundancy
 </div>
 
 <div>
 <i>"Wow! I think I'm starting to get it! Can I see a use case?"</i>
+</div>
+
+<div>
+Sure!
 </div>
 
 <div>
@@ -642,7 +692,7 @@ Components:
 </div>
 
 <div>
-<em>Warning</em>! Code ahead!
+<em>Warning</em>! Code ahead!*
 </div>
 
 <div>
