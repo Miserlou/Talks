@@ -179,19 +179,15 @@ http://nordicapis.com/?post_type=sessions&p=4796
 -->
 
 <div>
-Building <b>Server-less</b> API Backends
+Building <em>Server-less</em> API Backends
 </div>
 
 <div>
-<i>Zappa!</i>
+<i>"Server-less?"</i>
 </div>
 
 <div>
-AWS Lambda + AWS API Gateway
-</div>
-
-<div>
-Server-less?
+¯\_(ツ)_/¯
 </div>
 
 <div>
@@ -203,21 +199,45 @@ Zero <em>maintainance</em>!
 </div>
 
 <div>
-<ul>
-    <li>
-      Zero load balancing!
-    </li>
-    <li>
-      Zero security patches!
-    </li>
-    <li>
-      Zero downtime!
-    </li>
-  </ul>
+Zero <em>load balancing</em>!
+</div>
+
+<div>
+Zero <em>security patches</em>!
+</div>
+
+<div>
+Zero <em>downtime</em>!
+</div>
+
+<div>
+Zero <em>worrying</em>!
 </div>
 
 <div>
 (fire your ops team)
+</div>
+
+<div>
+<i>"That sounds awesome, how do I get started?"</i>
+</div>
+
+<div>
+Zappa!
+</div>
+
+<div>
+<i>
+full disclosure: this is my baby
+</i>
+</div>
+
+<div>
+AWS <em>Lambda</em> + AWS <em>API Gateway</em>
+</div>
+
+<div>
+Server-less benefits for your <em>existing</em> APIs!
 </div>
 
 <div>
@@ -229,7 +249,7 @@ Traditional web server:
   <li>Web server (Apache/NX) listens for request</li>
   <li>Converts to WSGI environ</li>
   <li>Sends to WSGI server (Gunicorn)</li>
-  <li>Django processes the request</li>
+  <li>App processes the request</li>
   <li>Web server returns it to the client</li>
   <li>Web server goes back to listening</li>
 </ul>
@@ -246,7 +266,7 @@ Zappa:
   <li>Request comes into API Gateway</li>
   <li>API request mapped to dict with VTL</li>
   <li>Server is <em>created</em></li>
-  <li>Server converts dict to WSGI, feeds WSGI to Django</li>
+  <li>Server converts dict to WSGI, feeds WSGI to application</li>
   <li>Returns response to API Gateway</li>
   <li>Server is <em>destroyed</em></li>
   <li>API Gateway returns response to client</li>
@@ -254,7 +274,7 @@ Zappa:
 </div>
 
 <div>
-~30ms!
+&lt;30ms!
 </div>
 
 <div>
@@ -278,27 +298,7 @@ Super <em>scalable</em>!
 </div>
 
 <div>
-Super easy to <em>start</em>!
-</div>
-
-<div>
-<pre>
-$ zappa init
-</pre>
-</div>
-
-<div>
-Automatically detects app type, creates bucket, IAM, etc..
-</div>
-
-<div>
-Super easy to <em>deploy</em>!
-</div>
-
-<div>
-<pre>
-$ zappa deploy
-</pre>
+<em>Trillions</em> of events/year!
 </div>
 
 <div>
@@ -326,19 +326,19 @@ Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
 </div>
 
 <div>
-<em>Other Features</em>!
+Don't need to modify your existing apps!
+</div>
+
+<div>
+No vendor lock-in!
+</div>
+
+<div>
+Sorry, Jeff!
 </div>
 
 <div>
 Works with any <em>WSGI</em> application!
-</div>
-
-<div>
-No vendor <em>lock-in</em>!
-</div>
-
-<div>
-Don't need to modify your existing apps!
 </div>
 
 <div>
@@ -350,7 +350,31 @@ Don't need to modify your existing apps!
 </div>
 
 <div>
-Great for <em>microservices</em>! (Flask APIs, IOT, etc.)
+Super easy to <em>start</em>!
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+</pre>
+</div>
+
+<div>
+Great for <em>microservices</em>! (Flask APIs, IoT, chatbots, etc.)
 </div>
 
 <div>
@@ -378,24 +402,7 @@ React to AWS events (S3/SQS/etc.)!
 </div>
 
 <div>
-<pre>
-$ zappa schedule
-$ zappa unschedule
-</pre>
-</div>
-
-<div>
-Let's Encrypt!
-</div>
-
-<div>
-<pre>
-$ zappa certify
-</pre>
-</div>
-
-<div>
-Cron / Celery Replacement!
+Timed Events!
 </div>
 
 <div>
@@ -408,11 +415,146 @@ Cron / Celery Replacement!
 </div>
 
 <div>
+<pre>
+$ zappa schedule
+$ zappa unschedule
+</pre>
+</div>
+
+<div>
+Free SSL!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
 ..and many, many more features!
 </div>
 
 <div>
-<i>Use Case! </i> <em>Kickflip</em>
+<i>"Well, I'm sold!"</i>
+</div>
+
+<div>
+<i>"How else can I leverage this technology?"</i>
+</div>
+
+<div>
+<em>Designing</em> Server-less Architectures
+</div>
+
+<div>
+Main point:
+</div>
+
+<div>
+Code executes in response to <em>events</em>.
+</div>
+
+<div>
+File operations!
+</div>
+
+<div>
+Queues!
+</div>
+
+<div>
+Notifications!
+</div>
+
+<div>
+(email / SMS / Facebook)
+</div>
+
+<div>
+HTTP is an event! (<i>"hybrid architecture"</i>)
+</div>
+
+<div>
+Database writes!
+</div>
+
+<div>
+Your API is still your source of truth!
+</div>
+
+<div>
+Don't have your event functions make direct database calls!
+</div>
+
+<div>
+Rather than <em>maintaining machines</em> to poll your event sources, use <em>cloud services</em> to respond to them.
+</div>
+
+<div>
+<em>Time</em> is an event source - use scheduled events rather than forking/polling, etc.
+</div>
+
+<div>
+Watch out for vendor lock-in!
+</div>
+
+<div>
+Use F/OSS-compatible services where possible! (S3:Riak, Lambda:OpenWhisk, etc..)
+</div>
+
+<div>
+Decouple vendor-specific code!
+</div>
+
+<div>
+ex:
+
+<pre>
+add_item_to_queue(item)
+</pre>
+
+not
+
+<pre>
+add_item_to_sqs(item)
+</pre>
+</div>
+
+<div>
+(this helps with testing too)
+</div>
+
+<div>
+Mock your vendor calls for testing!
+</div>
+
+<div>
+ex: <em>placebo</em> library to record/playback AWS calls
+</div>
+
+<div>
+Think "serverlessly" - avoid infrastructure!
+</div>
+
+<div>
+ex: do you even need a database? Can you use a queue? Etc.
+</div>
+
+<div>
+ex: <em>zappa-bittorrent-tracker</em> can server millions of peers with S3-database
+</div>
+
+<div>
+Use CI/CD for Unit/Integration/Deployment
+</div>
+
+<div>
+<i>"Wow! I think I'm starting to get it! Can I see a use case?"</i>
+</div>
+
+<div>
+<em>Kickflip</em>.io!
 </div>
 
 <div>
@@ -475,7 +617,32 @@ Requirements:
 </div>
 
 <div>
+Components:
+</div>
+
+<div>
+  <ul>
+    <li>
+      Authentication [<em>API Gateway</em>]
+    </li>
+    <li>
+      API [<em>Lambda</em> + <em>Zappa</em> + <em>Flask</em>]
+    </li>
+    <li>
+      File Storage [<em>S3</em>]
+    </li>
+    <li>
+      Delivery CDN  [<em>CloudFront</em>]
+    </li>
+  </ul>
+</div>
+
+<div>
 <i>Let's rock!</i>
+</div>
+
+<div>
+<em>Warning</em>! Code ahead!
 </div>
 
 <div>
@@ -499,8 +666,26 @@ Content-Type: application/json
 </div>
 
 <div>
+Alternately: IAM or Custom (OAuth/JWT/DB)
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+"authorizer": {
+  "function": "<em>app.auth_handler</em>"
+}
+</pre>
+</div>
+
+<div>
 2) API returns temporary S3 upload token
 </div>
+
+<div>
+Only allow <em>this user</em> to upload to a <em>single location</em> for a <em>limited period of time</em>.
+</div>
+
 
 <!--
 
@@ -514,23 +699,40 @@ stsconn = sts.connect_to_region('us-east-1',
 
 -->
 
-<div>
+<!-- <div>
 <pre>
 <span class="grey"># kickflip_server.py</span>
-from <em>boto</em> import sts
+from boto import sts
 <span class="grey"># this is cached</span>
 stsconn = sts.connect_to_region('us-east-1')
 
-from <em>flask</em> import Flask, jsonify
+from flask import Flask, jsonify
 app = Flask(__name__)
 
 @app.route('/get_token')
 def get_token():
   policy = (<em>get_policy</em>()
-  token = sts_conn.get_federation_token(
+  token = sts_conn.<em>get_federation_token</em>(
                             name=temporary_token_name(),
                             duration=900,
-                            policy=json.dumps(<em>policy</em>)
+                            policy=json.dumps(policy)
+                      )
+  return jsonify({'token': <em>token</em>})
+
+</pre>
+</div> -->
+
+<div>
+<pre>
+<span class="grey"># kickflip_server.py</span>
+
+@app.route('/get_token')
+def get_token():
+  policy = (<em>get_policy</em>() <span class="grey"># s3:putObject</span>
+  token = sts_conn.<em>get_federation_token</em>(
+                            name=temporary_token_name(),
+                            duration=900,
+                            policy=json.dumps(policy)
                       )
   return jsonify({'token': <em>token</em>})
 
@@ -644,13 +846,11 @@ def update_manifest(<em>event</em>, context):
 </div>
 
 <div>
-<pre>
-$ zappa deploy
-</pre>
+5) Content is served via CloudFront CDN!
 </div>
 
 <div>
-5) Content is served via CloudFront CDN!
+<img src="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/images/create-download-dist-1.png">
 </div>
 
 <div>
@@ -660,7 +860,7 @@ $ vlc https://streams.kickflip.io/<em>user-123</em>/<em>stream-789</em>/<em>stre
 </div>
 
 <div>
-<img src="http://i.imgur.com/5Rp3VFQ.jpg">
+<img src="http://37.media.tumblr.com/acf215fd73a6b2c7ffc3cb1ec0d2d456/tumblr_n3x0bvU51w1rq31wzo1_400.gif">
 </div>
 
 <div>
@@ -671,9 +871,8 @@ $ vlc https://streams.kickflip.io/<em>user-123</em>/<em>stream-789</em>/<em>stre
 Server-less streaming video server in <em>42 lines</em> of Python!
 </div>
 
-<div>
+<!-- <div>
 <pre>
-
 from boto import sts
 from flask import Flask, jsonify
 from json import dumps
@@ -723,14 +922,10 @@ def <em>update_manifest</em>(<em>event</em>, context):
     upload_new_manifest(manifest)
 
 </pre>
-</div>
+</div> -->
 
 <div>
-Want to <em>contribute</em>? 😃
-</div>
-
-<div>
-Use Zappa!
+In conclusion: save <em>time</em> and <em>money</em>, use Zappa!
 </div>
 
 <div>
@@ -738,7 +933,11 @@ Use Zappa!
 </div>
 
 <div>
-Hire me! 💸💸💸
+Try it out for your apps!
+</div>
+
+<div>
+Or hire me to build new ones! 💸💸💸
 </div>
 
 <div>
@@ -749,7 +948,7 @@ https://github.com/Miserlou/Zappa
 
 <div>
 <em>Slack</em>:
-http://slack.zappa.io
+https://slack.zappa.io
 </em>
 </div>
 
