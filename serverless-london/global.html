@@ -160,7 +160,11 @@ Author of <em>Zappa</em>!
 </div>
 
 <div>
-(The best damn server-less framework in the world!)
+The <em>best damn</em> server-less framework in the world!
+</div>
+
+<div>
+(Sorry, Austen & Florian!)
 </div>
 
 <div>
@@ -168,7 +172,7 @@ I'm here to talk about..
 </div>
 
 <div>
-<em>Globally Available</em> Server-Less Architectures!
+<em>Globally Available</em> Server-less Architectures!
 </div>
 
 <div>
@@ -180,7 +184,11 @@ Applications designed to run in <em>multiple regions around the globe</em> simul
 </div>
 
 <div>
-Why?
+<i>"That sounds cool! But why?"</i>
+</div>
+
+<div>
+Well, let me tell you!
 </div>
 
 <div>
@@ -208,7 +216,11 @@ round-trip min/avg/max/stddev = 177.616/<em>202.745</em>/305.468/46.281 ms
 </div>
 
 <div>
-Please provide <em>non-US</em> (or non eu-west-1) users with equally great service!
+(Earth is big!)
+</div>
+
+<div>
+Please provide <em>non-US</em> (or non <i>eu-west-1</i>) users with equally great service!
 </div>
 
 <div>
@@ -228,11 +240,15 @@ Please provide <em>non-US</em> (or non eu-west-1) users with equally great servi
 </div>
 
 <div>
+(Trillion! With a <i>t</i>!)
+</div>
+
+<div>
 <i>#3</i>: <em>Redunancy</em>!
 </div>
 
 <div>
-Cloud computing is an act of faith
+Cloud computing is an <em>act of faith</em>.
 </div>
 
 <div>
@@ -264,6 +280,22 @@ Amazon goes down too..
 </div>
 
 <div>
+Combine <em>corporate policy</em>, <em>host security policy</em> (IAM), <em>virtual separation</em> and <em>physical separation</em>.
+</div>
+
+<div>
+Defend against <em>internal</em> and <em>external</em> threats!
+</div>
+
+<div>
+Prevent <em>non-UK</em> employees accessing <em>UK data</em>, etc.
+</div>
+
+<div>
+PSA: This is a <em>big topic</em>. I'm <em>not</em> saying deploying globally makes you more secure by default. Consult your local hacker for more details.
+</div>
+
+<div>
 <i>#5</i>: <em>Regulatory compliance</em>!
 </div>
 
@@ -272,53 +304,190 @@ Different <em>countries</em> have different <em>laws</em>.
 </div>
 
 <div>
-    <li>Medical Data</li>
-</div>
-<div>
-    <li>Financial Data</li>
-</div>
-<div>
-    <li>Personally Identifying Information</li>
-</div>
-<div>
-    <li>Private Communications</li>
-</div>
-<div>
-    <li>Data Retention</li>
-</div>
-<div>
-    <li>Etcetera..</li>
+    Medical Data
 </div>
 
 <div>
-One product may have different compliance needs in different countries.
-</div>
-
-
-
-
-
-
-
-
-<div>
-<pre>
-$ zappa init
-</pre>
+    (HIPAA)
 </div>
 
 <div>
-Automatically detects app type, creates bucket, IAM, etc..
+    Financial Data
 </div>
 
 <div>
-Super easy to <em>deploy</em>!
+    (PCI)
 </div>
 
 <div>
-<pre>
-$ zappa deploy
-</pre>
+    Personally Identifying Information
+</div>
+
+<div>
+  (EU Data Protection Directive)
+</div>
+
+<div>
+    Private Communications
+</div>
+
+<div>
+(German Federal Data Protection Act)
+</div>
+
+<div>
+    Data Retention
+</div>
+
+<div>
+  (EU Data Retention Directive)
+</div>
+
+<div>
+    Etcetera..
+</div>
+
+<div>
+  (I'm not your lawyer. Sorry.)
+</div>
+
+<div>
+<em>One</em> product may have different compliance needs in <em>many</em> countries.
+</div>
+
+<div>
+<i>"Okay, I'm convinced! But can I see can example?"</i>
+</div>
+
+<div>
+Of course you can!
+</div>
+
+<div>
+Two cases studies!
+</div>
+
+<div>
+  (<em>trivial</em> and <em>advanced</em>)
+</div>
+
+<div>
+Deployed using Zappa!
+</div>
+
+<div>
+<i>"Wait wait wait, you never explained what Zappa is!"</i>
+</div>
+
+<div>
+Oh, that's right!
+</div>
+
+<div>
+<center>
+<i>
+~ a brief interlude ~
+</i>
+</center>
+</div>
+
+<div>
+Zappa!
+</div>
+
+<div>
+<i>
+full disclosure: this is my baby
+</i>
+</div>
+
+<div>
+AWS <em>Lambda</em> + AWS <em>API Gateway</em>
+</div>
+
+<div>
+Server-less benefits for your <em>existing</em> APIs!
+</div>
+
+<div>
+Traditional web server:
+</div>
+
+<div>
+<ul>
+  <li>Web server (Apache/NX) listens for request</li>
+  <li>Converts to WSGI environ</li>
+  <li>Sends to WSGI server (Gunicorn)</li>
+  <li>App processes the request</li>
+  <li>Web server returns it to the client</li>
+  <li>Web server goes back to listening</li>
+</ul>
+
+</div>
+
+<div>
+Zappa:
+</div>
+
+<div>
+
+<ul>
+  <li>Request comes into API Gateway</li>
+  <li>API request mapped to dict with VTL</li>
+  <li>Server is <em>created</em></li>
+  <li>Server converts dict to WSGI, feeds WSGI to application</li>
+  <li>Returns response to API Gateway</li>
+  <li>Server is <em>destroyed</em></li>
+  <li>API Gateway returns response to client</li>
+</ul>
+</div>
+
+<div>
+&lt;30ms!
+</div>
+
+<div>
+By the time the user sees the page, the server has disappeared.
+</div>
+
+<div>
+ॐ
+</div>
+
+<div>
+Advantages!
+</div>
+
+<div>
+Super <em>scalable</em>!
+</div>
+
+<div>
+1 request = 1 server
+</div>
+
+<div>
+10 request = 10 server
+</div>
+
+<div>
+100 requests = 100 servers
+</div>
+
+<div>
+1000 requests = 1000 servers
+</div>
+
+<div>
+10000 requests = 10000 servers
+</div>
+
+<div>
+100000 requests = 100000 servers
+</div>
+
+<div>
+<em>Trillions</em> of events/year!
 </div>
 
 <div>
@@ -346,19 +515,19 @@ Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
 </div>
 
 <div>
-<em>Other Features</em>!
+Don't need to modify your existing apps!
+</div>
+
+<div>
+No vendor lock-in!
+</div>
+
+<div>
+Sorry, Jeff!
 </div>
 
 <div>
 Works with any <em>WSGI</em> application!
-</div>
-
-<div>
-No vendor <em>lock-in</em>!
-</div>
-
-<div>
-Don't need to modify your existing apps!
 </div>
 
 <div>
@@ -370,7 +539,39 @@ Don't need to modify your existing apps!
 </div>
 
 <div>
-Great for <em>microservices</em>! (Flask APIs, IOT, etc.)
+Python only!
+</div>
+
+<div>
+(that's a feature.)
+</div>
+
+<div>
+Super easy to <em>start</em>!
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+</pre>
+</div>
+
+<div>
+Great for <em>microservices</em>! (Flask APIs, IoT, chatbots, etc.)
 </div>
 
 <div>
@@ -398,24 +599,7 @@ React to AWS events (S3/SQS/etc.)!
 </div>
 
 <div>
-<pre>
-$ zappa schedule
-$ zappa unschedule
-</pre>
-</div>
-
-<div>
-Let's Encrypt!
-</div>
-
-<div>
-<pre>
-$ zappa certify
-</pre>
-</div>
-
-<div>
-Cron / Celery Replacement!
+Timed Events!
 </div>
 
 <div>
@@ -428,24 +612,561 @@ Cron / Celery Replacement!
 </div>
 
 <div>
+<pre>
+$ zappa schedule
+$ zappa unschedule
+</pre>
+</div>
+
+<div>
+<i>*but wait, there's more!*</i>
+</div>
+
+<div>
+Free SSL!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
+<i>*swoon*</i>
+</div>
+
+<div>
 ..and many, many more features!
 </div>
 
+<div>
+Try it out!
+</div>
 
+<div>
+<i>"Well, I'm sold!"</i>
+</div>
 
+<div>
+Great! Okay!
+</div>
 
+<div>
+Case study A: Globally Available API Microservice
+</div>
 
+<div>
+<i>geo.biz</i>
+</div>
 
+<div>
+Return visitor's <em>lat</em>/<em>lon</em>..
+</div>
 
+<div>
+..in less that than <em>100ms</em>..
+</div>
 
+<div>
+..<em>anywhere</em> in the world..
+</div>
 
+<div>
+..in <em>5</em> lines of code..
+</div>
 
+<div>
+..with <em>zero</em> configuration.
+</div>
 
+<div>
+<i>*follow along at home!*</i>
+</div>
 
+<div>
+<pre>$ git clone github.com/Miserlou/zappa-geoip</pre>
+</div>
 
+<div>
+<pre>
+$ virtualenv env;
+$ source env/bin/activate
+$ pip install -r requirements.txt
+</pre>
+</div>
 
+<div>
+<pre>
+$ cat geoip.py
+</pre>
+</div>
 
+<div>
+<pre>
+from flask import Flask, request, render_template
+from geoip import geolite2
 
+app = Flask(__name__)
+
+@app.route('/')
+def geolocate():
+  remote_ip = request.remote_addr
+  match = geolite2.lookup(remote_ip)
+  if match:
+      return match.location
+  else:
+      return "Sorry, we can't geolocate you!"
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+<pre>
+
+<em>
+███████╗ █████╗ ██████╗ ██████╗  █████╗
+╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+  ███╔╝ ███████║██████╔╝██████╔╝███████║
+ ███╔╝  ██╔══██║██╔═══╝ ██╔═══╝ ██╔══██║
+███████╗██║  ██║██║     ██║     ██║  ██║
+╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝  ╚═╝
+</em>
+
+Welcome to Zappa!
+
+Zappa is a system for running server-less Python web applications on AWS Lambda and AWS API Gateway.
+This `init` command will help you create and configure your new Zappa deployment.
+Let's get started!
+
+Your Zappa configuration can support multiple production environments, like 'dev', 'staging', and 'production'.
+What do you want to call this environment (default 'dev'):
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
+<pre>
+Do you want to use a domain name with this deployment? geo.zappa.io
+</pre>
+</div>
+
+<div>
+<pre>
+Do you want to make this a <em>global</em> application?
+</pre>
+</div>
+
+<div>
+<i>
+Full disclosure: this is a new feature.
+</i>
+</div>
+
+<div>
+<i>*BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA*</i>
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ zappa deploy --all
+</pre>
+</div>
+
+<div>
+Bam!
+</div>
+
+<div>
+zappa_settings goes here
+</div>
+
+<div>
+<pre>
+httpstat https://us-east-1.geo.biz/
+httpstat https://us-east-2.geo.biz/
+httpstat https://eu-west-1.geo.biz/
+...
+</pre>
+</div>
+
+<div>
+<pre>
+  DNS Lookup   TCP Connection   Server Processing   Content Transfer
+[    71ms    |       2ms      |       38ms        |        0ms       ]
+             |                |                   |                  |
+    namelookup:71ms           |                   |                  |
+                        connect:33ms              |                  |
+                                      starttransfer:61ms            |
+                                                                 total:<em>61ms</em>
+</pre>
+</div>
+
+<div>
+RAWK \m/
+</div>
+
+<div>
+..but now we have to make a <em>decision</em>.
+</div>
+
+<div>
+<i>*uh-oh*</i>
+</div>
+
+<div>
+How do we <em>route</em> our web traffic?
+</div>
+
+<div>
+Great question!
+</div>
+
+<div>
+<img src="https://www.turnkeylinux.org/files/images/blog/aws-datacenters.jpg">
+</div>
+
+<div>
+Multiple strategies for "<em>routing policy</em>"
+</div>
+
+<div>
+<i>#1: <em>Simple</em></i>
+</div>
+
+<div>
+<i>aka "<em>stupid</em>"</i>
+</div>
+
+<div>
+https://<em>us-east-1</em>.geo.biz ->
+<em>us-east-1</em>
+</div>
+
+<div>
+https://<em>us-east-2</em>.geo.biz ->
+<em>us-east-2</em>
+</div>
+
+<div>
+Good for: <em>robots</em>
+</div>
+
+<div>
+Bad for: <em>humans</em>
+</div>
+
+<div>
+<i>#2: <em>Latency</em></i>
+</div>
+
+<div>
+Route traffic to the <em>net-closest</em> node.
+</div>
+
+<div>
+Simple! Smart!
+</div>
+
+<div>
+Good for: providing <em>fast global service</em>!
+</div>
+
+<div>
+Bad for: <em>compliance</em>!
+</div>
+
+<div>
+<i>#3: <em>Geolocation!</em></i>
+</div>
+
+<div>
+Route traffic based on <em>originating IP address</em>.
+</div>
+
+<div>
+🇺🇸USA -> us-east-1
+</div>
+
+<div>
+🇬🇧UK -> eu-west-1
+</div>
+
+<div>
+🇯🇵Japan -> ap-northeast-1
+</div>
+
+<div>
+<i>oooooooooooooo, tricky!</i>
+</div>
+
+<div>
+Good for: <em>compliance</em>
+</div>
+
+<div>
+Bad for: <em>load balancing</em>!
+</div>
+
+<div>
+<i>#4: <em>Round Robin!</em></i>
+</div>
+
+<div>
+Evenly distribute traffic amongst <em>all</em> servers.
+</div>
+
+<div>
+<em>Weight</em> different locations differently ("WRR")
+</div>
+
+<div>
+Good for: <em>balancing load</em>
+</div>
+
+<div>
+(use for "regional" deployments or resources within the same region)
+</div>
+
+<div>
+Bad for: <em>lowering latency</em>!
+</div>
+
+<div>
+<i>"Wow, fascinating! I've got some thinking to do!"</i>
+</div>
+
+<div>
+You sure do!
+</div>
+
+<div>
+(They're all pretty easy to set up, just check the right boxes in <em>Route 53</em> console.)
+</div>
+
+<div>
+Let me know what you decide!
+</div>
+
+<div>
+<i>
+Aside: should this be a feature in Zappa? Would you find that useful?
+</i>
+</div>
+
+<div>
+<i>"But that was too easy! I thought we we're building even-driven applications"</i>
+</div>
+
+<div>That's right!</div>
+
+<div>
+Case study B: Globally Distributed Medical Service
+</div>
+
+<div>
+Take medical data -> Process -> Store -> Notify
+</div>
+
+<div>
+  <i>medi.co</i>
+</div>
+
+<div>
+  <em>HTTP</em> and <em>Non-HTTP</em> event sources!
+</div>
+
+<div>
+  <em>Permananent</em> and <em>Non-Permanent</em> infrastructure!
+</div>
+
+<div>
+  <i>*buzzword alert*</i>
+</div>
+
+<div>
+  "<em>Hybrid Architecture</em>"
+</div>
+
+<div>
+  HTTP event sources: API calls, user dashboards, etc.
+</div>
+
+<div>
+  Non-HTTP event sources: Files, Queues, Notifications
+</div>
+
+<div>
+  Permanent infrastructure: Database(s), EC2, S3(s)
+</div>
+
+<div>
+  Non-permanent infrastructure: API Gateway, Lambda
+</div>
+
+<div>
+Medical data -> S3
+</div>
+
+<div>
+S3 -> Lambda
+</div>
+
+<div>
+Lambda -> SQS
+</div>
+
+<div>
+EC2 <- SQS
+</div>
+
+<div>
+EC2 -> S3
+</div>
+
+<div>
+S3 -> Lambda
+</div>
+
+<div>
+Lambda -> SNS
+</div>
+
+<div>
+SNS -> Doctor
+</div>
+
+<div>
+<i>"But wait, you said.."</i>
+</div>
+
+<div>
+I know I did!
+</div>
+
+<div>
+🐘
+</div>
+
+<div>
+<i>Data!</i>
+</div>
+
+<div>
+At the end of the day, for a real application, you're <em>still going to need a database</em>.
+</div>
+
+<div>
+How can we build a database backed application that is..
+</div>
+
+<div>
+performant
+</div>
+
+<div>
+secure
+</div>
+
+<div>
+and compliant?
+</div>
+
+<div>
+Well, we're gonna need a few.
+</div>
+
+<div>
+The magic bullet:
+</div>
+
+<div>
+"<em>Read Replica</em>"
+</div>
+
+<div>
+One master, many replicas.
+</div>
+
+<div>
+Master: us-east-1
+</div>
+
+<div>
+Stores: User IDs, <em>aggregate and meta data</em>.
+</div>
+
+<div>
+Replicas: Everybody else
+</div>
+
+<div>
+Stores: PII, medical data, results, etc.
+</div>
+
+<div>
+We can do this on a <em>per-table</em> basis!
+</div>
+
+<div>
+User-ID <em>writes</em>: master
+</div>
+
+<div>
+User-ID <em>reads</em>: replica
+</div>
+
+<div>
+Medical-data <em>writes</em>: "<em>replica</em>"!
+</div>
+
+<div>
+Medical-data <em>reads</em>: replica
+</div>
+
+<div>
+*warning!*
+</div>
+
+<div>
+backups <em>!=</em> replicas
+</div>
+
+<div>
+(Pretty much only works with AWS MySQL/Aurora)
+</div>
+
+<div>
+*warning!*
+</div>
+
+<div>
+🐘
+</div>
+
+<div>
+VPC
+</div>
+
+<div>
+Multi-region VPCs.
+</div>
+
+<div>
+In conclusion..
+</div>
 
 <div>
 Want to <em>contribute</em>? 😃
