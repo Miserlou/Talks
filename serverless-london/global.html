@@ -146,9 +146,11 @@ My name is <em>Rich Jones</em>!
 </div>
 
 <div>
-
 Founder/CTO of <em>gun.io</em>!
+</div>
 
+<div>
+<img src="http://i.imgur.com/UmYyAla.png">
 </div>
 
 <div>
@@ -348,7 +350,7 @@ Different <em>countries</em> have different <em>laws</em>.
 </div>
 
 <div>
-  (I'm not your lawyer. Sorry.)
+(I'm not your lawyer. Thank goodness.)
 </div>
 
 <div>
@@ -830,7 +832,7 @@ Return visitor's <em>lat</em>/<em>lon</em>..
 </div>
 
 <div>
-..in <em>5</em> lines of code..
+..in ~<em>5</em> lines of code..
 </div>
 
 <div>
@@ -1131,6 +1133,14 @@ Bad for: <em>lowering latency</em>!
 </div>
 
 <div>
+<i>Bonus</i>: Use a <em>CDN</em>! (CF)
+</div>
+
+<div>
+Static pages only!
+</div>
+
+<div>
 <i>"Wow, fascinating! I've got some thinking to do!"</i>
 </div>
 
@@ -1147,19 +1157,17 @@ Let me know what you decide!
 </div>
 
 <div>
-<i>
 Aside: should this be a feature in Zappa? Would you find that useful?
-</i>
 </div>
 
 <div>
-<i>"But that was too easy! I thought we we're building even-driven applications"</i>
+<i>"But that was too easy! I thought we we're building <em>event-driven</em> applications"</i>
 </div>
 
 <div>That's right!</div>
 
 <div>
-Case study B: Globally Distributed Medical Service
+Case study B: Globally Distributed <em>Medical</em> Service
 </div>
 
 <div>
@@ -1195,11 +1203,7 @@ Take <em>medical data</em> -> Process -> Store -> Notify
 </div>
 
 <div>
-  Permanent infrastructure: Database(s), EC2, S3(s)
-</div>
-
-<div>
-  Non-permanent infrastructure: API Gateway, Lambda
+  Non-permanent infrastructure: API Gateway, Lambda, SQS, SES, EC2 ASG
 </div>
 
 <div>
@@ -1235,7 +1239,7 @@ SNS -> Doctor
 </div>
 
 <div>
-<i>"But wait, you said there would be no permanent infrastructure.."</i>
+<i>"But wait, you said there would be permanent infrastructure.."</i>
 </div>
 
 <div>
@@ -1340,6 +1344,10 @@ Medical-data <em>writes</em>: local
 
 <div>
 Medical-data <em>reads</em>: local
+</div>
+
+<div>
+Django example:
 </div>
 
 <div>
@@ -1455,7 +1463,7 @@ Even better:
 </div>
 
 <div>
-Think "serverlessly" - avoid infrastructure!
+Think "<em>serverlessly</em>" - avoid infrastructure!
 </div>
 
 <div>
@@ -1463,7 +1471,27 @@ ex: do you even need a database? Can you use a queue? Etc.
 </div>
 
 <div>
-ex: <em>zappa-bittorrent-tracker</em> can server millions of peers with S3-database
+ex: data processing pipelines, encrypted information in S3 (<em>cross-region replication</em>!), etc.
+</div>
+
+<div>
+depends on traffic / load / product requirements
+</div>
+
+<div>
+ex: <em>zappa-bittorrent-tracker</em> can serve millions of peers with S3-database
+</div>
+
+<div>
+But remember to
+</div>
+
+<div>
+Log! Log! Log! Log!
+</div>
+
+<div>
+(and make sure you know how to read them <em>before</em> something goes wrong)
 </div>
 
 <div>
@@ -1484,6 +1512,10 @@ use <em>Zappa</em>!
 
 <div>
 Hire me! 💸💸💸
+</div>
+
+<div>
+Want to <em>contribute</em>? 😃
 </div>
 
 <div>
