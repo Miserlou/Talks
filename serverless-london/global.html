@@ -392,7 +392,7 @@ Oh, that's right!
 </div>
 
 <div>
-Zappa!
+<em>Zappa</em>!
 </div>
 
 <div>
@@ -499,7 +499,11 @@ $0.000000002<em>/ms</em>
 </div>
 
 <div>
-(0.000000018kr<em>/ms</em>)
+(£0.00000000165<em>/ms</em>)
+</div>
+
+<div>
+brexit :(
 </div>
 
 <div>
@@ -633,7 +637,160 @@ $ zappa certify
 </div>
 
 <div>
+(And it can auto-renew!)
+</div>
+
+<div>
 <i>*swoon*</i>
+</div>
+
+<div>
+Log Tailing!
+</div>
+
+<div>
+<pre>
+$ zappa tail
+</pre>
+</div>
+
+<div>
+Rollback!
+</div>
+
+<div>
+<pre>
+$ zappa rollback -n 2
+</pre>
+</div>
+
+<div>
+Auto <em>keep-warm</em>!
+</div>
+
+<div>
+<em>VPC</em> Awareness!
+</div>
+
+<div>
+<pre>
+"vpc_config": {
+    "SubnetIds": [ "subnet-12345678" ],
+    "SecurityGroupIds": [ "sg-12345678" ]
+}
+</pre>
+</div>
+
+<div>
+Use C-Extensions via <em>lambda-packages</em>!
+</div>
+
+<div>
+  <ul>
+    <li>MySQL-Python</li>
+    <li>numpy</li>
+    <li>OpenCV</li>
+    <li>psycopg2</li>
+    <li>Pillow (PIL)</li>
+    <li>LXML</li>
+    <li>PyCrypto</li>
+    <li>PyNaCl</li>
+    <li>cryptography</li>
+    <li>cffi</li>
+    <li>...</li>
+</div>
+
+<div>
+Load <em>remote environment variables</em> from S3!
+</div>
+
+<div>
+<pre>
+// my-config-bucket/super-secret-config.json
+{
+    "<em>DB_CONNECTION_STRING</em>": "super-secret:database"
+}
+</pre>
+
+</div>
+
+<div>
+<pre>
+// zappa_settings.json
+"remote_env_bucket": "my-config-bucket",
+"remote_env_file": "super-secret-config.json"
+</pre>
+</div>
+
+<div>
+<pre>
+# your_zappa_app.py
+import os
+db_string = os.environ('<em>DB_CONNECTION_STRING</em>')
+</pre>
+</div>
+
+<div>
+CI/CD <em>integration</em>!
+</div>
+
+<div>
+<pre>
+zappa status dev --json
+</pre>
+</div>
+
+<div>
+Remote command <em>invocation</em>!
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'my_app.my_func'
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'print hello.upper()' --raw
+</pre>
+</div>
+
+<div>
+<em>Django</em> management commands!
+</div>
+
+<div>
+<pre>
+$ zappa manage makemigrations
+</pre>
+</div>
+
+<div>
+<em>Secure</em> deployments!
+</div>
+
+<div>
+<pre>
+"api_key_required": true
+</pre>
+</div>
+
+<div>
+<pre>
+"iam_authorization": true
+</pre>
+</div>
+
+<div>
+<pre>
+"authorizer": {
+    "function": "your_module.your_auth_function",
+    "result_ttl": 300,
+    "token_source": "Authorization",
+    "validation_expression": "^Bearer \\w+$",
+}
+</pre>
 </div>
 
 <div>
@@ -665,7 +822,7 @@ Return visitor's <em>lat</em>/<em>lon</em>..
 </div>
 
 <div>
-..in less that than <em>100ms</em>..
+..in less that than <em>200ms</em>..
 </div>
 
 <div>
@@ -776,12 +933,37 @@ Full disclosure: this is a new feature.
 </div>
 
 <div>
-Super easy to <em>deploy</em>!
+<pre>
+{
+    "dev_ap_northeast_1": {
+        "app_function": "geoip.app",
+        "aws_region": "ap-northeast-1",
+        "domain": "dev-ap-northeast-1.geo.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_1"
+    },
+    "dev_ap_northeast_2": {
+        "app_function": "geoip.app",
+        "aws_region": "ap-northeast-2",
+        "domain": "dev-ap-northeast-2.geo.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_2"
+    },
+
+    [ ... ],
+
+    "dev_us_west_2": {
+        "app_function": "geoip.app",
+        "aws_region": "us-west-2",
+        "domain": "dev-us-west-2.geo.biz",
+        "s3_bucket": "lmbda_dev_us_west_2"
+    }
+}
+</pre>
 </div>
 
 <div>
 <pre>
 $ zappa deploy --all
+$ zappa certify --all
 </pre>
 </div>
 
@@ -790,29 +972,33 @@ Bam!
 </div>
 
 <div>
-zappa_settings goes here
-</div>
-
-<div>
 <pre>
-httpstat https://us-east-1.geo.biz/
-httpstat https://us-east-2.geo.biz/
-httpstat https://eu-west-1.geo.biz/
+httpstat https://dev-ap-northeast-1.geo.biz/
+httpstat https://dev-ap-northeast-2.geo.biz/
 ...
+httpstat https://dev-us-west-2.geo.biz/
 </pre>
 </div>
 
 <div>
 <pre>
-  DNS Lookup   TCP Connection   Server Processing   Content Transfer
-[    71ms    |       2ms      |       38ms        |        0ms       ]
-             |                |                   |                  |
-    namelookup:71ms           |                   |                  |
-                        connect:33ms              |                  |
-                                      starttransfer:61ms            |
-                                                                 total:<em>61ms</em>
+  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
+[     5ms    |       8ms      |     50ms     |       42ms       |        0ms       ]
+             |                |               |                   |                  |
+    namelookup:5ms            |               |                   |                  |
+                        connect:13ms          |                   |                  |
+                                    pretransfer:75ms              |                  |
+                                                      starttransfer:198ms            |
+                                                                                 total:<em>198ms</em>
 </pre>
 </div>
+
+<!-- <div>
+<pre>
+import os
+this_region = os.environ.get('AWS_REGION')
+</pre>
+</div> -->
 
 <div>
 RAWK \m/
@@ -977,19 +1163,11 @@ Case study B: Globally Distributed Medical Service
 </div>
 
 <div>
-Take medical data -> Process -> Store -> Notify
+Take <em>medical data</em> -> Process -> Store -> Notify
 </div>
 
 <div>
   <i>medi.co</i>
-</div>
-
-<div>
-  <em>HTTP</em> and <em>Non-HTTP</em> event sources!
-</div>
-
-<div>
-  <em>Permananent</em> and <em>Non-Permanent</em> infrastructure!
 </div>
 
 <div>
@@ -998,6 +1176,14 @@ Take medical data -> Process -> Store -> Notify
 
 <div>
   "<em>Hybrid Architecture</em>"
+</div>
+
+<div>
+  <em>HTTP</em> and <em>Non-HTTP</em> event sources!
+</div>
+
+<div>
+  <em>Permananent</em> and <em>Non-Permanent</em> infrastructure!
 </div>
 
 <div>
@@ -1049,7 +1235,7 @@ SNS -> Doctor
 </div>
 
 <div>
-<i>"But wait, you said.."</i>
+<i>"But wait, you said there would be no permanent infrastructure.."</i>
 </div>
 
 <div>
@@ -1097,23 +1283,43 @@ The magic bullet:
 </div>
 
 <div>
-One master, many replicas.
+One primary, many replicas.
 </div>
 
 <div>
-Master: us-east-1
+Reads: Fast! Local!
 </div>
 
 <div>
-Stores: User IDs, <em>aggregate and meta data</em>.
+Writes: Slow! Remote!
 </div>
 
 <div>
-Replicas: Everybody else
+Primary: us-east-1
 </div>
 
 <div>
-Stores: PII, medical data, results, etc.
+Stores: User info, <em>aggregate and meta data</em>.
+</div>
+
+<div>
+Replicas: eu-west-1 (and everybody else)
+</div>
+
+<div>
+Stores: Replicated user info, anonymous data
+</div>
+
+<div>
+Fast logins! Fast dashboards!
+</div>
+
+<div>
+Local: eu-west-1 (and everybody else)
+</div>
+
+<div>
+Stores: Encrypted medical data
 </div>
 
 <div>
@@ -1121,7 +1327,7 @@ We can do this on a <em>per-table</em> basis!
 </div>
 
 <div>
-User-ID <em>writes</em>: master
+User-ID <em>writes</em>: primary
 </div>
 
 <div>
@@ -1129,27 +1335,81 @@ User-ID <em>reads</em>: replica
 </div>
 
 <div>
-Medical-data <em>writes</em>: "<em>replica</em>"!
+Medical-data <em>writes</em>: local
 </div>
 
 <div>
-Medical-data <em>reads</em>: replica
+Medical-data <em>reads</em>: local
 </div>
 
 <div>
-*warning!*
+<pre>
+DATABASES = {
+    'default': {},
+    'medical': {
+        'NAME': 'medical_db',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'mysql_user',
+        'PASSWORD': 'swordfish',
+    },
+    'primary': {
+        'NAME': 'primary',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'mysql_user',
+        'PASSWORD': 'spam',
+    },
+    'replica': {
+        'NAME': 'replica',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'mysql_user',
+        'PASSWORD': 'eggs',
+    }
+}
+</pre>
 </div>
 
 <div>
-backups <em>!=</em> replicas
+<pre>
+class MedicalRouter(object):
+    """
+    A router to control all database operations on models in the
+    medical application.
+    """
+    def db_for_read(self, model, **hints):
+        if model._meta.app_label == 'medical':
+            return 'medical_db'
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model._meta.app_label == 'medical':
+            return 'medical_db'
+        return None
+</pre>
 </div>
 
 <div>
-(Pretty much only works with AWS MySQL/Aurora)
+<pre>
+DATABASE_ROUTERS = [
+  'path.to.MedicalRouter',
+  'path.to.PrimaryReplicaRouter'
+  ]
+</pre>
 </div>
 
 <div>
-*warning!*
+*<em>warning</em>!*
+</div>
+
+<div>
+snapshot copy <em>!=</em> replicas
+</div>
+
+<div>
+Read-Replica pretty much only works with AWS MySQL/PG/Aurora!
+</div>
+
+<div>
+*<em>warning</em>!*
 </div>
 
 <div>
@@ -1161,19 +1421,61 @@ VPC
 </div>
 
 <div>
-Multi-region VPCs.
+Multi-region VPCs require <em>decision</em>
 </div>
 
 <div>
-In conclusion..
+What are you optimizing for?
 </div>
 
 <div>
-Want to <em>contribute</em>? 😃
+Compliance?
+Simplicity?
 </div>
 
 <div>
-Use Zappa!
+Use as ~<em>few</em> as possible.
+</div>
+
+<div>
+Compartmentalization?
+Security?
+</div>
+
+<div>
+Use ~<em>as many</em> "as possible".
+</div>
+
+<div>
+Maybe even have per-region accounts and handle credentials in CI
+</div>
+
+<div>
+Even better:
+</div>
+
+<div>
+Think "serverlessly" - avoid infrastructure!
+</div>
+
+<div>
+ex: do you even need a database? Can you use a queue? Etc.
+</div>
+
+<div>
+ex: <em>zappa-bittorrent-tracker</em> can server millions of peers with S3-database
+</div>
+
+<div>
+In conclusion: save <em>time</em> and <em>money</em>,
+</div>
+
+<div>
+build awesome <em>global</em> applications,
+</div>
+
+<div>
+use <em>Zappa</em>!
 </div>
 
 <div>
@@ -1216,11 +1518,11 @@ Microservice.. in a <em>tweet</em>!
 </div>
 
 <div>
-<i>Swedish Greeter Microservice</i>
+<i>British Greeter Microservice</i>
 </div>
 
 <div>
-echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return ‘Hej\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
+echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return Ello\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
 </div>
 
 </body>
