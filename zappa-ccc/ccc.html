@@ -886,7 +886,7 @@ aka
 </div>
 
 <div>
-"<em>Destructive Mechanics</em>""
+"<em>Destructive Mechanics</em>"
 </div>
 
 <div>
@@ -2067,18 +2067,36 @@ Exfil from a VPC <em>without</em> touching the VPC network:
 Step 0: Upload malicious file to get code execution in Lambda
 </div>
 
+<!-- http://imgur.com/a/fkoMN -->
+
 <div>
-<img src="http://i.imgur.com/lgHgKtS.jpg">
+<img src="http://i.imgur.com/otC8hkU.jpg">
 <!-- compute cluster -->
 </div>
+
+<div>
+<img src="http://i.imgur.com/PejMBVV.jpg">
+<!-- infect s3 -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/kyR4K1o.jpg">
+<!-- infect lambda -->
+</div>
+
 
 <div>
 Step 1: Unleash canaries
 </div>
 
 <div>
-<img src="http://i.imgur.com/lgHgKtS.jpg">
-<!-- compute cluster -->
+<img src="http://i.imgur.com/VQpk5Lp.jpg">
+<!-- canaries -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/4uKhcvL.jpg">
+<!-- we has bird -->
 </div>
 
 <div>
@@ -2111,6 +2129,16 @@ Step 2: See that that we have access to VPC resources
 </div>
 
 <div>
+<img src="http://i.imgur.com/TsbodgP.jpg">
+<!-- we want db -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/Db5Yf5h.jpg">
+<!-- VPC oh no -->
+</div>
+
+<div>
 Step 2: Use SQS + malicious pickle to infect Celery machine inside VPC
 </div>
 
@@ -2135,17 +2163,27 @@ Step 2: Use SQS + malicious pickle to infect Celery machine inside VPC
 </div>
 
 <div>
-<img src="http://i.imgur.com/lgHgKtS.jpg">
-<!-- compute cluster -->
+<img src="http://i.imgur.com/Hvmtj8J.jpg">
+<!-- sqs -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/Yf0JrrU.jpg">
+<!-- sqs -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/VUCeepy.jpg">
+<!-- vpc boo -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/AIM783Y.jpg">
+<!-- vpc boo 2 -->
 </div>
 
 <div>
 <i>"Okay - now what?"</i>
-</div>
-
-<div>
-<img src="http://i.imgur.com/lgHgKtS.jpg">
-<!-- compute cluster -->
 </div>
 
 <div>
@@ -2184,6 +2222,12 @@ aws ec2 create-tags --resources i-1234567890abcdef0 \
 </div>
 
 <div>
+<img src="http://i.imgur.com/DsUdBPk.jpg">
+<!-- vpc tagged -->
+</div>
+
+
+<div>
 <pre>
 <span class="grey"># Outside VPC, in Lambda</span>
 aws ec2 describe-network-interfaces
@@ -2203,11 +2247,27 @@ aws ec2 describe-network-interfaces
 </div>
 
 <div>
-<i>"Boom, baby!"</i>
+<img src="http://i.imgur.com/3UHTETy.jpg">
+<!--lambda get tags -->
 </div>
 
 <div>
-<i>It gets better!</i>
+<img src="http://i.imgur.com/NgVowCs.jpg">
+<!--lambda get tags -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/Cxaavr1.jpg">
+<!--lambda get tags -->
+</div>
+
+<div>
+<img src="http://i.imgur.com/HM6ZtFA.jpg">
+<!--lambda get tags -->
+</div>
+
+<div>
+<i>"Boom, baby!"</i>
 </div>
 
 <div>
@@ -2223,15 +2283,6 @@ This even works for application binaries!
   ...
 }
 </pre>
-</div>
-
-<div>
-Step 4: Push the result through S3!
-</div>
-
-<div>
-<img src="http://i.imgur.com/lgHgKtS.jpg">
-<!-- compute cluster -->
 </div>
 
 <div>
@@ -2271,7 +2322,7 @@ A <em>single overlapping permission</em> can be enough for data exfiltration!
 </div>
 
 <div>
-A <em>single overlapping <strike>permission</strike> service</em> and be enough for data exfiltration!
+A <em>single overlapping</em> <strike>permission</strike> <em>service</em> can be enough for data exfiltration!
 </div>
 
 <div>
@@ -2824,7 +2875,6 @@ http://slack.zappa.io
 @GUNdotIO
 https://gun.io
 
-https://richjones.com
 </div>
 
 <div>
