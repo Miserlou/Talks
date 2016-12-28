@@ -422,6 +422,14 @@ No <em>permanent</em> infrastructure!
 </div>
 
 <div>
+Function is cached by Amazon,
+</div>
+
+<div>
+spawned and destroyed on a <em>per-request</em> basis.
+</div>
+
+<div>
 Code execution triggered by <em>cloud event sources</em>!
 </div>
 
@@ -630,15 +638,15 @@ Harder to <em>persist</em>!
 </div>
 
 <div>
-Read only file system!
+<em>Read only</em> file system!
 </div>
 
 <div>
-Sub-second lifecycle!
+<em>Sub-second</em> lifecycle!
 </div>
 
 <div>
-No init system to infect!
+No <em>init</em> system to infect!
 </div>
 
 <div>
@@ -1491,7 +1499,7 @@ And if we're lucky..
       "Statement": [
         {
           "Action": [
-            "<em>*</em>:*</em>"
+            "<em>*</em>:<em>*</em>"
           ],
           "Resource": "arn:aws:<em>*</em>:<em>*</em>:<em>*</em>:<em>*</em>",
           "Effect": "Allow"
@@ -1544,15 +1552,15 @@ If you <em>do</em> hit the jackpot..
 </div>
 
 <div>
-..<em>don't</em> just mine BitCoin on GPU instances!
-</div>
-
-<div>
 ..<em>don't</em> sell user info to spammers!
 </div>
 
 <div>
 ..<em>don't</em> claim a bug bounty!
+</div>
+
+<div>
+..<em>don't</em> just mine BitCoin on GPU instances!
 </div>
 
 <div>
@@ -2040,7 +2048,7 @@ Lambda is our VPC <em>hole puncher</em>
 </div>
 
 <div>
-"Connect securely to your corporate datacenter – All traffic to and from instances in your VPC can be routed to your corporate datacenter over an industry standard, encrypted IPsec hardware VPN connection."
+"Connect securely to your <em>corporate datacenter</em> – All traffic to and from instances in your VPC can be routed to your corporate datacenter over an industry standard, encrypted IPsec hardware VPN connection."
 </div>
 
 <div>
@@ -2394,7 +2402,7 @@ Auditing!
 Persisting <em>malware</em>! :D
 </div>
 
-<!-- <div>
+<div>
 <pre>
 function = \
   lambda_client.get_function(
@@ -2423,9 +2431,20 @@ lambda_client.update_function_code(
 </div>
 
 <div>
+<pre>
+lambda_client.create_alias(
+    FunctionName=function_name,
+    Name='1',
+    FunctionVersion=latest_function,
+    Description=description
+) <span class="grey"># don't forget to rollback after</span>
+</pre>
+</div>
+
+<div>
 Alternate route:
 </div>
- -->
+
 <div>
 (Especially useful if application is managed/deployed by CI)
 </div>
@@ -2502,17 +2521,17 @@ Think <em>serverlessly</em>!
 </div>
 
 <div>
+New code uploads are the trigger for re-infection!
+</div>
+
+<!-- <div>
   <ul>
     <li>Hide malware in old function code</li>
     <li>Create infection handler</li>
     <li>Register upload to code-hosting bucket as trigger</li>
     <li>Update CF stack</li>
   </ul>
-</div>
-
-<div>
-New code uploads are the trigger for re-infection!
-</div>
+</div> -->
 
 <!--
 - Copy to /tmp, infect, package, upload to S3
@@ -2731,7 +2750,7 @@ Will reveal your attack :(
 </div>
 
 <div>
-☁:
+Flip side:
 </div>
 
 <div>
@@ -2741,7 +2760,7 @@ streams = logs_client.describe_log_streams(
 )
 all_streams = streams['logStreams']
 all_names = [stream['logStreamName'] for stream in all_streams]
-response = logs_client.filter_log_events(
+response = logs_client.<em>filter_log_events</em>(
     logGroupName=log_name,
     logStreamNames=all_names
 )
