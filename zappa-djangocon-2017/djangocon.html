@@ -657,7 +657,11 @@ Django Gotcha #3:
 </div>
 
 <div>
-<i>uh-oh</i>
+<i>*uh-oh*</i>
+</div>
+
+<div>
+This is tricky!
 </div>
 
 <div>
@@ -771,8 +775,8 @@ DATABASES = {
         'NAME': 'zappadbname',
         'USER': 'your-db-user',
         'PASSWORD': 'your-secure-db-password',
-        'HOST': 'zappa-db.1234567.us-east-1.rds.amazonaws.com',
-        'PORT': '5432'
+        'HOST': '<em>zappa-db.1234567.us-east-1.rds.amazonaws.com</em>',
+        'PORT': '<em>5432</em>'
     }
 
 }
@@ -784,6 +788,22 @@ Create a new management command!
 </div>
 
 <div>
+<em>X</em>
+</div>
+
+<div>
+<pre> $ pip install zappa-django-utils</pre>
+</div>
+
+<div>
+<pre>INSTALLED_APPS += ('zappa_django_utils',)</pre>
+</div>
+
+<!-- <div>
+Create a new management command!
+</div> -->
+
+<!-- <div>
 <pre>
 from psycopg2 import connect
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -812,14 +832,14 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS('All Done'))
 </pre>
-</div>
+</div> -->
 
 <div>
   <pre>$ zappa update</pre>
 </div>
 
 <div>
-  <pre>$ zappa manage create_db</pre>
+  <pre>$ zappa manage create_pg_db</pre>
 </div>
 
 <div>
@@ -839,8 +859,16 @@ $ zappa invoke --raw \
   User.objects.create_superuser( \
     'admin', \
     'admin@yourdomain.com', \
-    'horse battery staple')"
+    'correct horse battery staple')"
 </pre>
+</div>
+
+<div>
+<em>X</em>
+</div>
+
+<div>
+  <pre>$ zappa manage create_admin_user</pre>
 </div>
 
 <div>
@@ -849,6 +877,273 @@ $ zappa invoke --raw \
 
 <div>
 Hooray!
+</div>
+
+<div>
+Django Gotcha #4: Domains
+</div>
+
+<div>
+Zappa supports Let's Encrypt, but (now) prefers AWS <em>ACM</em>
+</div>
+
+<div>
+  <pre>
+  {
+      "dev": {
+          "aws_region": "us-east-1",
+          "django_settings": "demo.settings",
+          "profile_name": "default",
+          "s3_bucket": "my-demo-bucket",
+          "vpc_config": {
+              "SubnetIds": [
+                "subnet-f3446aba",
+                "subnet-c5b8c79e"
+              ],
+              "SecurityGroupIds": [
+                "sg-9a9a1dfc"
+              ]
+          },
+          <em>"domain": "your.cool.name",
+          "certificate_arn": "arn:aws:acm:us-east-1:123:certificate/1234",
+          </em>
+      }
+  }
+  </pre>
+</div>
+
+<div>
+<pre>$ zappa certify</pre>
+</div>
+
+<div>
+Hooray! We're totally live!
+</div>
+
+<div>
+<i>"So what about those events.."</i>
+</div>
+
+<div>
+Oh right!
+</div>
+
+<div>
+<em>Event-driven</em> architecture!
+</div>
+
+<div>
+This is the fun part!
+</div>
+
+<div>
+Execute code in response to AWS ecosystem events!
+</div>
+
+<div>
+No blocking pages!
+</div>
+
+<div>
+No Celery!
+</div>
+
+<div>
+Example 1: <em>Avatar resizing</em>
+</div>
+
+<div>
+User uploads an image, we make a thumbnail
+</div>
+
+<div>
+HTTP -> S3 -> Lambda -> S3
+</div>
+
+<div>
+  <img src="http://i.imgur.com/j4rirEL.png">
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: <em>users.util.process_avatar</em>
+  event_source:
+    arn: arn:aws:s3:::your-upload-bucket
+    events:
+    - <em>s3:ObjectCreated:*</em>
+</pre>
+</div>
+
+<div>
+<pre> $ zappa schedule </pre>
+</div>
+
+<div>
+That's it! :D
+</div>
+
+<div>
+  <i>*pro tip!*</i>
+</div>
+
+<div>
+Make sure you don't get stuck in an infinite loop!
+</div>
+
+<div>
+Example 2: <em>Daily notifications</em>
+</div>
+
+<div>
+<em>Time</em> is an event source!
+</div>
+
+<div>
+Send daily notifications to your Slack channel!
+</div>
+
+<div>
+  <img src="http://i.imgur.com/WDt1gyL.png">
+</div>
+
+<div>
+<pre>
+{
+  "dev": {
+     ...
+     "events": [{
+         "function": "my_app.utils.send_notifications",
+         "expression": <em>"rate(24 hours)"</em>
+     }],
+     ...
+  }
+}
+</pre>
+</div>
+
+<div>
+<pre> $ zappa schedule </pre>
+</div>
+
+<div>
+<img src="http://i.imgur.com/HmiGJW9.png">
+</div>
+
+<div>
+Hooray!
+</div>
+
+<div>
+We can use <em>cron</em> and <em>rate</em> syntax!
+</div>
+
+<div>
+Multiple schedules!
+</div>
+
+<div>
+<pre>
+{
+  "dev": {
+     ...
+     "events": [{
+         "function": "my_app.utils.calc_status",
+         "expressions": [<em>
+            "cron(0 20-23 ? * SUN-THU *)",
+            "cron(0 0-8 ? * MON-FRI *)"</em>
+          ]
+     }],
+     ...
+  }
+}
+</pre>
+</div>
+
+<div>
+<i>"Sweet! But what if I don't want to wait for an event?</i>
+</div>
+
+<div>
+Zappa can execute functions asynchronously in a different Lambda!
+</div>
+
+<div>
+Example 3: Let's bake a cake!
+</div>
+
+<div>
+🍰
+</div>
+
+<div>
+<pre>
+from <em>zappa.async</em> import <em>task</em>
+
+<em>@task</em>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># url('api/order/cake')</span>
+def order_cake(<span class="grey">request</span>):
+    <em>bake_cake()</em>
+    return "Your cake is being made!"
+</pre>
+</div>
+
+<div>
+It's that easy!
+</div>
+
+<div>
+No config!
+</div>
+
+<div>
+No queues!
+</div>
+
+<div>
+No Celery!
+</div>
+
+<div>
+Go nuts!
+</div>
+
+<div>
+🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰
+</div>
+
+<div>
+<i>"This! Is! Neat!"</i>
+</div>
+
+<div>
+Thanks!
+</div>
+
+<div>
+<i>"Got one trick in you?"</i>
+</div>
+
+<div>
+You bet!
+</div>
+
+<div>
+<em>Globally-available</em> server-less architectures!
+</div>
+
+<div>
+<i>"That sounds cool! But why?"</i>
 </div>
 
 <div>
@@ -1038,6 +1333,251 @@ Different <em>countries</em> have different <em>laws</em>.
 <div>
 <em>One</em> product may have different compliance needs in <em>many</em> countries.
 </div>
+
+
+<div>
+<i>"Well, I'm convinced! How do we do it?"</i>
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+<pre>
+Do you want to make this a <em>global</em> application?
+</pre>
+</div>
+
+<div>
+<pre>
+{
+    "dev_ap_northeast_1": {
+        "app_function": "geoip.app",
+        "aws_region": "ap-northeast-1",
+        "domain": "dev-ap-northeast-1.geo.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_1"
+    },
+    "dev_ap_northeast_2": {
+        "app_function": "geoip.app",
+        "aws_region": "ap-northeast-2",
+        "domain": "dev-ap-northeast-2.geo.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_2"
+    },
+
+    [ ... ],
+
+    "dev_us_west_2": {
+        "app_function": "geoip.app",
+        "aws_region": "us-west-2",
+        "domain": "dev-us-west-2.geo.biz",
+        "s3_bucket": "lmbda_dev_us_west_2"
+    }
+}
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa deploy --all
+$ zappa certify --all
+</pre>
+</div>
+
+<div>
+Bam!
+</div>
+
+<div>
+<pre>
+httpstat https://dev-ap-northeast-1.geo.biz/
+httpstat https://dev-ap-northeast-2.geo.biz/
+...
+httpstat https://dev-us-west-2.geo.biz/
+</pre>
+</div>
+
+<div>
+<pre>
+  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
+[     5ms    |       8ms      |     50ms     |       42ms       |        0ms       ]
+             |                |               |                   |                  |
+    namelookup:5ms            |               |                   |                  |
+                        connect:13ms          |                   |                  |
+                                    pretransfer:75ms              |                  |
+                                                      starttransfer:198ms            |
+                                                                                 total:<em>198ms</em>
+</pre>
+</div>
+
+<!-- <div>
+<pre>
+import os
+this_region = os.environ.get('AWS_REGION')
+</pre>
+</div> -->
+
+<div>
+RAWK \m/
+</div>
+
+<div>
+..but now we have to make a <em>decision</em>.
+</div>
+
+<div>
+<i>*uh-oh*</i>
+</div>
+
+<div>
+How do we <em>route</em> our web traffic?
+</div>
+
+<div>
+Great question!
+</div>
+
+<div>
+<img src="https://www.turnkeylinux.org/files/images/blog/aws-datacenters.jpg">
+</div>
+
+<div>
+Multiple strategies for "<em>routing policy</em>"
+</div>
+
+<div>
+<i>#1: <em>Simple</em></i>
+</div>
+
+<div>
+<i>aka "<em>stupid</em>"</i>
+</div>
+
+<div>
+https://<em>us-east-1</em>.geo.biz ->
+<em>us-east-1</em>
+</div>
+
+<div>
+https://<em>us-east-2</em>.geo.biz ->
+<em>us-east-2</em>
+</div>
+
+<div>
+Good for: <em>robots</em>
+</div>
+
+<div>
+Bad for: <em>humans</em>
+</div>
+
+<div>
+<i>#2: <em>Latency</em></i>
+</div>
+
+<div>
+Route traffic to the <em>net-closest</em> node.
+</div>
+
+<div>
+Simple! Smart!
+</div>
+
+<div>
+Good for: providing <em>fast global service</em>!
+</div>
+
+<div>
+Bad for: <em>compliance</em>!
+</div>
+
+<div>
+<i>#3: <em>Geolocation!</em></i>
+</div>
+
+<div>
+Route traffic based on <em>originating IP address</em>.
+</div>
+
+<div>
+🇺🇸USA -> us-east-1
+</div>
+
+<div>
+🇬🇧UK -> eu-west-1
+</div>
+
+<div>
+🇯🇵Japan -> ap-northeast-1
+</div>
+
+<div>
+<i>oooooooooooooo, tricky!</i>
+</div>
+
+<div>
+Good for: <em>compliance</em>
+</div>
+
+<div>
+Bad for: <em>load balancing</em>!
+</div>
+
+<div>
+<i>#4: <em>Round Robin!</em></i>
+</div>
+
+<div>
+Evenly distribute traffic amongst <em>all</em> servers.
+</div>
+
+<div>
+<em>Weight</em> different locations differently ("WRR")
+</div>
+
+<div>
+Good for: <em>balancing load</em>
+</div>
+
+<div>
+(use for "regional" deployments or resources within the same region)
+</div>
+
+<div>
+Bad for: <em>lowering latency</em>!
+</div>
+
+<div>
+<i>Bonus</i>: Use a <em>CDN</em>! (CF)
+</div>
+
+<div>
+Static pages only!
+</div>
+
+<div>
+<i>"Wow, fascinating! I've got some thinking to do!"</i>
+</div>
+
+<div>
+You sure do!
+</div>
+
+<div>
+(They're all pretty easy to set up, just check the right boxes in <em>Route 53</em> console.)
+</div>
+
+<div>
+Let me know what you decide!
+</div>
+
+
+
+
+
+
 
 <div>
 <i>"Okay, I'm convinced! But can I see can example?"</i>
