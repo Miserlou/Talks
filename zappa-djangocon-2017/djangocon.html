@@ -183,9 +183,7 @@ You’ll leave with new ideas on how to save money and stress on your existing a
 -->
 
 <div>
-
 Hello!
-
 </div>
 
 <div>
@@ -237,6 +235,26 @@ I'm here to talk about..
 </div>
 
 <div>
+This talk is going to move <em>fast</em>!
+</div>
+
+<div>
+Better to be <em>overwhelmed</em> than bored.
+</div>
+
+<div>
+Feel free to <em>interrupt</em>!
+</div>
+
+<div>
+Ask me <em>questions</em>!
+</div>
+
+<div>
+<i>"What does <em>serverless</em> mean?!"</i>
+</div>
+
+<div>
 ¯\_(ツ)_/¯
 </div>
 
@@ -246,6 +264,10 @@ I'm here to talk about..
 
 <div>
 AWS <em>Lambda</em> + AWS <em>API Gateway</em>
+</div>
+
+<div>
+There still <i>are</i> servers, but they are <em>ephemeral</em>
 </div>
 
 <div>
@@ -286,7 +308,7 @@ Zappa:
 </div>
 
 <div>
-By the time the user sees the page, the server has disappeared.
+By the time the user sees the page, the server has <em>disappeared</em>.
 </div>
 
 <div>
@@ -374,7 +396,15 @@ Code executes <em>in response to events</em>
 </div>
 
 <div>
-File uploads! Incoming emails! New users! Etc!
+File uploads!
+</div>
+
+<div>
+Incoming emails!
+</div>
+
+<div>
+New users!
 </div>
 
 <div>
@@ -386,11 +416,13 @@ You're in luck!
 </div>
 
 <div>
-Global deployments!
+Rollback!
 </div>
 
 <div>
-Rollback!
+<pre>
+$ zappa rollback -n 2
+</pre>
 </div>
 
 <div>
@@ -398,31 +430,139 @@ Free SSL certificates!
 </div>
 
 <div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
 Log tailing!
 </div>
 
 <div>
-Custom endpoint authorization!
+<pre>
+$ zappa tail
+</pre>
 </div>
 
 <div>
-User and permissions management!
+Auto <em>keep-warm</em>!
 </div>
 
 <div>
-Remote management command invocation!
+Use C-Extensions via <em>lambda-packages</em>!
 </div>
 
 <div>
-Encrypted environment variables!
+  <ul>
+    <li>MySQL-Python</li>
+    <li>numpy</li>
+    <li>OpenCV</li>
+    <li>psycopg2</li>
+    <li>Pillow (PIL)</li>
+    <li>LXML</li>
+    <li>PyCrypto</li>
+    <li>PyNaCl</li>
+    <li>cryptography</li>
+    <li>cffi</li>
+    <li>...</li>
 </div>
 
 <div>
-Auto keep-warm!
+Use >50MB packages!
 </div>
 
 <div>
-Projects larger than the official Lambda limits!
+Load <em>remote environment variables</em> from S3!
+</div>
+
+<div>
+<pre>
+<span class="grey">// my-config-bucket/super-secret-config.json</span>
+{
+    "<em>DB_CONNECTION_STRING</em>": "super-secret:database"
+}
+</pre>
+
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+"remote_env_bucket": "my-config-bucket",
+"remote_env_file": "super-secret-config.json"
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># your_zappa_app.py</span>
+import os
+db_string = os.environ('<em>DB_CONNECTION_STRING</em>')
+</pre>
+</div>
+
+<div>
+CI/CD <em>integration</em>!
+</div>
+
+<div>
+<pre>
+$ zappa status dev --json
+</pre>
+</div>
+
+<div>
+Remote command <em>invocation</em>!
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'my_app.my_func'
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'print hello.upper()' --raw
+</pre>
+</div>
+
+<div>
+<em>Django</em> management commands!
+</div>
+
+<div>
+<pre>
+$ zappa manage makemigrations
+</pre>
+</div>
+
+<div>
+Secure deployments!
+</div>
+
+<div>
+<pre>
+"api_key_required": true
+</pre>
+</div>
+
+<div>
+<pre>
+"iam_authorization": true
+</pre>
+</div>
+
+<div>
+<pre>
+"authorizer": {
+    "function": "your_module.your_auth_function",
+    "result_ttl": 300,
+    "token_source": "Authorization",
+    "validation_expression": "^Bearer \\w+$",
+}
+</pre>
 </div>
 
 <div>
@@ -431,10 +571,6 @@ Don't need to modify your existing apps!
 
 <div>
 No vendor lock-in!
-</div>
-
-<div>
-Sorry, Jeff!
 </div>
 
 <div>
@@ -721,7 +857,11 @@ Simplest VPC for a basic Django app:
 </div>
 
 <div>
-One VPC, two subnets, allow TCP traffic on port 5432!
+(configure with AWS web console)
+</div>
+
+<div>
+One VPC, two subnets, allow internal TCP traffic on port <em>5432</em>!
 </div>
 
 <div>
@@ -993,6 +1133,18 @@ Make sure you don't get stuck in an infinite loop!
 </div>
 
 <div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: users.util.process_avatar
+  event_source:
+    arn: arn:aws:s3:::your-upload-bucket
+    events:
+    - s3:ObjectCreated:<em>/uploads/*</em>
+</pre>
+</div>
+
+<div>
 Example 2: <em>Daily notifications</em>
 </div>
 
@@ -1079,6 +1231,15 @@ Example 3: Let's bake a cake!
 
 <div>
 <pre>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
 from <em>zappa.async</em> import <em>task</em>
 
 <em>@task</em>
@@ -1123,23 +1284,11 @@ Go nuts!
 </div>
 
 <div>
-<i>"This! Is! Neat!"</i>
+🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰
 </div>
 
 <div>
-Thanks!
-</div>
-
-<div>
-<i>"Got one trick in you?"</i>
-</div>
-
-<div>
-You bet!
-</div>
-
-<div>
-<em>Globally-available</em> server-less architectures!
+<em>Globally-available</em> server-less architecture!
 </div>
 
 <div>
@@ -1258,10 +1407,10 @@ Please provide <em>non-US</em> (or non <i>eu-west-1</i>) users with equally grea
 <em>Compartmentalize</em> data, <em>limit</em> damage.
 </div>
 
-<div>
+<!-- <div>
 Combine <em>corporate policy</em>, <em>host security policy</em> (IAM), <em>virtual separation</em> and <em>physical separation</em>.
 </div>
-
+ -->
 <div>
 Defend against <em>internal</em> and <em>external</em> threats!
 </div>
@@ -1355,24 +1504,24 @@ Do you want to make this a <em>global</em> application?
 <pre>
 {
     "dev_ap_northeast_1": {
-        "app_function": "geoip.app",
+        "app_function": "geocake.app",
         "aws_region": "ap-northeast-1",
-        "domain": "dev-ap-northeast-1.geo.biz",
+        "domain": "dev-ap-northeast-1.geocake.biz",
         "s3_bucket": "lmbda_dev_ap_northeast_1"
     },
     "dev_ap_northeast_2": {
-        "app_function": "geoip.app",
+        "app_function": "geocake.app",
         "aws_region": "ap-northeast-2",
-        "domain": "dev-ap-northeast-2.geo.biz",
+        "domain": "dev-ap-northeast-2.geocake.biz",
         "s3_bucket": "lmbda_dev_ap_northeast_2"
     },
 
     [ ... ],
 
     "dev_us_west_2": {
-        "app_function": "geoip.app",
+        "app_function": "geocake.app",
         "aws_region": "us-west-2",
-        "domain": "dev-us-west-2.geo.biz",
+        "domain": "dev-us-west-2.geocake.biz",
         "s3_bucket": "lmbda_dev_us_west_2"
     }
 }
@@ -1392,10 +1541,10 @@ Bam!
 
 <div>
 <pre>
-httpstat https://dev-ap-northeast-1.geo.biz/
-httpstat https://dev-ap-northeast-2.geo.biz/
+httpstat https://dev-ap-northeast-1.geocake.biz/
+httpstat https://dev-ap-northeast-2.geocake.biz/
 ...
-httpstat https://dev-us-west-2.geo.biz/
+httpstat https://dev-us-west-2.geocake.biz/
 </pre>
 </div>
 
@@ -1456,12 +1605,12 @@ Multiple strategies for "<em>routing policy</em>"
 </div>
 
 <div>
-https://<em>us-east-1</em>.geo.biz ->
+https://<em>us-east-1</em>.geocake.biz ->
 <em>us-east-1</em>
 </div>
 
 <div>
-https://<em>us-east-2</em>.geo.biz ->
+https://<em>us-east-2</em>.geocake.biz ->
 <em>us-east-2</em>
 </div>
 
@@ -1573,945 +1722,9 @@ You sure do!
 Let me know what you decide!
 </div>
 
-
-
-
-
-
-
-<div>
-<i>"Okay, I'm convinced! But can I see can example?"</i>
-</div>
-
-<div>
-Of course you can!
-</div>
-
-<div>
-Two cases studies!
-</div>
-
-<div>
-  (<em>trivial</em> and <em>advanced</em>)
-</div>
-
-<div>
-Deployed using Zappa!
-</div>
-
-<div>
-<i>"Wait wait wait, you never explained what Zappa is!"</i>
-</div>
-
-<div>
-Oh, that's right!
-</div>
-
-<div>
-<center>
-<i>
-~ a brief interlude ~
-</i>
-</center>
-</div>
-
-<div>
-<em>Zappa</em>!
-</div>
-
-<div>
-<i>
-full disclosure: this is my baby
-</i>
-</div>
-
-<div>
-AWS <em>Lambda</em> + AWS <em>API Gateway</em>
-</div>
-
-<div>
-Server-less benefits for your <em>existing</em> APIs!
-</div>
-
-<div>
-Traditional web server:
-</div>
-
-<div>
-<ul>
-  <li>Web server (Apache/NX) listens for request</li>
-  <li>Converts to WSGI environ</li>
-  <li>Sends to WSGI server (Gunicorn)</li>
-  <li>App processes the request</li>
-  <li>Web server returns it to the client</li>
-  <li>Web server goes back to listening</li>
-</ul>
-</div>
-
-<div>
-Zappa:
-</div>
-
-<div>
-
-<ul>
-  <li>Request comes into API Gateway</li>
-  <li>API request mapped to dict with VTL</li>
-  <li>Server is <em>created</em></li>
-  <li>Server converts dict to WSGI, feeds WSGI to application</li>
-  <li>Returns response to API Gateway</li>
-  <li>Server is <em>destroyed</em></li>
-  <li>API Gateway returns response to client</li>
-</ul>
-</div>
-
-<div>
-&lt;30ms!
-</div>
-
-<div>
-By the time the user sees the page, the server has disappeared.
-</div>
-
-<div>
-ॐ
-</div>
-
-<div>
-Advantages!
-</div>
-
-<div>
-Super <em>scalable</em>!
-</div>
-
-<div>
-1 request = 1 server
-</div>
-
-<div>
-10 request = 10 server
-</div>
-
-<div>
-100 requests = 100 servers
-</div>
-
-<div>
-1000 requests = 1000 servers
-</div>
-
-<div>
-10000 requests = 10000 servers
-</div>
-
-<div>
-100000 requests = 100000 servers
-</div>
-
-<div>
-<em>Trillions</em> of events/year!
-</div>
-
-<div>
-Orders of magnitude <em>less expensive</em>!
-</div>
-
-<div>
-$0.000000002<em>/ms</em>
-</div>
-
-<div>
-Plus 3,200,000 <em>free</em> seconds!
-</div>
-
-<div>
-VPS: 4 * $20 * 12 = <em>$960/yr</em>
-</div>
-
-<div>
-Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
-</div>
-
-<div>
-Don't need to modify your existing apps!
-</div>
-
-<div>
-No vendor lock-in!
-</div>
-
-<div>
-Sorry, Jeff!
-</div>
-
-<div>
-Battle tested!
-</div>
-
-<div>
-Used in production by <em>banks</em>, <em>governments</em>, <em>medical</em> companies and more!
-</div>
-
-<div>
-Works with any <em>WSGI</em> application!
-</div>
-
-<div>
-Flask!
-</div>
-
-<div>
-Django!
-</div>
-
-<div>
-Pyramid!
-</div>
-
-<div>
-Bottle!
-</div>
-
-<div>
-<img src="http://i.imgur.com/W2Ndw3l.png">
-</div>
-
-<div>
-<img src="http://i.imgur.com/BNmJV5w.png">
-</div>
-
-<div>
-Python only!
-</div>
-
-<div>
-(that's a feature.)
-</div>
-
-<div>
-Super easy to <em>start</em>!
-</div>
-
-<div>
-<pre>
-$ zappa init
-</pre>
-</div>
-
-<div>
-Automatically detects app type, creates bucket, IAM, etc..
-</div>
-
-<div>
-Super easy to <em>deploy</em>!
-</div>
-
-<div>
-<pre>
-$ zappa deploy
-</pre>
-</div>
-
-<div>
-Great for <em>microservices</em>! (Flask APIs, IoT, chatbots, etc.)
-</div>
-
-<div>
-Great for <em>macroservices</em>! (Django, CMSes, etc.)
-</div>
-
-<div>
-React to AWS events (S3/SQS/etc.)!
-</div>
-
-<div>
-<pre>
-<span class="grey">// zappa_settings.yml</span>
-events:
-- function: <em>your_module.your_function</em>
-  event_source:
-    arn: arn:aws:s3:::your-event-bucket
-    events:
-    - <em>s3:ObjectCreated:*</em>
-</pre>
-</div>
-
-<div>
-Timed Events!
-</div>
-
-<div>
-<pre>
- "events": [{
-     "function": "your_module.your_function",
-     "expression": "<em>rate(1 minute)</em>"
- }]
-</pre>
-</div>
-
-<div>
-<pre>
-$ zappa schedule
-$ zappa unschedule
-</pre>
-</div>
-
-<div>
-<i>*but wait, there's more!*</i>
-</div>
-
-<div>
-Free SSL!
-</div>
-
-<div>
-<em>Let's Encrypt</em> and <em>AWS ACM</em>
-</div>
-
-<div>
-<pre>
-$ zappa certify
-</pre>
-</div>
-
-<div>
-(And it can auto-renew!)
-</div>
-
-<div>
-<i>*swoon*</i>
-</div>
-
-<div>
-Log Tailing!
-</div>
-
-<div>
-<pre>
-$ zappa tail
-</pre>
-</div>
-
-<div>
-Rollback!
-</div>
-
-<div>
-<pre>
-$ zappa rollback -n 2
-</pre>
-</div>
-
-<div>
-Auto <em>keep-warm</em>!
-</div>
-
-<div>
-<em>VPC</em> Awareness!
-</div>
-
-<div>
-<pre>
-"vpc_config": {
-    "SubnetIds": [ "subnet-12345678" ],
-    "SecurityGroupIds": [ "sg-12345678" ]
-}
-</pre>
-</div>
-
-<div>
-Use C-Extensions via <em>lambda-packages</em>!
-</div>
-
-<div>
-  <ul>
-    <li>MySQL-Python</li>
-    <li>numpy</li>
-    <li>OpenCV</li>
-    <li>psycopg2</li>
-    <li>Pillow (PIL)</li>
-    <li>LXML</li>
-    <li>PyCrypto</li>
-    <li>PyNaCl</li>
-    <li>cryptography</li>
-    <li>cffi</li>
-    <li>...</li>
-</div>
-
-<div>
-Use >50MB packages!
-</div>
-
-<div>
-Load <em>remote environment variables</em> from S3!
-</div>
-
-<div>
-<pre>
-<span class="grey">// my-config-bucket/super-secret-config.json</span>
-{
-    "<em>DB_CONNECTION_STRING</em>": "super-secret:database"
-}
-</pre>
-
-</div>
-
-<div>
-<pre>
-<span class="grey">// zappa_settings.json</span>
-"remote_env_bucket": "my-config-bucket",
-"remote_env_file": "super-secret-config.json"
-</pre>
-</div>
-
-<div>
-<pre>
-<span class="grey"># your_zappa_app.py</span>
-import os
-db_string = os.environ('<em>DB_CONNECTION_STRING</em>')
-</pre>
-</div>
-
-<div>
-CI/CD <em>integration</em>!
-</div>
-
-<div>
-<pre>
-$ zappa status dev --json
-</pre>
-</div>
-
-<div>
-Remote command <em>invocation</em>!
-</div>
-
-<div>
-<pre>
-$ zappa invoke 'my_app.my_func'
-</pre>
-</div>
-
-<div>
-<pre>
-$ zappa invoke 'print hello.upper()' --raw
-</pre>
-</div>
-
-<div>
-<em>Django</em> management commands!
-</div>
-
-<div>
-<pre>
-$ zappa manage makemigrations
-</pre>
-</div>
-
-<div>
-<em>Secure</em> deployments!
-</div>
-
-<div>
-<pre>
-"api_key_required": true
-</pre>
-</div>
-
-<div>
-<pre>
-"iam_authorization": true
-</pre>
-</div>
-
-<div>
-<pre>
-"authorizer": {
-    "function": "your_module.your_auth_function",
-    "result_ttl": 300,
-    "token_source": "Authorization",
-    "validation_expression": "^Bearer \\w+$",
-}
-</pre>
-</div>
-
-<div>
-Zero-Config <em>Async</em> Tasks
-</div>
-
-<div>
-(Coming soon!)
-</div>
-
-<div>
-<pre>
-from <em>zappa.async</em> import <em>task</em>
-
-<em>@task</em>
-def bake_pie(*args, **kwargs):
-     this_takes_a_long_time()
-</pre>
-</div>
-
-<div>
-<pre>
-@flask.route('api/order/pie')
-def order_pie():
-    <em>bake_pie()</em>
-    return "Your pie is being made!"
-</pre>
-</div>
-
-<div>
-..and many, many more features!
-</div>
-
-<div>
-Try it out!
-</div>
-
-<div>
-<i>"Well, I'm sold!"</i>
-</div>
-
-<div>
-Great! Okay!
-</div>
-
-<div>
-Case study A: Globally Available API Microservice
-</div>
-
-<div>
-<i>geo.biz</i>
-</div>
-
-<div>
-Return visitor's <em>lat</em>/<em>lon</em>..
-</div>
-
-<div>
-..in less that than <em>200ms</em>..
-</div>
-
-<div>
-..<em>anywhere</em> in the world..
-</div>
-
-<div>
-..in ~<em>5</em> lines of code..
-</div>
-
-<div>
-..with <em>zero</em> configuration.
-</div>
-
-<div>
-<i>*follow along at home!*</i>
-</div>
-
-<div>
-<pre>$ git clone github.com/Miserlou/zappa-geoip</pre>
-</div>
-
-<div>
-<pre>
-$ virtualenv env;
-$ source env/bin/activate
-$ pip install -r requirements.txt
-</pre>
-</div>
-
-<div>
-<pre>
-$ cat geoip.py
-</pre>
-</div>
-
-<div>
-<pre>
-from flask import Flask, request, render_template
-from geoip import geolite2
-
-app = Flask(__name__)
-
-@app.route('/')
-def geolocate():
-  remote_ip = request.remote_addr
-  match = geolite2.lookup(remote_ip)
-  if match:
-      return match.location
-  else:
-      return "Sorry, we can't geolocate you!"
-</pre>
-</div>
-
-<div>
-<pre>
-$ zappa init
-</pre>
-</div>
-
-<div>
-<pre>
-
-<em>
-███████╗ █████╗ ██████╗ ██████╗  █████╗
-╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
-  ███╔╝ ███████║██████╔╝██████╔╝███████║
- ███╔╝  ██╔══██║██╔═══╝ ██╔═══╝ ██╔══██║
-███████╗██║  ██║██║     ██║     ██║  ██║
-╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝  ╚═╝
-</em>
-
-Welcome to Zappa!
-
-Zappa is a system for running server-less Python web applications on AWS Lambda and AWS API Gateway.
-This `init` command will help you create and configure your new Zappa deployment.
-Let's get started!
-
-Your Zappa configuration can support multiple production environments, like 'dev', 'staging', and 'production'.
-What do you want to call this environment (default 'dev'):
-</pre>
-</div>
-
-<div>
-Automatically detects app type, creates bucket, IAM, etc..
-</div>
-
-<div>
-<pre>
-Do you want to use a domain name with this deployment? geo.zappa.io
-</pre>
-</div>
-
-<div>
-<pre>
-Do you want to make this a <em>global</em> application?
-</pre>
-</div>
-
-<div>
-<i>
-Full disclosure: this is a new feature.
-</i>
-</div>
-
-<div>
-<i>*BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA BETA*</i>
-</div>
-
-<div>
-<pre>
-{
-    "dev_ap_northeast_1": {
-        "app_function": "geoip.app",
-        "aws_region": "ap-northeast-1",
-        "domain": "dev-ap-northeast-1.geo.biz",
-        "s3_bucket": "lmbda_dev_ap_northeast_1"
-    },
-    "dev_ap_northeast_2": {
-        "app_function": "geoip.app",
-        "aws_region": "ap-northeast-2",
-        "domain": "dev-ap-northeast-2.geo.biz",
-        "s3_bucket": "lmbda_dev_ap_northeast_2"
-    },
-
-    [ ... ],
-
-    "dev_us_west_2": {
-        "app_function": "geoip.app",
-        "aws_region": "us-west-2",
-        "domain": "dev-us-west-2.geo.biz",
-        "s3_bucket": "lmbda_dev_us_west_2"
-    }
-}
-</pre>
-</div>
-
-<div>
-<pre>
-$ zappa deploy --all
-$ zappa certify --all
-</pre>
-</div>
-
-<div>
-Bam!
-</div>
-
-<div>
-<pre>
-httpstat https://dev-ap-northeast-1.geo.biz/
-httpstat https://dev-ap-northeast-2.geo.biz/
-...
-httpstat https://dev-us-west-2.geo.biz/
-</pre>
-</div>
-
-<div>
-<pre>
-  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
-[     5ms    |       8ms      |     50ms     |       42ms       |        0ms       ]
-             |                |               |                   |                  |
-    namelookup:5ms            |               |                   |                  |
-                        connect:13ms          |                   |                  |
-                                    pretransfer:75ms              |                  |
-                                                      starttransfer:198ms            |
-                                                                                 total:<em>198ms</em>
-</pre>
-</div>
-
-<!-- <div>
-<pre>
-import os
-this_region = os.environ.get('AWS_REGION')
-</pre>
-</div> -->
-
-<div>
-RAWK \m/
-</div>
-
-<div>
-..but now we have to make a <em>decision</em>.
-</div>
-
-<div>
-<i>*uh-oh*</i>
-</div>
-
-<div>
-How do we <em>route</em> our web traffic?
-</div>
-
-<div>
-Great question!
-</div>
-
-<div>
-<img src="https://www.turnkeylinux.org/files/images/blog/aws-datacenters.jpg">
-</div>
-
-<div>
-Multiple strategies for "<em>routing policy</em>"
-</div>
-
-<div>
-<i>#1: <em>Simple</em></i>
-</div>
-
-<div>
-<i>aka "<em>stupid</em>"</i>
-</div>
-
-<div>
-https://<em>us-east-1</em>.geo.biz ->
-<em>us-east-1</em>
-</div>
-
-<div>
-https://<em>us-east-2</em>.geo.biz ->
-<em>us-east-2</em>
-</div>
-
-<div>
-Good for: <em>robots</em>
-</div>
-
-<div>
-Bad for: <em>humans</em>
-</div>
-
-<div>
-<i>#2: <em>Latency</em></i>
-</div>
-
-<div>
-Route traffic to the <em>net-closest</em> node.
-</div>
-
-<div>
-Simple! Smart!
-</div>
-
-<div>
-Good for: providing <em>fast global service</em>!
-</div>
-
-<div>
-Bad for: <em>compliance</em>!
-</div>
-
-<div>
-<i>#3: <em>Geolocation!</em></i>
-</div>
-
-<div>
-Route traffic based on <em>originating IP address</em>.
-</div>
-
-<div>
-🇺🇸USA -> us-east-1
-</div>
-
-<div>
-🇬🇧UK -> eu-west-1
-</div>
-
-<div>
-🇯🇵Japan -> ap-northeast-1
-</div>
-
-<div>
-<i>oooooooooooooo, tricky!</i>
-</div>
-
-<div>
-Good for: <em>compliance</em>
-</div>
-
-<div>
-Bad for: <em>load balancing</em>!
-</div>
-
-<div>
-<i>#4: <em>Round Robin!</em></i>
-</div>
-
-<div>
-Evenly distribute traffic amongst <em>all</em> servers.
-</div>
-
-<div>
-<em>Weight</em> different locations differently ("WRR")
-</div>
-
-<div>
-Good for: <em>balancing load</em>
-</div>
-
-<div>
-(use for "regional" deployments or resources within the same region)
-</div>
-
-<div>
-Bad for: <em>lowering latency</em>!
-</div>
-
-<div>
-<i>Bonus</i>: Use a <em>CDN</em>! (CF)
-</div>
-
-<div>
-Static pages only!
-</div>
-
-<div>
-<i>"Wow, fascinating! I've got some thinking to do!"</i>
-</div>
-
-<div>
-You sure do!
-</div>
-
-<div>
-(They're all pretty easy to set up, just check the right boxes in <em>Route 53</em> console.)
-</div>
-
-<div>
-Let me know what you decide!
-</div>
 
 <div>
 Aside: should this be a feature in Zappa? Would you find that useful?
-</div>
-
-<div>
-<i>"But that was too easy! I thought we we're building <em>event-driven</em> applications"</i>
-</div>
-
-<div>That's right!</div>
-
-<div>
-Case study B: Globally Distributed <em>Medical</em> Service
-</div>
-
-<div>
-Take <em>medical data</em> -> Process -> Store -> Notify
-</div>
-
-<div>
-  <i>medi.co</i>
-</div>
-
-<div>
-  <i>*buzzword alert*</i>
-</div>
-
-<div>
-  "<em>Hybrid Architecture</em>"
-</div>
-
-<div>
-  <em>HTTP</em> and <em>Non-HTTP</em> event sources!
-</div>
-
-<div>
-  <em>Permananent</em> and <em>Non-Permanent</em> infrastructure!
-</div>
-
-<div>
-  HTTP event sources: API calls, user dashboards, etc.
-</div>
-
-<div>
-  Non-HTTP event sources: Files, Queues, Notifications
-</div>
-
-<div>
-  Non-permanent infrastructure: API Gateway, Lambda, SQS, SES, EC2 ASG
-</div>
-
-<div>
-Medical data -> S3
-</div>
-
-<div>
-S3 -> Lambda
-</div>
-
-<div>
-Lambda -> SQS
-</div>
-
-<div>
-EC2 <- SQS
-</div>
-
-<div>
-EC2 -> S3
-</div>
-
-<div>
-S3 -> Lambda
-</div>
-
-<div>
-Lambda -> SNS
-</div>
-
-<div>
-SNS -> Doctor
-</div>
-
-<div>
-<i>"But wait, you said there would be permanent infrastructure.."</i>
-</div>
-
-<div>
-I know I did!
 </div>
 
 <div>
@@ -2684,7 +1897,7 @@ snapshot copy <em>!=</em> replicas
 Read-Replica pretty much only works with AWS MySQL/PG/Aurora!
 </div>
 
-<div>
+<!-- <div>
 *<em>warning</em>!*
 </div>
 
@@ -2724,7 +1937,7 @@ Use ~<em>as many</em> "as possible".
 
 <div>
 Maybe even have per-region accounts and handle credentials in CI
-</div>
+</div> -->
 
 <div>
 Even better:
@@ -2751,6 +1964,10 @@ ex: <em>zappa-bittorrent-tracker</em> can serve millions of peers with S3-databa
 </div>
 
 <div>
+see: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
+</div>
+
+<div>
 But remember to
 </div>
 
@@ -2767,7 +1984,7 @@ In conclusion: save <em>time</em> and <em>money</em>,
 </div>
 
 <div>
-build awesome <em>global</em> applications,
+build awesome <em>global</em>, <em>event-driven</em> applications,
 </div>
 
 <div>
@@ -2779,15 +1996,111 @@ use <em>Zappa</em>!
 </div>
 
 <div>
+Want to <em>contribute</em>? 😃
+</div>
+
+<div>
+Over 100+ contributors from 6 continents!
+</div>
+
+<div>
+Ways you can help:
+</div>
+
+<div>
+Use Zappa!
+</div>
+
+<div>
+Python 3.6 packaging and testing!
+</div>
+
+<div>
+Windows maintainer!
+</div>
+
+<div>
+Bugfixing!
+</div>
+
+<div>
+Pull request triage!
+</div>
+
+<div>
+Documentation!
+</div>
+
+<div>
+Tutorials!
+</div>
+
+<div>
+Support for non-AWS backends!
+</div>
+
+<div>
+Special thanks!
+</div>
+
+<div>
+Patrons:
+<ul>
+  <li>
+    Nathan Lawrence
+  </li>
+  <li>
+    LaunchLab
+  </li>
+  <li>
+    Sean Paley
+  </li>
+</ul>
+
+</div>
+
+<div>
+  https://patreon.com/Zappa
+</div>
+
+<div>
+Special Thanks:
+<ul>
+  <li>
+    @edgarroman
+  </li>
+  <li>
+    @mcrowson
+  </li>
+  <li>
+    @mathom
+  </li>
+  <li>
+    @nikbora
+  </li>
+  <li>
+    @scoates
+  </li>
+  <li>
+    @richiverse
+  </li>
+  <li>
+    @bcongdon
+  </li>
+  <li>
+    @geeknam
+  </li>
+  <li>
+    MANY, MANY others!
+  </li>
+</div>
+
+<div>
 Do you need awesome, scalable, server-less apps?
 </div>
 
 <div>
 Hire me! 💸💸💸
-</div>
-
-<div>
-Want to <em>contribute</em>? 😃
 </div>
 
 <div>
@@ -2813,7 +2126,7 @@ https://gun.io
 Questions?
 </div>
 
-<div>
+<!-- <div>
 Bonus!
 </div>
 
@@ -2827,7 +2140,7 @@ Microservice.. in a <em>tweet</em>!
 
 <div>
 echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return Hi!\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
-</div>
+</div> -->
 
 </body>
 </html>
