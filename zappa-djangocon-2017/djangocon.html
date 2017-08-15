@@ -239,7 +239,7 @@ This talk is going to move <em>fast</em>!
 </div>
 
 <div>
-Better to be <em>overwhelmed</em> than bored.
+Better to be <em>overwhelmed</em> than bored!
 </div>
 
 <div>
@@ -666,6 +666,37 @@ What do you want to call this environment (default 'dev'):
 </div>
 
 <div>
+<ul>
+  <li>
+    Smoosh your project + venv into a package
+  </li>
+  <li>
+    Install Lambda-compatible dependancies
+  </li>
+  <li>
+    Install WSGI middleware to make Django work
+  </li>
+  <li>
+    Create permission policies and buckets (if necessary)
+  </li>
+  <li>
+    Upload package to S3
+  </li>
+  <li>
+    Register + configure Lambda function
+  </li>
+  <li>
+    Register + configure API Gateway
+  </li>
+  <li>
+    Delete package from S3
+  </li>
+  <li>
+    Create "keep-warm" event
+  </li>
+</div>
+
+<div>
 <pre>
 Calling deploy for stage dev..
 Downloading and installing dependencies..
@@ -752,6 +783,10 @@ Solution!:
 </div>
 
 <div>
+Thanks, Josh!
+</div>
+
+<div>
 <pre>INSTALLED_APPS += ('storages',)</pre>
 </div>
 
@@ -785,11 +820,11 @@ Django Gotcha #3:
 </div>
 
 <div>
-(and this is the big one)
+🐘
 </div>
 
 <div>
-<em>Database</em> and <em>Virtual Private Cloud</em>
+<em>Databases!</em>
 </div>
 
 <div>
@@ -798,6 +833,34 @@ Django Gotcha #3:
 
 <div>
 This is tricky!
+</div>
+
+<div>
+Do we <em>need</em> a database?
+</div>
+
+<div>
+Think <em>serverlessly!</em>
+</div>
+
+<div>
+Avoid <em>infrastructure</em>!
+</div>
+
+<div>
+ex: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
+</div>
+
+<div>
+ex: <em>zappa-bittorrent-tracker</em> can serve millions of peers with S3-database
+</div>
+
+<div>
+<i>"But this is DjangoCon. We love the ORM! We want a real database!"</i>
+</div>
+
+<div>
+Okay fine :|
 </div>
 
 <div>
@@ -829,11 +892,15 @@ Long answer!
 </div>
 
 <div>
-<em>Prevent</em> internet traffic from accessing your internal resources
+A virtual "network" with a strict security policy
 </div>
 
 <div>
-<em>Allow</em> traffic from your Lambdas to your database
+<em>Prevent</em> internet traffic from accessing your internal resources!
+</div>
+
+<div>
+<em>Allow</em> traffic from your Lambdas to your database!
 </div>
 
 <div>
@@ -861,7 +928,15 @@ Simplest VPC for a basic Django app:
 </div>
 
 <div>
-One VPC, two subnets, allow internal TCP traffic on port <em>5432</em>!
+One VPC,
+</div>
+
+<div>
+two subnets (for redudunancy),
+</div>
+
+<div>
+allow internal TCP traffic on port <em>5432</em>!
 </div>
 
 <div>
@@ -1057,7 +1132,7 @@ Zappa supports Let's Encrypt, but (now) prefers AWS <em>ACM</em>
 </div>
 
 <div>
-Hooray! We're totally live!
+Hooray! We're live!
 </div>
 
 <div>
@@ -1284,7 +1359,7 @@ Go nuts!
 </div>
 
 <div>
-🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰
+<i>"But what if I need to bake mission-critical cakes for the whole planet?"</i>
 </div>
 
 <div>
@@ -1376,7 +1451,7 @@ round-trip min/avg/max/stddev = 177.616/<em>202.745</em>/305.468/46.281 ms
 </div>
 
 <div>
-Please provide <em>non-US</em> (or non <i>eu-west-1</i>) users with equally great service!
+Please provide <em>non-US</em> users with equally great service!
 </div>
 
 <div>
@@ -1436,15 +1511,7 @@ Different <em>countries</em> have different <em>laws</em>.
 </div>
 
 <div>
-    (HIPAA)
-</div>
-
-<div>
     Financial Data
-</div>
-
-<div>
-    (PCI)
 </div>
 
 <div>
@@ -1452,23 +1519,11 @@ Different <em>countries</em> have different <em>laws</em>.
 </div>
 
 <div>
-  (EU Data Protection Directive)
-</div>
-
-<div>
     Private Communications
 </div>
 
 <div>
-(German Federal Data Protection Act)
-</div>
-
-<div>
     Data Retention
-</div>
-
-<div>
-  (EU Data Retention Directive)
 </div>
 
 <div>
@@ -1483,7 +1538,6 @@ Different <em>countries</em> have different <em>laws</em>.
 <em>One</em> product may have different compliance needs in <em>many</em> countries.
 </div>
 
-
 <div>
 <i>"Well, I'm convinced! How do we do it?"</i>
 </div>
@@ -1496,7 +1550,7 @@ $ zappa init
 
 <div>
 <pre>
-Do you want to make this a <em>global</em> application?
+Do you want to make this a <em>global</em> application? Y
 </pre>
 </div>
 
@@ -1597,121 +1651,11 @@ Multiple strategies for "<em>routing policy</em>"
 </div>
 
 <div>
-<i>#1: <em>Simple</em></i>
+<i><em>Latency</em></i>
 </div>
 
 <div>
-<i>aka "<em>stupid</em>"</i>
-</div>
-
-<div>
-https://<em>us-east-1</em>.geocake.biz ->
-<em>us-east-1</em>
-</div>
-
-<div>
-https://<em>us-east-2</em>.geocake.biz ->
-<em>us-east-2</em>
-</div>
-
-<div>
-Good for: <em>robots</em>
-</div>
-
-<div>
-Bad for: <em>humans</em>
-</div>
-
-<div>
-<i>#2: <em>Latency</em></i>
-</div>
-
-<div>
-Route traffic to the <em>net-closest</em> node.
-</div>
-
-<div>
-Simple! Smart!
-</div>
-
-<div>
-Good for: providing <em>fast global service</em>!
-</div>
-
-<div>
-Bad for: <em>compliance</em>!
-</div>
-
-<div>
-<i>#3: <em>Geolocation!</em></i>
-</div>
-
-<div>
-Route traffic based on <em>originating IP address</em>.
-</div>
-
-<div>
-🇺🇸USA -> us-east-1
-</div>
-
-<div>
-🇬🇧UK -> eu-west-1
-</div>
-
-<div>
-🇯🇵Japan -> ap-northeast-1
-</div>
-
-<div>
-<i>oooooooooooooo, tricky!</i>
-</div>
-
-<div>
-Good for: <em>compliance</em>
-</div>
-
-<div>
-Bad for: <em>load balancing</em>!
-</div>
-
-<div>
-<i>#4: <em>Round Robin!</em></i>
-</div>
-
-<div>
-Evenly distribute traffic amongst <em>all</em> servers.
-</div>
-
-<div>
-<em>Weight</em> different locations differently ("WRR")
-</div>
-
-<div>
-Good for: <em>balancing load</em>
-</div>
-
-<div>
-(use for "regional" deployments or resources within the same region)
-</div>
-
-<div>
-Bad for: <em>lowering latency</em>!
-</div>
-
-<div>
-<i>Bonus</i>: Use a <em>CDN</em>! (CF)
-</div>
-
-<div>
-Static pages only!
-</div>
-
-<div>
-<i>"Wow, fascinating! I've got some thinking to do!"</i>
-</div>
-
-<div>
-You sure do!
+<i><em>Geolocation!</em></i>
 </div>
 
 <div>
@@ -1722,7 +1666,6 @@ You sure do!
 Let me know what you decide!
 </div>
 
-
 <div>
 Aside: should this be a feature in Zappa? Would you find that useful?
 </div>
@@ -1732,31 +1675,7 @@ Aside: should this be a feature in Zappa? Would you find that useful?
 </div>
 
 <div>
-<i>Data!</i>
-</div>
-
-<div>
-At the end of the day, for a real application, you're <em>still going to need a database</em>.
-</div>
-
-<div>
-How can we build a database backed application that is..
-</div>
-
-<div>
-performant
-</div>
-
-<div>
-secure
-</div>
-
-<div>
-and compliant?
-</div>
-
-<div>
-Well, we're gonna need a few.
+<i>Databases!</i>
 </div>
 
 <div>
@@ -1777,54 +1696,6 @@ Reads: Fast! Local!
 
 <div>
 Writes: Slow! Remote!
-</div>
-
-<div>
-Primary: us-east-1
-</div>
-
-<div>
-Stores: User info, <em>aggregate and meta data</em>.
-</div>
-
-<div>
-Replicas: eu-west-1 (and everybody else)
-</div>
-
-<div>
-Stores: Replicated user info, anonymous data
-</div>
-
-<div>
-Fast logins! Fast dashboards!
-</div>
-
-<div>
-Local: eu-west-1 (and everybody else)
-</div>
-
-<div>
-Stores: Encrypted medical data
-</div>
-
-<div>
-We can do this on a <em>per-table</em> basis!
-</div>
-
-<div>
-User-ID <em>writes</em>: primary
-</div>
-
-<div>
-User-ID <em>reads</em>: replica
-</div>
-
-<div>
-Medical-data <em>writes</em>: local
-</div>
-
-<div>
-Medical-data <em>reads</em>: local
 </div>
 
 <div>
@@ -1864,15 +1735,16 @@ class MedicalRouter(object):
     A router to control all database operations on models in the
     medical application.
     """
+    def db_for_write(self, model, **hints):
+        if model._meta.app_label == 'medical':
+            return 'medical_db'
+        return None
+
     def db_for_read(self, model, **hints):
         if model._meta.app_label == 'medical':
             return 'medical_db'
         return None
 
-    def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'medical':
-            return 'medical_db'
-        return None
 </pre>
 </div>
 
@@ -1886,16 +1758,13 @@ DATABASE_ROUTERS = [
 </div>
 
 <div>
-*<em>warning</em>!*
+Fast local <em>reads</em>!
 </div>
 
 <div>
-snapshot copy <em>!=</em> replicas
+Slow global <em>writes</em>!
 </div>
 
-<div>
-Read-Replica pretty much only works with AWS MySQL/PG/Aurora!
-</div>
 
 <!-- <div>
 *<em>warning</em>!*
@@ -1939,7 +1808,7 @@ Use ~<em>as many</em> "as possible".
 Maybe even have per-region accounts and handle credentials in CI
 </div> -->
 
-<div>
+<!-- <div>
 Even better:
 </div>
 
@@ -1959,13 +1828,7 @@ ex: data processing pipelines, encrypted information in S3 (<em>cross-region rep
 depends on traffic / load / product requirements
 </div>
 
-<div>
-ex: <em>zappa-bittorrent-tracker</em> can serve millions of peers with S3-database
-</div>
 
-<div>
-see: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
-</div>
 
 <div>
 But remember to
@@ -1977,7 +1840,7 @@ Log! Log! Log! Log!
 
 <div>
 (and make sure you know how to read them <em>before</em> something goes wrong)
-</div>
+</div> -->
 
 <div>
 In conclusion: save <em>time</em> and <em>money</em>,
@@ -2000,7 +1863,19 @@ Want to <em>contribute</em>? 😃
 </div>
 
 <div>
-Over 100+ contributors from 6 continents!
+<em>100+</em> contributors,
+</div>
+
+<div>
+<img src="http://i.imgur.com/ORnWlLv.png">
+</div>
+
+<div>
+<em>6</em> continents!
+</div>
+
+<div>
+🐧
 </div>
 
 <div>
@@ -2012,11 +1887,8 @@ Use Zappa!
 </div>
 
 <div>
-Python 3.6 packaging and testing!
-</div>
-
-<div>
-Windows maintainer!
+Join the Slack!
+https://slack.zappa.io
 </div>
 
 <div>
@@ -2028,7 +1900,15 @@ Pull request triage!
 </div>
 
 <div>
-Documentation!
+Python 3.6 packaging and testing!
+</div>
+
+<div>
+Windows maintainer!
+</div>
+
+<div>
+Docs!
 </div>
 
 <div>
@@ -2036,11 +1916,13 @@ Tutorials!
 </div>
 
 <div>
-Support for non-AWS backends!
+Support for <em>non-AWS</em> vendors!
 </div>
 
 <div>
-Special thanks!
+  <pre>
+  shoutz
+  </pre>
 </div>
 
 <div>
@@ -2091,16 +1973,24 @@ Special Thanks:
     @geeknam
   </li>
   <li>
+    @brian
+  </li>
+  <li>
     MANY, MANY others!
   </li>
 </div>
 
 <div>
-Do you need awesome, scalable, server-less apps?
+Do you need <em>awesome</em>, <em>scalable</em>, <em>server-less</em> apps?
 </div>
 
 <div>
 Hire me! 💸💸💸
+</div>
+
+<div>
+<em>Email</em>:
+rich@gun.io
 </div>
 
 <div>
@@ -2111,36 +2001,17 @@ https://github.com/Miserlou/Zappa
 
 <div>
 <em>Slack</em>:
-http://slack.zappa.io
+https://slack.zappa.io
 </em>
 </div>
 
 <div>
 <em>Thank you</em>!
-
-@GUNdotIO
-https://gun.io
 </div>
 
 <div>
 Questions?
 </div>
-
-<!-- <div>
-Bonus!
-</div>
-
-<div>
-Microservice.. in a <em>tweet</em>!
-</div>
-
-<div>
-<i>Hello Microservice</i>
-</div>
-
-<div>
-echo "<em>from flask import Flask\na=Flask();@a.route(‘/‘)\ndef x(): return Hi!\!’</em>”>a.py;echo '{"x":{"app_function": "a.a"}}'>s; <em>z</em> deploy -s s
-</div> -->
 
 </body>
 </html>
