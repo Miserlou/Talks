@@ -465,12 +465,12 @@ Use C-Extensions via <em>lambda-packages</em>!
     <li>PyNaCl</li>
     <li>cryptography</li>
     <li>cffi</li>
-    <li>...</li>
+    <li>...+ hundreds more!</li>
 </div>
 
-<div>
+<!-- <div>
 Use >50MB packages!
-</div>
+</div> -->
 
 <div>
 Load <em>remote environment variables</em> from S3!
@@ -586,11 +586,15 @@ Works with any <em>WSGI</em> application!
 </div>
 
 <div>
-Flask!
+Django!
 </div>
 
 <div>
-Django!
+(Wagtail! django-cms! Pinax!)
+</div>
+
+<div>
+Flask!
 </div>
 
 <div>
@@ -599,6 +603,10 @@ Pyramid!
 
 <div>
 Bottle!
+</div>
+
+<div>
+Hug!
 </div>
 
 <div>
@@ -824,7 +832,7 @@ Django Gotcha #3:
 </div>
 
 <div>
-<em>Databases!</em>
+<em>Database</em>!
 </div>
 
 <div>
@@ -836,11 +844,11 @@ This is tricky!
 </div>
 
 <div>
-Do we <em>need</em> a database?
+Do you <em>need</em> a database?
 </div>
 
 <div>
-Think <em>serverlessly!</em>
+Think <em>serverlessly</em>!
 </div>
 
 <div>
@@ -849,6 +857,31 @@ Avoid <em>infrastructure</em>!
 
 <div>
 ex: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
+</div>
+
+<div>
+<pre>$ pip install nodb</pre>
+</div>
+
+<div>
+<pre>
+from nodb import NoDB
+
+nodb = NoDB()
+nodb.bucket = "my-s3-bucket"
+nodb.index = "name"
+
+# Save an object!
+user = {"name": "Jeff", "age": 19}
+nodb.save(user) # True
+
+# Load our object!
+user = nodb.load("Jeff")
+print user.age # 19
+
+# Delete our object
+nodb.delete("Jeff") # True
+</pre>
 </div>
 
 <div>
@@ -932,11 +965,19 @@ One VPC,
 </div>
 
 <div>
-two subnets (for redudunancy),
+two private subnets (for redudunancy),
 </div>
 
 <div>
 allow internal TCP traffic on port <em>5432</em>!
+</div>
+
+<div>
+(+2 more public subnets +1 NAT Gateway to access 3rd party APIs)
+</div>
+
+<div>
+  <img src="http://i.imgur.com/BP0usSC.png">
 </div>
 
 <div>
@@ -999,6 +1040,10 @@ DATABASES = {
 </div>
 
 <div>
+We can't access the database directly from our dev machines!
+</div>
+
+<div>
 Create a new management command!
 </div>
 
@@ -1058,7 +1103,7 @@ class Command(BaseCommand):
 </div>
 
 <div>
-Database created from Lambda!
+Database created <em>from Lambda</em>!
 </div>
 
 <div>
@@ -1091,7 +1136,11 @@ $ zappa invoke --raw \
 </div>
 
 <div>
-Hooray!
+<i>Hooray!</i>
+</div>
+
+<div>
+🎉🐘🎉🐘🎉🐘🎉🐘
 </div>
 
 <div>
@@ -1152,7 +1201,7 @@ This is the fun part!
 </div>
 
 <div>
-Execute code in response to AWS ecosystem events!
+Execute code in response to AWS ecosystem <em>events</em>!
 </div>
 
 <div>
@@ -1232,10 +1281,19 @@ Send daily notifications to your Slack channel!
 </div>
 
 <div>
-  <img src="http://i.imgur.com/WDt1gyL.png">
+<img src="http://i.imgur.com/WDt1gyL.png">
 </div>
 
 <div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: my_app.util.send_notifications
+  expression: <em>rate(24 hours)</em>
+</pre>
+</div>
+
+<!-- <div>
 <pre>
 {
   "dev": {
@@ -1248,18 +1306,23 @@ Send daily notifications to your Slack channel!
   }
 }
 </pre>
-</div>
+</div> -->
 
 <div>
 <pre> $ zappa schedule </pre>
 </div>
 
 <div>
-<img src="http://i.imgur.com/HmiGJW9.png">
+<img src="http://i.imgur.com/HmiGJW9.png" style="width: 200%">
 </div>
 
 <div>
 Hooray!
+</div>
+
+<div>
+🎉<img src="https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/96/robot-face_1f916.png" style="width: 25%"> 🎉
+🎉<img src="https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/96/robot-face_1f916.png" style="width: 25%"> 🎉
 </div>
 
 <div>
@@ -1293,7 +1356,7 @@ Multiple schedules!
 </div>
 
 <div>
-Zappa can execute functions asynchronously in a different Lambda!
+Zappa can execute functions <em>asynchronously</em> in a <em>different</em> Lambda!
 </div>
 
 <div>
@@ -1330,7 +1393,7 @@ def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span
 <span class="grey"># url('api/order/cake')</span>
 def order_cake(<span class="grey">request</span>):
     <em>bake_cake()</em>
-    return "Your cake is being made!"
+    return HttpResponse("Your cake is being made!")
 </pre>
 </div>
 
@@ -1367,7 +1430,19 @@ Go nuts!
 </div>
 
 <div>
-<i>"That sounds cool! But why?"</i>
+<i>"That sounds cool! But why do I want that?"</i>
+</div>
+
+<div>
+You might not need this..
+</div>
+
+<div>
+..but it's cool to know you can do it.
+</div>
+
+<div>
+Benefits of global deployments:
 </div>
 
 <div>
@@ -1651,11 +1726,19 @@ Multiple strategies for "<em>routing policy</em>"
 </div>
 
 <div>
-<i><em>Latency</em></i>
+<em>Latency</em>!
 </div>
 
 <div>
-<i><em>Geolocation!</em></i>
+"Use the fastest region"
+</div>
+
+<div>
+<em>Geolocation</em>!
+</div>
+
+<div>
+"Choose the region based on the country of origin"
 </div>
 
 <div>
@@ -1765,6 +1848,9 @@ Fast local <em>reads</em>!
 Slow global <em>writes</em>!
 </div>
 
+<div>
+Tip: Use <em>AJAX</em> for writes!
+</div>
 
 <!-- <div>
 *<em>warning</em>!*
@@ -1843,11 +1929,23 @@ Log! Log! Log! Log!
 </div> -->
 
 <div>
-In conclusion: save <em>time</em> and <em>money</em>,
+In conclusion!
+</div>
+
+</div>
+Save <em>time</em> and <em>money</em>,
 </div>
 
 <div>
-build awesome <em>global</em>, <em>event-driven</em> applications,
+build awesome <em>event-driven</em> applications,
+</div>
+
+<div>
+never have <em>downtime</em>,
+</div>
+
+<div>
+be <em>fast</em> everywhere,
 </div>
 
 <div>
@@ -1867,7 +1965,7 @@ Want to <em>contribute</em>? 😃
 </div>
 
 <div>
-<img src="http://i.imgur.com/ORnWlLv.png">
+<img src="http://i.imgur.com/Mgpkgpa.png" style="width: 1000%">
 </div>
 
 <div>
@@ -1879,7 +1977,7 @@ Want to <em>contribute</em>? 😃
 </div>
 
 <div>
-Ways you can help:
+Ways <em>you</em> can help:
 </div>
 
 <div>
@@ -1892,7 +1990,11 @@ https://slack.zappa.io
 </div>
 
 <div>
-Bugfixing!
+Report bugs!
+</div>
+
+<div>
+Fix bugs!
 </div>
 
 <div>
@@ -1917,6 +2019,10 @@ Tutorials!
 
 <div>
 Support for <em>non-AWS</em> vendors!
+</div>
+
+<div>
+Work on a library of <em>common functions</em>!
 </div>
 
 <div>
@@ -1952,6 +2058,9 @@ Special Thanks:
     @edgarroman
   </li>
   <li>
+    @brianjinwright
+  </li>
+  <li>
     @mcrowson
   </li>
   <li>
@@ -1972,9 +2081,7 @@ Special Thanks:
   <li>
     @geeknam
   </li>
-  <li>
-    @brian
-  </li>
+
   <li>
     MANY, MANY others!
   </li>
