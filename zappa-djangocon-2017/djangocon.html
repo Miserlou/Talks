@@ -865,21 +865,21 @@ ex: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
 
 <div>
 <pre>
-from nodb import NoDB
+from <em>nodb</em> import <em>NoDB</em>
 
 nodb = NoDB()
 nodb.bucket = "my-s3-bucket"
 nodb.index = "name"
 
-# Save an object!
+<span class="grey"># Save an object!</span>
 user = {"name": "Jeff", "age": 19}
-nodb.save(user) # True
+<em>nodb.save(user)</em>
 
-# Load our object!
-user = nodb.load("Jeff")
+<span class="grey"># Load our object!</span>
+<em>user = nodb.load("Jeff")</em>
 print user.age # 19
 
-# Delete our object
+<span class="grey"># Delete our object</span>
 nodb.delete("Jeff") # True
 </pre>
 </div>
@@ -1932,7 +1932,7 @@ Log! Log! Log! Log!
 In conclusion!
 </div>
 
-</div>
+<div>
 Save <em>time</em> and <em>money</em>,
 </div>
 
