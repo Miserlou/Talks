@@ -178,7 +178,7 @@ My name is <em>Rich Jones</em>!
 </div>
 
 <div>
-Founder/CTO of <em>gun.io</em>!
+Founder of <em>gun.io</em>!
 </div>
 
 <div>
@@ -864,7 +864,7 @@ aka
 </div>
 
 <div>
-<i>"How the hell are we going to weaponize all that?"</i>
+<i>"How are we going to weaponize all that?"</i>
 </div>
 
 <div>
@@ -876,7 +876,7 @@ aka
 </div>
 
 <div>
-Dropping a bolt into the engine and listening to the sound
+Drop a bolt into the engine, listen to the sound!
 </div>
 
 <div>
@@ -884,7 +884,7 @@ Dropping a bolt into the engine and listening to the sound
 </div>
 
 <div>
-Attack the glue, fire off every service call we can, see what shakes out.
+Attack the points of exchange, fire off every service call we can, see what shakes out!
 </div>
 
 <div>
@@ -1039,7 +1039,7 @@ Select goodies include: <em>python 2.7</em>, <em>python 3.4</em>, <em>node</em>,
 Decent!
 </div>
 
-<div>
+<!-- <div>
 <pre>$ uname -a</pre>
 </div>
 
@@ -1056,7 +1056,7 @@ Decent!
     output = popen.stdout.read()
     return output
   </pre>
-</div>
+</div> -->
 
 <div>
   <pre>
@@ -1806,7 +1806,7 @@ Just `return` through the API Gateway!
 </div> -->
 
 <div>
-A real world example
+A real world example:
 </div>
 
 <div>
@@ -1819,19 +1819,27 @@ A real world example
 </div>
 
 <div>
-API -> ??? -> Generate PDF -> Upload to S3
+<img src="http://i.imgur.com/TGgqOLf.png">
 </div>
 
 <div>
-API -> <em>???</em> -> Generate PDF -> Upload to S3
+fcc.gov API -> ??? -> Generate PDF -> Upload to S3
 </div>
 
 <div>
+fcc.gov API -> <em>???</em> -> Generate PDF -> Upload to S3
+</div>
+
+<!-- <div>
 *language warning*
+</div> -->
+
+<div>
+  <img src="http://i.imgur.com/BGQdOE0.png">
 </div>
 
 <div>
-<img src="http://i.imgur.com/BGQdOE0.png">
+  <img src="http://i.imgur.com/g1TvEg6.png">
 </div>
 
 <div>
@@ -2323,10 +2331,14 @@ Be creative!
 </div>
 
 <div>
-There are TONS of AWS services to try!
+Every cloud service is a threat to the others!
 </div>
 
 <div>
+There are TONS of services to try!
+</div>
+
+<!-- <div>
 A <em>single overlapping permission</em> can be enough for data exfiltration!
 </div>
 
@@ -2340,7 +2352,7 @@ For instance: SQS Queue Length to encode an octal value
 
 <div>
 Number of ENIs attached, size of a DynamoDB table, etc.
-</div>
+</div> -->
 
 <div>
 <i>"Cool!.. But what if they fix the bug?"</i>
@@ -2392,11 +2404,30 @@ Rollbacks!
 </div>
 
 <div>
+<pre>
+$ zappa rollback -n 2
+</pre>
+</div>
+
+<div>
 Dev/Prod separation!
 </div>
 
 <div>
+<pre>
+$ zappa update dev
+$ zappa deploy prod
+</pre>
+</div>
+
+<div>
 Auditing!
+</div>
+
+<div>
+<pre>
+$ zappa tail
+</pre>
 </div>
 
 <div>
@@ -2405,6 +2436,7 @@ Persisting <em>malware</em>! :D
 
 <div>
 <pre>
+<span class="grey"># Get the current function</span>
 function = \
   lambda_client.get_function(
     FunctionName='function:{}:{}'.format(
@@ -2417,12 +2449,14 @@ function = \
 
 <div>
 <pre>
+<span class="grey"># Get the code</span>
 function_code = requests.get(function['Code']['Location'])
 </pre>
 </div>
 
 <div>
 <pre>
+<span class="grey"># Install our backdoor</span>
 lambda_client.update_function_code(
   FunctionName=function_name,
   ZipFile=<em>our_backdoored_package</em>,
@@ -2433,12 +2467,13 @@ lambda_client.update_function_code(
 
 <div>
 <pre>
+<span class="grey"># Alias the backdoor/infector to $1</span>
 lambda_client.create_alias(
     FunctionName=function_name,
     Name='1',
     FunctionVersion=latest_function,
     Description=description
-) <span class="grey"># don't forget to rollback after</span>
+)
 </pre>
 </div>
 
@@ -2584,7 +2619,7 @@ I am not very tidy.
 Be warned.
 </div>
 
-<div>
+<!-- <div>
 Okay:
 </div>
 
@@ -2658,7 +2693,7 @@ Doesn't work. :(
 
 <div>
 But..
-</div>
+</div> -->
 
 <div>
 Retention policy!
@@ -2711,7 +2746,7 @@ Don't log anything to begin with!
 </div>
 
 <div>
-If exhaust the memory of the function,
+If you exhaust the memory of the function,
 </div>
 
 <div>
@@ -2752,6 +2787,10 @@ Will reveal your attack :(
 
 <div>
 Flip side:
+</div>
+
+<div>
+That means they're also logging all of their user's passwords!
 </div>
 
 <div>
@@ -2865,15 +2904,19 @@ the more malware will span <em>platforms</em>, <em>services</em> and <em>connect
 </div>
 
 <div>
-The distant future..
+What will malware look like in the <em>distant future</em>?
 </div>
 
 <div>
-Beyond server-less..
+Beyond "server-less"..
 </div>
 
 <div>
 ..computer-less!
+</div>
+
+<div>
+<img src="http://i.imgur.com/W3QyWrN.png">
 </div>
 
 <!-- http://spth.virii.lu/v4/codes/spth/InfDNA.txt -->
@@ -2887,13 +2930,11 @@ Beyond server-less..
 </div>
 
 <div>
-<img src="http://i.imgur.com/W3QyWrN.png">
+"A virus that makes the step from the <em>digital to the biological world</em>."
 </div>
 
 <div>
-<pre>
-This is the implementation of a virus that makes the step from the <em>digital to the biological world</em>.
-</pre>
+Infect bio-printer -> Infect DNA -> Exploit DNA-scanner -> Infect bio-printer!
 </div>
 
 <div>
@@ -2920,6 +2961,11 @@ Server-less architectures present new <em>obstacles</em>,
 <div>
 but we can defeat those obstacles by <em>abusing cloud features</em> themselves.
 </div> -->
+
+<div>
+<img src="http://i.imgur.com/gPX9hps.gif">
+</div>
+
 
 <div>
 You need secure server-less apps?
