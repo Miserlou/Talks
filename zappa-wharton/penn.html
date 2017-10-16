@@ -1,0 +1,1484 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<!---
+
+PENN TALK
+
+"Zappa and the Future of Server-less Computing"
+
+-->
+
+<div>
+Hello!
+</div>
+
+<div>
+Thank you for having me!
+</div>
+
+<div>
+This talk is going to move <em>fast</em>!
+</div>
+
+<div>
+Better to be <em>overwhelmed</em> than bored!
+</div>
+
+<div>
+Feel free to <em>interrupt</em>!
+</div>
+
+<div>
+Welcome to..
+</div>
+
+<div>
+Thinking Serverlessly with <em>Zappa</em>
+</div>
+
+<div>
+My name is <em>Rich Jones</em>!
+</div>
+
+<div>
+Founder of <em>gun.io</em>!
+</div>
+
+<div>
+<img src="http://i.imgur.com/UmYyAla.png">
+</div>
+
+<div>
+Exceptionally quality remote freelance dev teams!
+</div>
+
+<div>
+Consultant/architect for medical AI company in Silicon Valley, Australian government, lots of others
+</div>
+
+<div>
+Author of
+</div>
+
+<div>
+(shameless plug alert)
+</div>
+
+<div>
+<pre>
+
+<em>
+███████╗ █████╗ ██████╗ ██████╗  █████╗
+╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+  ███╔╝ ███████║██████╔╝██████╔╝███████║
+ ███╔╝  ██╔══██║██╔═══╝ ██╔═══╝ ██╔══██║
+███████╗██║  ██║██║     ██║     ██║  ██║
+╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝  ╚═╝
+</em>
+</pre>
+</div>
+
+<div>
+The <em>best damn</em> server-less framework in the world!
+</div>
+
+<div>
+Run <em>any Python web application</em> on AWS Lambda,
+</div>
+
+<div>
+build <em>event-driven</em> applications,
+</div>
+
+<div>
+scale to ~<em>500,000</em> connections <em>per second</em> globally,
+</div>
+
+<div>
+no <em>load-balancing</em>,
+</div>
+
+<div>
+no <em>security patches</em>,
+</div>
+
+<div>
+no <em>downtime</em>,
+</div>
+
+<div>
+at a <em>fraction</em> of the traditional cost!
+</div>
+
+<div>
+(fire your ops team)
+</div>
+
+
+<!-- <div>
+<i>aka</i>
+</div>
+ -->
+<!-- <div>
+Let's stick it to Jeff Bezos!
+</div>
+
+<div>
+<img src="http://b-i.forbesimg.com/thumbnails/blog_2535/pt_2535_3643_o.jpg?t=1378469756" style="width: 300%">
+</div> -->
+
+<div>
+<i>"What does <em>serverless</em> mean?!"</i>
+</div>
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+<i>aka</i>: "<em>no permanent infrastructure</em>"
+</div>
+
+<div>
+There still <i>are</i> servers, but they are <em>ephemeral</em>
+</div>
+
+<div>
+<!-- tshirt -->
+<img src="https://i.imgur.com/yr4Ps7E.jpg">
+</div>
+
+<div>
+Traditional web server:
+</div>
+
+<div>
+<img src="http://i.imgur.com/ErMScvt.png">
+</div>
+
+<div>
+<ul>
+  <li>Web server (Apache/NX) listens for request</li>
+  <li>Converts to WSGI "environ"</li>
+  <li>Sends to WSGI server (Gunicorn)</li>
+  <li>Django processes the request</li>
+  <li>Web server returns it to the client</li>
+  <li>Web server goes back to listening</li>
+</ul>
+</div>
+
+<div>
+Zappa:
+</div>
+
+<div>
+<img src="http://i.imgur.com/2ItfsNN.png">
+<!-- zappa -->
+</div>
+
+<div>
+<ul>
+  <li>Request comes into API Gateway</li>
+  <li>API request mapped to dict with VTL</li>
+  <li>"Server" is <em>created</em></li>
+  <li>"Server" converts dict to WSGI, feeds WSGI to Django</li>
+  <li>Returns response to API Gateway</li>
+  <li>"Server" is <em>destroyed</em></li>
+  <li>API Gateway returns response to client</li>
+</ul>
+</div>
+
+<div>
+~30ms!
+</div>
+
+<div>
+By the time the user sees the page, the server has <em>disappeared</em>.
+</div>
+
+<div>
+ॐ
+</div>
+
+<div>
+Advantages!
+</div>
+
+<div>
+Super <em>scalable</em>!
+</div>
+
+<div>
+1 request = 1 server
+</div>
+
+<div>
+10 request = 10 server
+</div>
+
+<div>
+100 requests = 100 servers
+</div>
+
+<div>
+1000 requests = 1000 servers
+</div>
+
+<div>
+10000 requests = 10000 servers
+</div>
+
+<div>
+100000 requests = 100000 servers
+</div>
+
+<div>
+<em>Trillions</em> of events/year!
+</div>
+
+<div>
+Orders of magnitude <em>less expensive</em>!
+</div>
+
+<div>
+$0.000000002<em>/ms</em>
+</div>
+
+<div>
+Plus 3,200,000 <em>free</em> seconds!
+</div>
+
+<div>
+VPS: 4 * $20 * 12 = <em>$960/yr</em>
+</div>
+
+<div>
+Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
+</div>
+
+<div>
+<i>"Cool! What else can it do?"</i>
+</div>
+
+<div>
+<em>Event-driven</em> architecture!
+</div>
+
+<div>
+Code executes in response to <em>events</em>
+</div>
+
+<div>
+(Email, SMS, File, DB, Account, Queues, Streams)
+</div>
+
+<div>
+<i>"Neat! But I want more features!"</i>
+</div>
+
+<div>
+You're in luck!
+</div>
+
+<div>
+Avoid AWS Lambda <em>size limits</em>
+</div>
+
+<div>
+<pre>
+"slim_handler": true
+</pre>
+</div>
+
+<div>
+<em>Free</em> SSL certificates!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
+Log tailing!
+</div>
+
+<div>
+<pre>
+$ zappa tail
+</pre>
+</div>
+
+<div>
+Auto <em>keep-warm</em>!
+</div>
+
+<div>
+Use C-Extensions via <em>lambda-packages</em>!
+</div>
+
+<div>
+  <ul>
+    <li>MySQL-Python</li>
+    <li>numpy</li>
+    <li>OpenCV</li>
+    <li>psycopg2</li>
+    <li>Pillow (PIL)</li>
+    <li>LXML</li>
+    <li>PyCrypto</li>
+    <li>PyNaCl</li>
+    <li>cryptography</li>
+    <li>cffi</li>
+    <li>...+ hundreds more!</li>
+</div>
+
+<!-- <div>
+Use >50MB packages!
+</div> -->
+
+<div>
+Load <em>remote environment variables</em> from S3!
+</div>
+
+<div>
+<pre>
+<span class="grey">// my-config-bucket/super-secret-config.json</span>
+{
+    "<em>DB_CONNECTION_STRING</em>": "super-secret:database"
+}
+</pre>
+
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+"remote_env_bucket": "my-config-bucket",
+"remote_env_file": "super-secret-config.json"
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># your_zappa_app.py</span>
+import os
+db_string = os.environ('<em>DB_CONNECTION_STRING</em>')
+</pre>
+</div>
+
+<div>
+CI/CD <em>integration</em>!
+</div>
+
+<div>
+<pre>
+$ zappa status dev --json
+</pre>
+</div>
+
+<div>
+Remote command <em>invocation</em>!
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'my_app.my_func'
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'print hello.upper()' --raw
+</pre>
+</div>
+
+<div>
+<em>Django</em> management commands!
+</div>
+
+<div>
+<pre>
+$ zappa manage makemigrations
+</pre>
+</div>
+
+<div>
+Secure deployments!
+</div>
+
+<div>
+<pre>
+"api_key_required": true
+</pre>
+</div>
+
+<div>
+<pre>
+"iam_authorization": true
+</pre>
+</div>
+
+<div>
+<pre>
+"authorizer": {
+    "function": "your_module.your_auth_function",
+    "result_ttl": 300,
+    "token_source": "Authorization",
+    "validation_expression": "^Bearer \\w+$",
+}
+</pre>
+</div>
+
+<div>
+Visualize system architecture
+</div>
+
+<div>
+<img src="https://i.imgur.com/TOaOHF5.png">
+</div>
+
+<div>
+Don't need to modify your existing apps!
+</div>
+
+<div>
+No vendor lock-in!
+</div>
+
+<div>
+Battle tested!
+</div>
+
+<div>
+Used in production by <em>banks</em>, <em>governments</em>, <em>medical</em> companies and more!
+</div>
+
+<div>
+Works with any <em>WSGI</em> application!
+</div>
+
+<div>
+Django!
+</div>
+
+<div>
+Flask!
+</div>
+
+<div>
+Hug!
+</div>
+
+<div>
+<img src="http://i.imgur.com/W2Ndw3l.png">
+</div>
+
+<div>
+<img src="http://i.imgur.com/BNmJV5w.png">
+</div>
+
+<div>
+<i>"Wow! Okay! How do I get started!"</i>
+</div>
+
+<div>
+It's super easy!
+</div>
+
+<div>
+<pre>$ pip install zappa</pre>
+</div>
+
+<div>
+<pre>$ zappa init</pre>
+</div>
+
+<div>
+<pre>
+
+<em>
+███████╗ █████╗ ██████╗ ██████╗  █████╗
+╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+  ███╔╝ ███████║██████╔╝██████╔╝███████║
+ ███╔╝  ██╔══██║██╔═══╝ ██╔═══╝ ██╔══██║
+███████╗██║  ██║██║     ██║     ██║  ██║
+╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝  ╚═╝
+</em>
+
+Welcome to Zappa!
+
+Zappa is a system for running server-less Python web applications on AWS Lambda and AWS API Gateway.
+This `init` command will help you create and configure your new Zappa deployment.
+Let's get started!
+
+Your Zappa configuration can support multiple production environments, like 'dev', 'staging', and 'production'.
+What do you want to call this environment (default 'dev'):
+</pre>
+</div>
+
+<div>
+  <pre>
+  {
+      "dev": {
+          "aws_region": "us-east-1",
+          "django_settings": "my_app.app",
+          "profile_name": "default",
+          "s3_bucket": "my-demo-bucket"
+      }
+  }
+  </pre>
+</div>
+
+<div>
+<pre>$ zappa deploy</pre>
+</div>
+
+<div>
+<ul>
+  <li>
+    Smoosh your project + venv into a package
+  </li>
+  <li>
+    Install Lambda-compatible dependancies
+  </li>
+  <li>
+    Install WSGI middleware
+  </li>
+  <li>
+    Create permission policies and buckets (if necessary)
+  </li>
+  <li>
+    Upload package to S3
+  </li>
+  <li>
+    Register + configure Lambda function
+  </li>
+  <li>
+    Register + configure API Gateway
+  </li>
+  <li>
+    Delete package from S3
+  </li>
+  <li>
+    Create "keep-warm" event
+  </li>
+</div>
+
+<div>
+<pre>
+Calling deploy for stage dev..
+Downloading and installing dependencies..
+Packaging project as zip..
+Uploading demo1-dev-1502298757.zip (11.1MiB)..
+Scheduling..
+Scheduled demo1-dev-zappa-keep-warm-handler.keep_warm_callback with expression rate(4 minutes)!
+Uploading demo1-dev-template-1502298785.json (1.6KiB)..
+Waiting for stack demo1-dev to create (this can take a bit)..
+Deploying API Gateway..
+<em>Deployment complete!</em>: https://8x24a8pmn7.execute-api.us-east-1.amazonaws.com/dev
+</pre>
+</div>
+
+<div>
+BAM!
+</div>
+
+<div>
+You're server-less!
+</div>
+
+<div>
+🐘
+</div>
+
+<div>
+<em>Database</em>!
+</div>
+
+<div>
+<i>*uh-oh*</i>
+</div>
+
+<div>
+This is tricky!
+</div>
+
+<div>
+Do you <em>need</em> a database?
+</div>
+
+<div>
+Think <em>serverlessly</em>!
+</div>
+
+<div>
+(Use ephemeral cloud services)
+</div>
+
+<div>
+Replace databases with <em>static files</em>!
+</div>
+
+<div>
+Replace tables with <em>queues</em>!
+</div>
+
+<div>
+Replace polling with <em>events</em>!
+</div>
+
+<div>
+Avoid <em>infrastructure</em>!
+</div>
+
+<div>
+ex: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
+</div>
+
+<div>
+<pre>$ pip install nodb</pre>
+</div>
+
+<div>
+<pre>
+from <em>nodb</em> import <em>NoDB</em>
+
+nodb = NoDB()
+nodb.bucket = "my-s3-bucket"
+nodb.index = "name"
+
+<span class="grey"># Save an object!</span>
+user = {"name": "Jeff", "age": 19}
+<em>nodb.save(user)</em>
+
+<span class="grey"># Load our object!</span>
+<em>user = nodb.load("Jeff")</em>
+print user.age # 19
+
+<span class="grey"># Delete our object</span>
+nodb.delete("Jeff") # True
+</pre>
+</div>
+
+<div>
+ex: <em>zappa-bittorrent-tracker</em> can serve millions of peers with S3-database
+</div>
+
+<div>
+🔨
+</div>
+
+<div>
+<em>Event-driven</em> architecture!
+</div>
+
+<div>
+This is the fun part!
+</div>
+
+<div>
+Execute code in response to AWS ecosystem <em>events</em>!
+</div>
+
+<div>
+(Files, Emails, Users, Database events, SMS, Streams, Logs, AI, etc.)
+</div>
+
+<div>
+Example 1: <em>Avatar resizing</em>
+</div>
+
+<div>
+User uploads an image, we make a thumbnail
+</div>
+
+<div>
+HTTP -> S3 -> Lambda -> S3
+</div>
+
+<div>
+  <img src="http://i.imgur.com/j4rirEL.png">
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: <em>users.util.process_avatar</em>
+  event_source:
+    arn: arn:aws:s3:::your-upload-bucket
+    events:
+    - <em>s3:ObjectCreated:*</em>
+</pre>
+</div>
+
+<div>
+<pre> $ zappa schedule </pre>
+</div>
+
+<div>
+That's it! :D
+</div>
+
+<div>
+  <i>*pro tip!*</i>
+</div>
+
+<div>
+Make sure you don't get stuck in an infinite loop!
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: users.util.process_avatar
+  event_source:
+    arn: arn:aws:s3:::your-upload-bucket
+    events:
+    - s3:ObjectCreated:<em>/uploads/*</em>
+</pre>
+</div>
+
+<div>
+Example 2: <em>Daily notifications</em>
+</div>
+
+<div>
+<em>Time</em> is an event source!
+</div>
+
+<div>
+Send daily notifications to your Slack channel!
+</div>
+
+<div>
+<img src="http://i.imgur.com/WDt1gyL.png">
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: my_app.util.send_notifications
+  expression: <em>rate(24 hours)</em>
+</pre>
+</div>
+
+<!-- <div>
+<pre>
+{
+  "dev": {
+     ...
+     "events": [{
+         "function": "my_app.utils.send_notifications",
+         "expression": <em>"rate(24 hours)"</em>
+     }],
+     ...
+  }
+}
+</pre>
+</div> -->
+
+<div>
+<pre> $ zappa schedule </pre>
+</div>
+
+<div>
+<img src="http://i.imgur.com/HmiGJW9.png" style="width: 200%">
+</div>
+
+<div>
+Hooray!
+</div>
+
+<div>
+🎉<img src="https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/96/robot-face_1f916.png" style="width: 25%"> 🎉
+🎉<img src="https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/96/robot-face_1f916.png" style="width: 25%"> 🎉
+</div>
+
+<div>
+We can use <em>cron</em> and <em>rate</em> syntax!
+</div>
+
+<div>
+Multiple schedules!
+</div>
+
+<div>
+<pre>
+{
+  "dev": {
+     ...
+     "events": [{
+         "function": "my_app.utils.calc_status",
+         "expressions": [<em>
+            "cron(0 20-23 ? * SUN-THU *)",
+            "cron(0 0-8 ? * MON-FRI *)"</em>
+          ]
+     }],
+     ...
+  }
+}
+</pre>
+</div>
+
+<div>
+<i>"Sweet! But what if I don't want to wait for an event?</i>
+</div>
+
+<div>
+Zappa can execute functions <em>asynchronously</em> in a <em>different</em> Lambda!
+</div>
+
+<div>
+Example 3: Let's bake a cake!
+</div>
+
+<div>
+🍰
+</div>
+
+<div>
+<pre>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+from <em>zappa.async</em> import <em>task</em>
+
+<em>@task</em>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># url('api/order/cake')</span>
+def order_cake(<span class="grey">request</span>):
+    <em>bake_cake()</em>
+    return HttpResponse("Your cake is being made!")
+</pre>
+</div>
+
+<div>
+API returns instantly, cake delivery happens asynchronously.
+</div>
+
+<div>
+It's that easy!
+</div>
+
+<div>
+No config!
+</div>
+
+<div>
+No queues!
+</div>
+
+<div>
+No Celery!
+</div>
+
+<div>
+Go nuts!
+</div>
+
+<div>
+🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰
+</div>
+
+<div>
+<i>"But what if I need to bake <em>mission-critical</em> cakes for the <em>whole planet</em>?"</i>
+</div>
+
+<div>
+<em>Globally-available</em> server-less architecture!
+</div>
+
+<div>
+One application, running all over the world
+</div>
+
+<div>
+<i>"That sounds cool! But why do I want that?"</i>
+</div>
+
+<div>
+<i>#1</i>: <em>Redunancy</em>!
+</div>
+
+<div>
+Cloud computing is an <em>act of faith</em>.
+</div>
+
+<div>
+Amazon goes down too!
+</div>
+
+<div>
+<i>*gasp*</i>
+</div>
+
+<div>
+<img src="http://i.imgur.com/vJYLaQA.png">
+</div>
+
+<div>
+Amazon goes down too..
+</div>
+
+<div>
+..but (usually) <em>not across the planet</em>.
+</div>
+
+<div>
+<i>Pro tip!</i>
+</div>
+
+<div>
+Don't host your status page <em>on your own infrastructure</em>!
+</div>
+
+<div>
+<img src="http://i.imgur.com/38nRhf4.png">
+</div>
+
+<div>
+<img src="http://i.imgur.com/76V8CEd.png" style="width: 1000%">
+</div>
+
+<div>
+<img src="http://i.imgur.com/CM42sF5.png">
+</div>
+
+<div>
+<i>fail</i>
+</div>
+
+<div>
+<i>#2</i>: <em>Speed</em>!
+</div>
+
+<div>
+<pre>
+$ ping apigateway.us-east-2.amazonaws.com <span class="grey"># Ohio</span>
+--- apigateway.us-east-2.amazonaws.com ping statistics ---
+round-trip min/avg/max/stddev = 35.274/<em>39.257</em>/42.731/2.499 ms
+</pre>
+</div>
+
+<div>
+<pre>
+$ ping apigateway.ap-northeast-1.amazonaws.com <span class="grey"># Tokyo</span>
+--- apigateway.ap-northeast-1.amazonaws.com ping statistics ---
+round-trip min/avg/max/stddev = 177.616/<em>202.745</em>/305.468/46.281 ms
+</pre>
+</div>
+
+<div>
+<em>&gt;200ms</em> just for the round trip!
+</div>
+
+<div>
+(Earth is big!)
+</div>
+
+<div>
+Please provide <em>non-US</em> users with equally great service!
+</div>
+
+<div>
+<i>#3</i>: <em>Scalability</em>!
+</div>
+
+<div>
+1 region: ~<em>5,000</em> simultaneous connections
+</div>
+
+<div>
+9 regions: ~<em>45,000</em> simultaneous connections!
+</div>
+
+<div>
+<em>1,420,092,000,000</em> hits/year!
+</div>
+
+<div>
+(Trillion! With a <i>t</i>!)
+</div>
+
+<div>
+Extremely useful for <em>big data</em> processing and <em>machine learning</em>!
+</div>
+
+<div>
+No clusters!
+</div>
+
+<div>
+0 servers -> <em>100,000</em> servers -> 0 servers
+</div>
+
+<div>
+..in 2 seconds!
+</div>
+
+<div>
+..with no ops!
+</div>
+
+<div>
+<i>#4</i>: <em>Security</em>!
+</div>
+
+<div>
+<em>Compartmentalize</em> data, <em>limit</em> damage.
+</div>
+
+<!-- <div>
+Combine <em>corporate policy</em>, <em>host security policy</em> (IAM), <em>virtual separation</em> and <em>physical separation</em>.
+</div>
+ -->
+<div>
+Defend against <em>internal</em> and <em>external</em> threats!
+</div>
+
+<div>
+Prevent <em>non-US</em> employees accessing <em>US data</em>, etc.
+</div>
+
+<div>
+<i>#5</i>: <em>Regulatory compliance</em>!
+</div>
+
+<div>
+Different <em>countries</em> have different <em>laws</em>.
+</div>
+
+<div>
+    Medical Data
+</div>
+
+<div>
+    Financial Data
+</div>
+
+<div>
+    Personally Identifying Information
+</div>
+
+<div>
+    Private Communications
+</div>
+
+<div>
+    Data Retention
+</div>
+
+<div>
+    Etcetera..
+</div>
+
+<div>
+(I'm not your lawyer. Thank goodness.)
+</div>
+
+<div>
+<em>One</em> product may have different compliance needs in <em>many</em> countries.
+</div>
+
+<div>
+<i>"Well, I'm convinced! How do we do it?"</i>
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+<pre>
+Do you want to make this a <em>global</em> application? Y
+</pre>
+</div>
+
+<div>
+<pre>
+{
+    "dev_ap_northeast_1": {
+        "app_function": "geocake.app",
+        "aws_region": "ap-northeast-1",
+        "domain": "dev-ap-northeast-1.geocake.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_1"
+    },
+    "dev_ap_northeast_2": {
+        "app_function": "geocake.app",
+        "aws_region": "ap-northeast-2",
+        "domain": "dev-ap-northeast-2.geocake.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_2"
+    },
+
+    [ ... ],
+
+    "dev_us_west_2": {
+        "app_function": "geocake.app",
+        "aws_region": "us-west-2",
+        "domain": "dev-us-west-2.geocake.biz",
+        "s3_bucket": "lmbda_dev_us_west_2"
+    }
+}
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa deploy --all
+$ zappa certify --all
+</pre>
+</div>
+
+<div>
+Bam!
+</div>
+
+<div>
+<pre>
+httpstat https://dev-ap-northeast-1.geocake.biz/
+httpstat https://dev-ap-northeast-2.geocake.biz/
+...
+httpstat https://dev-us-west-2.geocake.biz/
+</pre>
+</div>
+
+<div>
+<pre>
+  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
+[     5ms    |       8ms      |     50ms     |       42ms       |        0ms       ]
+             |                |               |                   |                  |
+    namelookup:5ms            |               |                   |                  |
+                        connect:13ms          |                   |                  |
+                                    pretransfer:75ms              |                  |
+                                                      starttransfer:198ms            |
+                                                                                 total:<em>198ms</em>
+</pre>
+</div>
+
+<!-- <div>
+<pre>
+import os
+this_region = os.environ.get('AWS_REGION')
+</pre>
+</div> -->
+
+<div>
+<em>Unlimited</em> cakes, from <em>anywhere on Earth</em>, in less than <em>200ms</em>
+</div>
+
+<div>
+Yay!
+</div>
+
+<div>
+So, what comes next for Zappa?
+</div>
+
+<div>
+  <pre>
+    <em>Top Secret</em> Zappa 2018 Open Source Roadmap
+  </pre>
+</div>
+
+<div>
+#1: <em>Multi-</em>cloud support!
+</div>
+
+<div>
+Apache OpenWhisk (IBM), M$ Azure, Google GCF
+</div>
+
+<div>
+#2: F/OSS <em>micro-app</em> library
+</div>
+
+<div>
+One-click installs for common web/comm./admin/ apps/bots
+</div>
+
+<div>
+Super powers for your organization!
+</div>
+
+<div>
+#3: "<em>Production</em>" mode
+</div>
+
+<div>
+Automatic production best-practices without sacrificing developer-friendliness
+</div>
+
+<div>
+And..
+</div>
+
+<div>
+<img src="https://standards.wharton.upenn.edu/wp-content/plugins/martech-chupacabra/includes/images/Wharton-Logo-RGB.png">
+</div>
+
+<div>
+How would you ethically monetize a popular open source project to create <em>scalable value</em> for our users?
+</div>
+
+<div>
+💡
+</div>
+
+<div>
+Bespoke AI/ML/crypto cloud, serverless-DB, security/privacy, multi-cloud/prem hybrid arch
+</div>
+
+<div>
+Let's chat!
+</div>
+
+<div>
+In conclusion!
+</div>
+
+<div>
+Save <em>time</em> and <em>money</em>,
+</div>
+
+<div>
+build awesome <em>event-driven</em> applications,
+</div>
+
+<div>
+never have <em>downtime</em>,
+</div>
+
+<div>
+be <em>fast</em> everywhere,
+</div>
+
+<div>
+use <em>Zappa</em>!
+</div>
+
+<div>
+(your favorite companies are!)
+</div>
+
+<div>
+Want to <em>contribute</em>? 😃
+</div>
+
+<div>
+<em>100+</em> contributors,
+</div>
+
+<div>
+<img src="http://i.imgur.com/Mgpkgpa.png" style="width: 1000%">
+</div>
+
+<div>
+<em>6</em> continents!
+</div>
+
+<div>
+🐧
+</div>
+
+<div>
+Do you need <em>awesome</em>, <em>scalable</em>, <em>server-less</em> apps?
+</div>
+
+<div>
+Hire me! 💸💸💸
+</div>
+
+<div>
+<em>Email</em>:
+rich@gun.io
+</div>
+
+<div>
+<em>Code</em>:
+<ul>
+<li>
+https://github.com/Miserlou/Zappa
+</li>
+https://github.com/Miserlou/lambda-packages
+</li>
+<li>
+https://github.com/Miserlou/NoDB
+</li>
+<li>
+https://github.com/Miserlou/Mackenzie
+</li>
+<li>
+https://github.com/Miserlou/django-zappa-utils
+</li>
+</ul>
+</div>
+
+<div>
+<em>Slack</em>:
+https://slack.zappa.io
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+</div>
+
+<div>
+Questions?
+</div>
+
+</body>
+</html>
