@@ -1,0 +1,321 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<div>
+Hello!
+</div>
+
+<div>
+My name is <em>Rich Jones</em>!
+</div>
+
+<div>
+I'm going to talk a little bit about
+</div>
+
+<div>
+<em>VCVRack</em>
+</div>
+
+<div>
+<img src="https://i.imgur.com/UdCirLL.png">
+</div>
+
+<div>
+New Software <em>Modular</em> Synth
+</div>
+
+<div>
+<img src="https://www.billboard.com/files/media/wendy-carlos-composer-bw-1979-billboard-1548.jpg">
+</div>
+
+<div>
+"Eurorack"
+</div>
+
+<div>
+<img src="https://i2.wp.com/www.synthtopia.com/wp-content/uploads/2013/12/best-eurorack-synth-modules-of-2013.jpg?fit=720%2C540">
+</div>
+
+<div>
+Lots of <em>single-purpose modules</em> chained together to make sounds and patterns
+</div>
+
+<div>
+Free and open source!
+</div>
+
+<div>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Sz547S6LR98?start=120" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<div>
+https://vcvrack.com/
+</div>
+
+<div>
+LFOs!
+</div>
+
+<div>
+<img src="https://camo.githubusercontent.com/f6ec3481fb46f026888e310e96dfc78f75a3393a/68747470733a2f2f692e696d6775722e636f6d2f647345557173652e706e67">
+</div>
+
+<div>
+Filters!
+</div>
+
+<div>
+<img src="https://camo.githubusercontent.com/a701d4b4c7ab95773acc969086db3485d12bd3ca/68747470733a2f2f692e696d6775722e636f6d2f7876324779574f2e706e67">
+</div>
+
+<div>
+Sequencers!
+</div>
+
+<div>
+Effects!
+</div>
+
+<div>
+Whatever you can imagine!
+</div>
+
+<div>
+Big community!
+</div>
+
+<div>
+Lots of sharing patches, modules and music!
+</div>
+
+<div>
+"Eurorack"
+</div>
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+"Standard" Inputs and Outputs for <em>Audio</em> and <em>Control</em> Voltage
+</div>
+
+<div>
+Control voltage carries information about how to <em>modulate</em> an effect on a sound
+</div>
+
+<div>
+ex: Put an <em>LFO</em> to modulate the <em>frequency</em> of a filter
+</div>
+
+<div>
+<img src="https://i.imgur.com/KQShoXP.png">
+</div>
+
+<div>
+Audio: +/- <em>5V</em>
+Control: +/- <em>10/12V</em>
+</div>
+
+<div>
+Eurorack: <em>Volts</em>
+VCVRack: <em>Floats</em> (numbers with a decimal point)
+</div>
+
+<div>
+TL;DR: Get input, modulate it, send to output
+</div>
+
+<div>
+<img src="https://i.imgur.com/UdCirLL.png" />
+</div>
+
+<div>
+You can program your own modules! C++!
+</div>
+
+<div>
+<em>RJModules</em>
+</div>
+
+<div>
+I made these!
+</div>
+
+<div>
+<img src="https://camo.githubusercontent.com/97fce919fe09415e0f7801731e89d409be68ae94/68747470733a2f2f692e696d6775722e636f6d2f6d6b734c3655582e706e67" />
+</div>
+
+<div>
+https://github.com/Miserlou/RJModules
+</div>
+
+
+<div>
+<img src="https://i.imgur.com/Huerlfe.png">
+</div>
+
+<div>
+All graphics are SVGs (Inkscape!)
+</div>
+
+<div>
+Input/output layout is in code
+</div>
+
+<div>
+<img src="https://i.imgur.com/VMTcKcN.png">
+</div>
+
+<div>
+😒
+</div>
+
+<div>
+Oh well!
+</div>
+
+<div>
+Let's have some fun!
+</div>
+
+
+<!--
+
+-->
+
+</body>
+</html>
