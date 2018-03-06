@@ -1,0 +1,430 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<!---
+
+Who I am
+Where
+What we do
+What is the problem
+How do we solve it
+PETABYTE
+TWO BILLION DOLLARS
+ARTIFICIAL INTELLIGENCE
+
+NEW CURES
+BETTER CURES
+CHEAPER CURES
+
+A NEW TYPE OF SCIENCE
+BIGGER SCIENCE
+FASTER SCIENCE
+CHEAPER SCIENCE
+
+FUTURE:
+GOOGLE FOR YOUR TRANSCRIPTOME
+
+-->
+
+<div>
+  Hello!
+</div>
+
+<div>
+  My name is <em>Rich Jones</em>
+</div>
+
+<div>
+I am a <em>software engineer</em> at the
+</div>
+
+<div>
+  Childhood Cancer Data Lab
+</div>
+
+<div>
+ We use
+</div>
+
+<div>
+ <em>big data</em>
+</div>
+
+<div>
+ and
+</div>
+
+<div>
+ <em>artificial intelligence</em>
+</div>
+
+<div>
+to find
+</div>
+
+<div>
+ <em>new</em> cures,
+</div>
+
+<div>
+ <em>better</em> cures,
+</div>
+
+<div>
+ <em>cheaper</em> cures</em>!
+</div>
+
+<div>
+  <i>"Sounds great!.. </i>
+</div>
+
+<div>
+  <i>..but what does that mean?"</i>
+</div>
+
+<div>
+  Great question!
+</div>
+
+<div>
+  <center>Part 0: The <em>Data</em></center>
+</div>
+
+<div>
+  "<em>Big</em>"" Data
+</div>
+
+<div>
+  aka: all of the transcriptomic (RNA) data <em>ever producted</em> 
+</div>
+
+<div>
+  Publically available data from <em>US</em>, <em>Europe</em>, and <em>Japan</em>.
+</div>
+
+<div>
+  <i>"How big is big?"</i>
+</div>
+
+<div>
+  6 <em>petabytes</em>.. and growing!
+</div>
+
+<div>
+  <ul>
+    <li>6 PB</li>
+    <li>600 Libraries of Congress</li>
+    <li>6,000 TB</li>
+    <li>6,000,000 GB</li>
+    <li>6,000,000,000 MB</li>
+  </ul>
+</div>
+
+<div>
+  Total cost to produce:
+</div>
+
+<div>
+  ><em>$</em>2,000,000,000!
+</div>
+
+<div>
+  This a freely available public resouce that <em>nobody has ever mined at this scale</em> before. 
+</div>
+
+<div>
+ The big problem is that the data looks like this:
+</div>
+
+<div>
+    <img src="https://i.imgur.com/cxTFL9Q.png" height="1000px" />
+</div>
+
+<div>
+  Noisy, poorly-labelled, un-curated.
+</div>
+
+<div>
+  Hard for researchers to use like this!
+</div>
+
+<div>
+  So we made..
+</div>
+
+<div>
+  <i>refine.bio</i>
+</div>
+
+<div>
+  We make messy data look like this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/06RqTc6.png" height="1000px" />
+</div>
+
+<div>
+by doing this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/FZ6PorK.png">
+</div>
+
+<div>
+  using this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/jGz4mGv.jpg">
+</div>
+
+<div>..and <em>give it back</em> to the world..<br />..<em>for free</em>!</div>
+
+<div><i>"Shovel Ready"</i></div>
+
+<div>A valuable resource for cancer researchers, bioinformaticists, and AI researchers!</div>
+
+<div>Part 1: <em>Artificial Intelligence</em></div>
+
+<div>This is a special time in human history!</div>
+
+<div>
+  <img src="https://i.imgur.com/1RWLpTn.png">
+</div>
+
+<div>
+  We wanted better graphics in <em>video games</em>,
+</div>
+
+<div>
+  we got <em>super machine intelligence</em>.
+</div>
+
+<div>
+  We can harness this power to attack childhood cancer!
+</div>
+
+<div>
+  If I were still in Silicon Valley, I'd say..
+</div>
+
+<div>
+"Biologically inspired <em>deep-learning</em> methods accellerated by high performance <em>cloud GPU clusters</em>"
+</div>
+
+<div>
+  <small>which really means</small>
+</div>
+
+<div>
+dumb <em>algorithms</em> + <br />lots and lots and lots of <em>data</em> + <br /><em>graphics cards</em> = <br /><em>A.I.</em>!</div>
+</div>
+
+<div>
+  Drive cars, recognize speech, recognize images, win at Go, predict the weather..<br /> ..<em>cure cancer</em>!
+</div>
+
+<div>
+  A new kind of science!
+</div>
+
+<div>
+  Bigger!
+</div>
+
+<div>
+  Faster!
+</div>
+
+<div>
+  Better!
+</div>
+
+<div>
+  Use data at a scale <em>humans can't comprehend</em>..
+</div>
+
+<div>
+  to discover things that <em>humans can't see</em>!
+</div>
+
+<div>
+  <em>New uses</em> of old drugs!
+</div>
+
+<div>
+  <em>Better</em> drugs!
+</div>
+
+<div>
+  Drugs to target a patient's <em>specific type of cancer</em>!
+</div>
+
+<div>
+  This is <em>bleeding edge</em> research! Nobody else is doing this! 
+</div>
+
+<div>
+  Everything we do is <em>free</em> and <em>open source</em>!
+</div>
+
+<div>
+  Only possible because of <em>Alex's Lemonade Stand Foundation</em> and it's generous sponsors!
+</div>
+
+<div>
+<em>Website</em>:
+http://refine.bio
+</em>
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/AlexsLemonade/refinebio
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+</div>
+
+<div>
+Questions?
+</div>
+
+</body>
+</html>
