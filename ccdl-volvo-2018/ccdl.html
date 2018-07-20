@@ -1,0 +1,702 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#003C73;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #fff837;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<!---
+
+Who I am
+Where
+What we do
+What is the problem
+How do we solve it
+PETABYTE
+TWO BILLION DOLLARS
+ARTIFICIAL INTELLIGENCE
+
+NEW CURES
+BETTER CURES
+CHEAPER CURES
+
+A NEW TYPE OF SCIENCE
+BIGGER SCIENCE
+FASTER SCIENCE
+CHEAPER SCIENCE
+
+FUTURE:
+GOOGLE FOR YOUR TRANSCRIPTOME
+
+-->
+
+<div>
+  Hello!
+</div>
+
+<div>
+  My name is <em>Rich Jones</em>!
+</div>
+
+<div>
+I am a <em>software engineer</em> at ALSF's
+</div>
+
+<div>
+  <em>C</em>hildhood <em>C</em>ancer <em>D</em>ata <em>L</em>ab
+</div>
+
+<div>
+ We use
+</div>
+
+<div>
+ <em>big data</em>
+</div>
+
+<div>
+ and
+</div>
+
+<div>
+ <em>artificial intelligence</em>
+</div>
+
+<div>
+to find
+ <em>new</em> cures,
+</div>
+
+<div>
+ <em>cheaper</em> cures,
+</div>
+
+<div>
+ and <em>better</em> cures</em>
+</div>
+
+<div>
+  for <em>childhood cancer</em>!
+</div>
+
+<div>
+  <i>"Awesome!.. </i>
+</div>
+
+<div>
+  <i>..but what does that actually mean?"</i>
+</div>
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+  Great question!
+</div>
+
+<div>
+  <center>Part 0: The <em>Data</em></center>
+</div>
+
+<div>
+  "<em>Big</em>" Data!
+</div>
+
+<div>
+  RNA!
+</div>
+
+<div>
+  <i>Quick reminder!</i>
+</div>
+
+<div>
+  DNA -> RNA -> Proteins -> You!
+</div>
+
+<div>
+  My analogy:
+</div>
+
+<div>
+  (sorry Jackie)
+</div>
+
+<div>
+  Hard Drive -> RAM -> CPU -> hello_world.exe
+</div>
+
+<div>
+  Hard Drive -> <em>RAM</em> -> CPU -> hello_world.exe
+</div>
+
+<div>
+  <i>"Got it!"</i>
+</div>
+
+<div>
+  Great!
+</div>
+
+<div>
+  <i>"So how big is big?"</i>
+</div>
+
+<div>
+All of the public transcriptomic (RNA) data <em>ever produced</em>!
+</div>
+
+<div>
+  <i>"That sounds like a lot!"</i>
+</div>
+
+<div>
+  It is!
+</div>
+
+<div>
+  6 <em>petabytes</em>.. and growing!
+</div>
+
+<div>
+  <img src="https://i.imgur.com/W2uYCb7.png">
+</div>
+
+<div>
+  <ul>
+    <li>6 PB</li>
+    <li>600 Libraries of Congress</li>
+    <li>6,000 TB</li>
+    <li>6,000,000 GB</li>
+    <li>6,000,000,000 MB</li>
+    <li>1,710,000,000 MP3s</li>
+  </ul>
+</div>
+
+<div>
+  Total cost to produce:
+</div>
+
+<div>
+  <em>>$</em>2<em>,</em>000<em>,</em>000<em>,</em>000<em>!</em>
+</div>
+
+<div>
+  (<em>billion</em> with a <em>b</em>!)
+</div>
+
+<div>
+  This a freely available public resouce that <em>nobody has ever mined at this scale</em> before!
+</div>
+
+<div>
+ The <em>problem</em> is that the data looks like this:
+</div>
+
+<div>
+    <img src="https://i.imgur.com/cxTFL9Q.png" height="1000px" />
+</div>
+
+<div>
+  Noisy, <br />poorly-labelled, <br />un-curated.
+</div>
+
+<div>
+😢
+</div>
+
+<div>
+  Hard for cancer researchers to use like this!
+</div>
+
+<div>
+  Impossible for anybody else to use!
+</div>
+
+<div>
+  So we made..
+</div>
+
+<div>
+  <i>refine.bio</i>
+</div>
+
+<div>
+  <img src="https://i.imgur.com/J3Ga2eU.png" width="500px">
+</div>
+
+<div>
+<i>(Now you say, <em>"Ooooooh!"</em>)</i>
+</div>
+
+<div>
+  It make this:
+</div>
+
+<div>
+    <img src="https://i.imgur.com/cxTFL9Q.png" height="1000px" />
+</div>
+
+<div>
+  look like this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/06RqTc6.png" height="1000px" />
+</div>
+
+<div>
+by doing this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/FZ6PorK.png">
+</div>
+
+<div>
+  using this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/jGz4mGv.jpg">
+</div>
+
+<div>
+  so doctors can do this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/HDG0M1K.png" />
+</div>
+
+<div>
+  so kids can do this:
+</div>
+
+<div>
+  <img src="https://i.imgur.com/wP6VtOv.jpg" />
+</div>
+
+<div>
+😁
+</div>
+
+<!-- <div>
+  This means <em>more people</em> searching for cures!
+</div> -->
+
+<div>
+  This is incredibly <em>valuable resource</em> for..
+</div>
+
+<div>
+biologists,
+</div>
+
+<div>
+bioinformaticists,
+</div>
+
+<div>
+cancer researchers..
+</div>
+
+<div>
+doctors.
+</div>
+
+<div>
+..as well as <em>A.I.</em> researchers and developers!
+</div>
+
+<div><center>Part 1: <em>Artificial Intelligence</em><center></div>
+
+<div>This is a special time in human history!</div>
+
+<div>
+  <img src="https://i.imgur.com/1RWLpTn.png" width="3000px">
+</div>
+
+<div>
+  We wanted <em>better graphics</em> in video games,
+</div>
+
+<div>
+  we got <em>super machine intelligence</em>!
+</div>
+
+<div>
+GPUs are <em>thousands of times</em> faster than CPUs!*
+</div>
+
+<div>
+  We can harness this power to <em>attack cancer</em>!
+</div>
+
+<div>
+  If I were still in Silicon Valley, I'd say..
+</div>
+
+<div>
+"Biologically inspired <em>deep-learning</em> models accellerated by high performance <em>cloud GPU clusters</em>"
+</div>
+
+<div>
+  <small>which really means</small>
+</div>
+
+<div>
+dumb <em>algorithms</em><br /> + <br />lots and lots and lots and lots and lots of <em>data</em><br /> + <br /><em>graphics cards</em><br /> = <em>A.I.</em>!</div>
+</div>
+
+<div>
+  Drive <em>cars</em>,
+</div>
+
+<div>
+  <img src="https://i.imgur.com/eWIQXYt.jpg">
+</div>
+
+<div>
+understand <em>speech</em>,
+</div>
+
+<div>
+  <img src="https://nlml.github.io/images/convnet_diagram.png">
+</div>
+
+<div>
+recognize <em>cats</em>,
+</div>
+
+<div>
+  <img src="http://www.anit.az/wp-content/uploads/2018/01/cat_face_detector_result_03.jpg">
+</div>
+
+<div>
+win at <em>Go</em>,
+</div>
+
+<div>
+  <img src="https://cdn.theatlantic.com/assets/media/img/mt/2016/03/AP_609857013769/lead_960.jpg?1459178752">
+</div>
+
+<div>
+  ..<em>cure cancer</em>!
+</div>
+
+<div>
+  <img src="https://media.nature.com/lw926/nature-assets/srep/2017/170418/srep46450/images_hires/srep46450-f1.jpg">
+</div>
+
+<div>
+  This is a <em>new</em> kind of science!
+</div>
+
+<div>
+  Bigger!
+</div>
+
+<div>
+  (n=<em>30</em> -> n=<em>3,000,000</em>)
+</div>
+
+<div>
+  Faster!
+</div>
+
+<div>
+  (CPU: <em>8</em> Cores, <br />GPU: <em>2048</em> Cores!)
+</div>
+
+<div>
+  Better!
+</div>
+
+<div>
+  (<em>Reproduction</em> of old experimental results!)
+</div>
+
+<div>
+  We use data at a scale <em>humans can't comprehend</em>..
+</div>
+
+<div>
+  to discover things that <em>humans can't see</em>!
+</div>
+
+<div>
+  <em>New uses</em> of old drugs!
+</div>
+
+<div>
+  <em>Better</em> drugs!
+</div>
+
+<div>
+  Drugs to target a patient's <em>specific type of cancer</em>!
+</div>
+
+<div>
+  "Precision Oncology"
+</div>
+
+<div>
+  Don't treat the location - treat the mutation!
+</div>
+
+<div>
+  <center>Part 2: <em>Results</em>!</center>
+</div>
+
+<div>
+  <img src="https://i.imgur.com/sDtwCq9.png" />
+</div>
+
+<div>
+  <img src="https://i.imgur.com/ureHj0Q.png" />
+</div>
+
+<div>
+  <img src="https://i.imgur.com/HDG0M1K.png" />
+</div>
+
+<div>
+  These are patients who <em>would not have otherwise been treated</em> with these drugs!
+</div>
+
+<div>
+  Dovetails nicely with <em>other ALSF initiatives</em>!
+</div>
+
+<div>
+  <img src="https://i.imgur.com/29BiieB.jpg">
+</div>
+
+<div>
+Get data ->
+</div>
+
+<div>
+refine data ->
+</div>
+
+<div>
+make predictions ->
+</div>
+
+<div>
+test predictions ->
+</div>
+
+<div>
+deploy treatments!
+</div>
+
+<div>
+  A direct pipeline to <em>clinical trials</em> and <em>real world application</em>!
+</div>
+
+<div>
+  <center>Part 3: <em>The Future</em>!</center>
+</div>
+
+<div>
+  "<em>Google</em> for your transcriptome!"
+</div>
+
+<div>
+  Doctor orders a scan of a patient's RNA ->
+</div>
+
+<div>
+  we find all similar transcriptomic profiles with defined <em>treatments</em> and <em>outcomes</em> ->
+</div>
+
+<div>
+  our models make predictions about <em>which drugs will work</em> the best ->
+</div>
+
+<div>
+  patient gets the <em>best possible treatment</em>!
+</div>
+
+<div>
+🙏 🙌
+</div>
+
+<div>
+  This is <em>bleeding edge</em> research! Nobody else is doing this!
+</div>
+
+<div>
+  <img src="http://static1.squarespace.com/static/579c48b303596ec1d8340900/579d8558197aea7c6b83a611/59912ee86b8f5b2f5d56b3d5/1502775386942/iceberg.jpg?format=1000w">
+</div>
+
+<div>
+  This is going to be <em>really</em>, <em>really</em> big!
+</div>
+
+<div>
+  This work also benefits other diseases!
+</div>
+
+<div>
+  Everything we do is <em>free</em> and <em>open source</em>!
+</div>
+
+<div>
+  Only possible because of <em>Alex's Lemonade Stand Foundation</em> and their generous sponsors! (You!)
+</div>
+
+<div>
+<em>Website</em>:
+http://refine.bio
+</em>
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/AlexsLemonade/refinebio
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+</div>
+
+<div>
+Questions?
+</div>
+
+</body>
+</html>
