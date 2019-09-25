@@ -1,0 +1,1070 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<!--
+
+ * Who I Am
+  * This talk will be quite fast paced!
+ * Zappa! The Story
+ * Destroy ops! Save money! Blah blah!
+ * New features for PyConSG! Python3.7 - New Packages Support
+ * Show the "fan out" pattern:
+  * Train a model across lots of Lambdas, sweet.
+ * I have been a terrible maintainer! I'm sorry about this!
+  * The community have been doing a very good job of keeping it alive!
+ * Amazon are quite evil!
+  * Under pay workers
+  * Pattern of ripping off OSS Developers
+  * What happened to software freedom?
+  * They never paid me a dollar, but they did rip off the project and make a worse version.
+* Cloud = Somebody Else's Computer
+* Serverless* = Somebody Else's Computer, For a Very Short Period of Time
+* Boo Amazon, Let's build our own FaaS provider!
+* We're going to use "OpenFaaS"
+* "PLONK" Stack
+    Prometheus - metrics and time-series
+    Linkerd - service mesh
+    OpenFaaS - management and auto-scaling of compute - PaaS/FaaS
+    NATS - asynchronous message bus / queue
+    Kubernetes - declarative, extensible, scale-out, self-healing clustering
+    * https://www.openfaas.com/blog/plonk-stack/
+  * Very Short Demo
+* But wait - this sucks!
+  * So much ops! We have gone all the way back around!
+* Are we even serverless? Yes for developers, but not for operators.
+* Let's go _truly_ serverless
+* "Redecentralize the web!" - TBL
+  * Literally no servers, only clients!
+* IPFS!
+  * Content is it's own address!
+* Dat / Beaker!
+  * Clients serve content to peers, but content is still updatable
+* New technologies will enable new _massively collaborative efforts_
+  * Non corporate, Non government! International colabororative!
+* Less surveillance, more freedom, more autonomy
+* A peer to peer "FAANG"!
+* International co-ooperation!
+
+-->
+
+<div>
+Hello!
+</div>
+
+<div>
+Thank you for having me!
+</div>
+
+<div>
+My name is <em>Rich Jones</em>!
+</div>
+
+<div>
+Founder of <em>gun.io</em>!
+</div>
+
+<div>
+<img src="http://i.imgur.com/UmYyAla.png">
+</div>
+
+<div>
+(Awesome freelance gigs for F/OSS hackers!)
+</div>
+
+<div>
+Author of
+</div>
+
+<div>
+(shameless plug alert)
+</div>
+
+<div>
+Zappa!
+</div>
+
+<div>
+Python's <em>serverless</em> framework!
+</div>
+
+<div>
+..also..
+</div>
+
+<div>
+  <ul>
+    <li>NoDB</li>
+    <li>lambda-packages</li>
+    <li>django-knockout-modeler</li>
+    <li>django-easy-timezones</li>
+    <li>`loop`</li>
+    <li>And more!..
+  </ul>
+</div>
+
+<div>
+Welcome to..
+</div>
+
+<div>
+Serverless!: <em>Lambda</em>.. and Beyond!
+</div>
+
+<div>
+Warning!
+</div>
+
+<div>
+This talk is going to move <em>fast</em>!
+</div>
+
+<div>
+Better to be <em>overwhelmed</em> than bored!
+</div>
+
+<div>
+Feel free to <em>interrupt</em>!
+</div>
+
+<div>
+Ask me <em>questions</em>!
+</div>
+
+<div>
+<i>"Server-less?"</i>
+</div>
+
+<div>
+¯\_(ツ)_/¯
+</div>
+
+<div>
+<i>aka</i>: "<em>no permanent infrastructure</em>"*
+</div>
+
+<div>
+Zero <em>maintainance</em>!
+</div>
+
+<div>
+Zero <em>load balancing</em>!
+</div>
+
+<div>
+Zero <em>security patches</em>!
+</div>
+
+<div>
+Zero <em>downtime</em>!
+</div>
+
+<div>
+Zero <em>worrying</em>!
+</div>
+
+<div>
+(fire your ops team)
+</div>
+
+<div>
+<i>"That sounds awesome, how do I get started?"</i>
+</div>
+
+<div>
+Zappa!
+</div>
+
+<div>
+<i>
+full disclosure: this is my baby
+</i>
+</div>
+
+<div>
+AWS <em>Lambda</em> + AWS <em>API Gateway</em>
+</div>
+
+<div>
+Works with your <em>existing</em> apps!
+</div>
+
+<div>
+Traditional web server:
+</div>
+
+<div>
+<ul>
+  <li>Web server (Apache/NX) listens for request</li>
+  <li>Converts to WSGI environ</li>
+  <li>Sends to WSGI server (Gunicorn)</li>
+  <li>App processes the request</li>
+  <li>Web server returns it to the client</li>
+  <li>Web server goes back to listening</li>
+</ul>
+
+</div>
+
+<div>
+Zappa:
+</div>
+
+<div>
+
+<ul>
+  <li>Request comes into API Gateway</li>
+  <li>API request mapped to dict with VTL</li>
+  <li>Server is <em>created</em></li>
+  <li>Server converts dict to WSGI, feeds WSGI to application</li>
+  <li>Returns response to API Gateway</li>
+  <li>Server is <em>destroyed</em></li>
+  <li>API Gateway returns response to client</li>
+</ul>
+</div>
+
+<div>
+&lt;30ms!
+</div>
+
+<div>
+By the time the user sees the page, the server has <em>disappeared</em>!
+</div>
+
+<div>
+Advantages!
+</div>
+
+<div>
+Super <em>scalable</em>!
+</div>
+
+<div>
+1 request = 1 server
+</div>
+
+<div>
+10 request = 10 server
+</div>
+
+<div>
+100 requests = 100 servers
+</div>
+
+<div>
+1000 requests = 1000 servers
+</div>
+
+<div>
+10000 requests = 10000 servers
+</div>
+
+<div>
+100000 requests = 100000 servers
+</div>
+
+<div>
+<em>Trillions</em> of events/year!
+</div>
+
+<div>
+Orders of magnitude <em>less expensive</em>*!
+</div>
+
+<div>
+$0.000000002<em>/ms</em>
+</div>
+
+<div>
+($0.0000000027SGD<em>/ms</em>)
+</div>
+
+<div>
+Plus 3,200,000 <em>free</em> seconds!
+</div>
+
+<div>
+VPS: 4 * $20 * 12 = <em>$960/yr</em>
+</div>
+
+<div>
+Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
+</div>
+
+<div>
+Don't need to modify your existing apps!
+</div>
+
+<div>
+No vendor lock-in!
+</div>
+
+<div>
+Works with any <em>WSGI</em> application!
+</div>
+
+<div>
+<img src="http://i.imgur.com/W2Ndw3l.png">
+</div>
+
+<div>
+<img src="http://i.imgur.com/BNmJV5w.png">
+</div>
+
+<div>
+Super easy to <em>start</em>!
+</div>
+
+<div>
+<pre>
+$ zappa init
+</pre>
+</div>
+
+<div>
+Automatically detects app type, creates bucket, IAM, etc..
+</div>
+
+<div>
+Super easy to <em>deploy</em>!
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+</pre>
+</div>
+
+<div>
+Great for <em>microservices</em>! (Flask APIs, IoT, chatbots, etc.)
+</div>
+
+<div>
+Great for <em>macroservices</em>! (Django, CMSes, etc.)
+</div>
+
+<div>
+React to AWS events (S3/SQS/etc.)!
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+
+ "events": [{
+      "function": "<em>your_module.your_function</em>",
+      "event_source": {
+            "arn":  "arn:aws:s3:::my-bucket",
+            "events": [
+              "<em>s3:ObjectCreated:*</em>"
+            ]
+         }
+      }]
+</pre>
+</div>
+
+<div>
+Timed Events!
+</div>
+
+<div>
+<pre>
+ "events": [{
+     "function": "your_module.your_function",
+     "expression": "<em>rate(1 minute)</em>"
+ }]
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa schedule
+$ zappa unschedule
+</pre>
+</div>
+
+<div>
+Free SSL!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
+..and many, many more features!
+</div>
+
+<div>
+Normally I talk about <em>scalable web services</em>,
+</div>
+
+<div>
+but since we're at <em>PyConSG</em>, I'd like to talk about
+</div>
+
+<div>
+Elastic <em>BIG DATA</em> processing!
+</div>
+
+<div>
+This trick will be useful if you need to process a lot of data but don't want to spin up infrastructure!
+</div>
+
+<div>
+OR
+</div>
+
+<div>
+You need to do a lot of data processing as part of a <em>production system</em>!
+</div>
+
+<div>
+The "Fanout" Pattern!
+</div>
+
+<div>
+One Lambda -> Lots of Lambdas -> One Lambda
+</div>
+
+<div>
+Useful for quickly processing large data sets, online machine learning, quering multiple models in a single response requests!
+</div>
+
+<div>
+<pre>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+from <em>zappa.async</em> import <em>task</em>
+
+<em>@task</em>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+$ zappa invoke 'mybioapp.process_genes'
+</pre>
+</div>
+
+<div>
+It's that easy!
+</div>
+
+<div>
+No config!
+</div>
+
+<div>
+No queues!
+</div>
+
+<div>
+No Celery!
+</div>
+
+<div>
+Hooray!
+</div>
+
+<div>
+Hooray.. but!
+</div>
+
+<div>
+My goal is to promote user <em>freedom</em>!
+</div>
+
+<div>
+I just wanted a super <em>easy</em> and <em>cheap</em> way to host scalable services!
+</div>
+
+<div>
+But now I've convinced thousands of people to use Amazon.
+</div>
+
+<div>
+>:[
+</div>
+
+<div>
+Amazon has been <em>repeatedly hostile</em> to our community.
+</div>
+
+<div>
+<img src="https://i.imgur.com/EXYJxNe.png">
+</div>
+
+<div>
+Because of AWS' hostility to our community,
+</div>
+
+<div>
+we lost <em>MongoDB</em>, <em>Redis</em> and <em>ElasticSearch</em> to proprietary licenses!
+</div>
+
+<div>
+>>:[
+</div>
+
+<div>
+They did it to me!
+</div>
+
+<div>
+They <em>cloned</em> my project, made it worse, didn't even give a link back.
+</div>
+
+<div>
+"<em>Embrace</em>, <em>Extend</em>, <em>Extinguish</em>" all over again!
+</div>
+
+<div>
+..and that's just AWS!
+</div>
+
+<div>
+Amazon <em>doesn't pay taxes</em>,
+</div>
+
+<div>
+<img src="https://i.imgur.com/uC4s6MI.png">
+</div>
+
+<div>
+destroyed small-town America,
+</div>
+
+<div>
+overworks and underpays their employees,
+</div>
+
+<div>
+<img src="https://i.imgur.com/7cMSwva.png">
+</div>
+
+<div>
+all to further enrich the <em>richest man</em> in the world!
+</div>
+
+<div>
+<i>(Jeff Bezos is a bond villain)</i>
+</div>
+
+<!--
+<div>
+AWS: Did not reach out. Did not ever offer support. Didn't offer to pay my hosting bill. Not even a T-shirt. Ripped me off. While I was working for a children's cancer charity, didn't give us the same rate offer they give to startups.
+</div>
+
+<div>
+Also: Make their workers pee into cups, destroyed mainstreet America, generally evil.
+</div> -->
+
+<div>
+Screw Amazon!
+</div>
+
+<div>
+<i>(I hope they're not a sponsor)</i>
+</div>
+
+<div>
+Let's <em>build our own</em> Lambda!
+</div>
+
+<div>
+<img src="https://blog.alexellis.io/content/images/2017/08/faas_side.png" width="1000px">
+</div>
+
+<!-- <div>An exmplary free software project!</div> -->
+
+<div>
+"LAMP"
+</div>
+
+<div>
+<ul>
+<li><em>L</em>inux</li>
+<li><em>A</em>pache</li>
+<li><em>M</em>ySQL</li>
+<li><em>P</em>ython</li>
+</ul>
+</div>
+
+<div>
+<strike>"LAMP"</strike>
+</div>
+
+<div>
+<strike>"LAMP"</strike>
+"<em>PLONK</em>"!
+</div>
+
+<div>
+<ul>
+<li><em>P</em>rometheus</li>
+<li><em>L</em>inkerd</li>
+<li><em>O</em>penFaaS</li>
+<li><em>N</em>ATS</li>
+<li><em>K</em>ubernetes</li>
+</ul>
+</div>
+
+<div>
+<ul>
+<li><em>P</em>rometheus</li>
+<li><em>L</em>inkerd</li>
+<li><em>OpenFaaS</em></li>
+<li><em>N</em>ATS</li>
+<li><em>Kubernetes</em></li>
+</ul>
+</div>
+
+<div>
+<ul>
+  <li>Prometheus - metrics and time-series</li>
+  <li>Linkerd - service mesh</li>
+  <li><em>OpenFaaS</em> - management and auto-scaling of compute - PaaS/FaaS</li>
+  <li>NATS - asynchronous message bus / queue</li>
+  <li><em>Kubernetes</em> - declarative, extensible, scale-out, self-healing clustering</li>
+</ul>
+</div>
+
+<div>
+Let's go!
+</div>
+
+<!-- <div>
+I'm going to talk about three things!
+</div>
+
+<div>
+* Processing <em>Big Data</em> With <em>Zappa</em>!
+</div>
+
+<div>
+* Rolling Your Own FaaS with <em>OpenFaaS</em>!
+</div>
+
+<div>
+* <em>True</em> Serverlessness and the <em>Peer to Peer Web</em>!
+</div>
+
+<div>
+Let's get started!
+</div> -->
+
+<div>
+<pre>
+$ curl -sL https://cli.openfaas.com | sudo sh
+</pre>
+</div>
+
+<div>
+<i>(okay that's a bad practice but it's easy)</i>
+</div>
+
+<div>
+<pre>
+$ faas
+  ___                   _____           ____
+ / _ \ _ __   ___ _ __ |  ___|_ _  __ _/ ___|
+| | | | '_ \ / _ \ '_ \| |_ / _` |/ _` \___ \
+| |_| | |_) |  __/ | | |  _| (_| | (_| |___) |
+ \___/| .__/ \___|_| |_|_|  \__,_|\__,_|____/
+      |_|
+
+
+Manage your OpenFaaS functions from the command line
+</pre>
+</div>
+
+<div>
+[ .. ]
+</div>
+
+<div>
+Sweet!
+</div>
+
+<div>
+Now we can use "serverless" patterns on our own hardware, or more ethical web hosts!
+</div>
+
+<div>
+We're "<em>serverless</em>"..
+</div>
+
+<div>
+We're "<em>serverless</em>".. but we have a lot of servers.
+</div>
+
+<div>
+Goal: <em>destroy</em> ops.
+</div>
+
+<div>
+End result: <em>So much</em> ops!
+</div>
+
+<div>
+>>>:[[[[
+</div>
+
+<div>
+PLONK is good solution*..
+</div>
+
+<div>
+..if you can handle the complexity..
+</div>
+
+<div>
+..and you're already commited to Kubernetes..
+</div>
+
+<div>
+..and you can afford the ops burden.
+</div>
+
+<div>
+<i>(Kubernetes: great if you're a consultant, pretty terrible if you need to get anything done)</i>
+</div>
+
+<div>
+I'm not any of those things!
+</div>
+
+<div>
+I'm just a guy!
+</div>
+
+<div>
+I just want to run a service and <em>not worry about servers</em>!
+</div>
+
+<div>
+Okay!
+</div>
+
+<div>
+Let's go <em>actually</em> serverless!
+</div>
+
+<div>
+As in, <em>literally no servers</em>!
+</div>
+
+<div>
+Enter..
+</div>
+
+<div>
+The <em>Peer-To-Peer</em> Web!
+</div>
+
+<!-- <div>
+"Redecentralize" ~ Tim Berners Lee
+</div> -->
+
+<!--
+
+Let's do a serious consideration of these services!
+
+Benefits:
+ - Reseliant web services that don't require an underlying surveillance/ad model.
+ - Ops-free, cost-free publishing.
+ - Weakening of copyright
+ - Free speech!
+
+There are tradeoffs.
+ - P2P != Anonymity
+    - A _different_ privacy model.
+ - Security/QoS
+ - Trolls benefit from free speech!
+   - Advertisers benefit from trolls.
+   - Moderation
+
+
+-->
+
+<div>
+There is an <em>exciting landscape</em> of new P2P technologies and protocols!
+</div>
+
+<div>
+Solid, NextCloud, ZeroNet, GUN, IPFS, dat, Scuttlebot, DataShards, WebTorrent, and many more!
+</div>
+
+<div>
+More privacy!
+</div>
+
+<div>
+Less corporate control!
+</div>
+
+<div>
+Less censorship!
+</div>
+
+<div>
+More freedom!
+</div>
+
+<div><i>(Legalize drugs and gay!)</i></div>
+
+<div>
+<em>P</em>ersonal <em>D</em>ata <em>S</em>torage
+</div>
+
+<div>
+Control your own private data, share <em>selectively</em>.
+</div>
+
+<div>
+This is what Tim Berners Lee is working on!
+</div>
+
+<div>
+..but not the approach I am as interested in.
+</div>
+
+<div>
+I want to run web services <em>without any</em> centralized servers!
+</div>
+
+<div>
+Run a service, seed it, peers seed it after the original seed dies!
+</div>
+
+<div>
+Solid, GUN, IPFS, <em>dat</em>, DataShards, WebTorrent, and many more!
+</div>
+
+<div>
+<img src="https://i.imgur.com/8DB8XWO.png" />
+</div>
+
+<div>
+git + BitTorrent + HTTP = dat
+</div>
+
+<div>
+Designed for data scientists (like you!) to share large, mutable datasets!
+</div>
+
+<div>
+Also, might save the web and us all!
+</div>
+
+<div>
+dat == HTTP
+dat-cli == cURL
+Beaker == Firefox
+Hashbase == GitHub
+</div>
+
+<div>
+<pre>
+cd ~/src/my-website
+dat .
+
+Created new dat in /Users/alice/my-website/.dat
+<em>dat://c81299cfc139791ccc6db42f0bcac8a9af590c03828e8066478fcfc60ca6e481</em>
+</pre>
+</div>
+
+<div>
+<img src="https://beakerbrowser.com/img/view-source.png" />
+</div>
+
+<div>
+Super easy!
+</div>
+
+<div>
+Users download the site <em>each other</em>!*
+</div>
+
+<div>
+
+</div>
+
+<!-- <div>
+Web!
+</div>
+
+<div>
+<img src="https://beakerbrowser.com/img/view-source.png" />
+</div>
+
+<div>
+Chat!
+</div>
+
+<div>
+<img src="https://cabal.chat/desktop.png">
+</div> -->
+
+<div>
+We can replace <em>Google</em>, <em>Twitter</em>, <em>Facebook</em>, <em>Netflix</em>, <em>Uber</em>, <em>Slack</em>, <em>Spotify</em>, <em>SoundCloud</em>..
+</div>
+
+<div>
+with <em>free</em> and <em>open source</em> versions that don't <em>spy on us</em>!
+</div>
+
+<div>
+Even better, we can build new things we couldn't imagine before!
+</div>
+
+<div>
+There is so much to be done!
+</div>
+
+
