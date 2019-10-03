@@ -540,7 +540,7 @@ Elastic <em>BIG DATA</em> processing!
 </div>
 
 <div>
-This trick will be useful if you need to process a lot of data but don't want to spin up infrastructure!
+This trick will be useful if you need to process a lot of data but don't want to <em>manage infrastructure</em>!
 </div>
 
 <div>
@@ -552,16 +552,48 @@ You need to do a lot of data processing as part of a <em>production system</em>!
 </div>
 
 <div>
-The "Fanout" Pattern!
+The "<em>Fanout</em>" Pattern!
 </div>
 
 <div>
-One Lambda -> Lots of Lambdas -> One Lambda
+One Lambda -> <br />
+Many Lambda -> <br />
+One Lambda
 </div>
 
 <div>
+Rapid elastic parallel processing, no supercomputer required!
+</div>
+
+<div>
+Let's see some examples!
+</div>
+
+<div>
+Example 1: Parallel Data Processing
+</div>
+
+<div>
+</div>
+
+<div>
+Example 2: ML in Production
+</div>
+
+<div>
+Lots of predictors, need to choose the best one
+</div>
+
+<div>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</div>
+
+<!-- <div>
 Useful for quickly processing large data sets, online machine learning, quering multiple models in a single response requests!
-</div>
+</div> -->
 
 <div>
 <pre>
@@ -656,6 +688,10 @@ They did it to me!
 </div>
 
 <div>
+>>>:[
+</div>
+
+<div>
 They <em>cloned</em> my project, made it worse, didn't even give a link back.
 </div>
 
@@ -680,6 +716,10 @@ destroyed small-town America,
 </div>
 
 <div>
+<img src="https://i.imgur.com/HttbHha.png" />
+</div>
+
+<div>
 overworks and underpays their employees,
 </div>
 
@@ -693,6 +733,10 @@ all to further enrich the <em>richest man</em> in the world!
 
 <div>
 <i>(Jeff Bezos is a bond villain)</i>
+</div>
+
+<div>
+<img src="https://i.imgur.com/PhurHn9.png" />
 </div>
 
 <!--
@@ -775,7 +819,15 @@ Let's <em>build our own</em> Lambda!
 </div>
 
 <div>
-Let's go!
+This gives us everything we need to build a free and open source <em>alternative to AWS</em> Lambda + API Gateway!
+</div>
+
+<div>
+Run on <em>any cloud host</em>, or on your <em>own hardware</em>, or <em>both</em> at the same time!
+</div>
+
+<div>
+Let's try it out!
 </div>
 
 <!-- <div>
@@ -799,14 +851,53 @@ Let's get started!
 </div> -->
 
 <div>
+It's as easy as..
+</div>
+
+<div>
+  <img src="https://i.imgur.com/OoXv3Bu.png" />
+</div>
+
+<!-- <div>
+<pre>
+$ GO111MODULE="on" go get sigs.k8s.io/kind@v0.5.1
+$ kind create cluster --name openfaas
+$ export KUBECONFIG="$(kind get kubeconfig-path --name="openfaas")"
+$ kubectl -n kube-system create sa tiller \
+ && kubectl create clusterrolebinding tiller \
+      --clusterrole cluster-admin \
+      --serviceaccount=kube-system:tiller
+$ curl -sLSf https://raw.githubusercontent.com/helm/helm/master/scripts/get | sudo bash
+$ helm init --skip-refresh --upgrade --service-account tiller
+$ kubectl create ns openfaas
+$ kubectl create ns openfaas-fn
+$ curl -sLSf https://cli.openfaas.com | sudo sh
+$ helm repo add openfaas https://openfaas.github.io/faas-netes && \
+  helm repo update && \
+  helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    --set basic_auth=false \
+    --set functionNamespace=openfaas-fn \
+    --set operator.create=true
+$ git clone https://github.com/openfaas/faas-netes && cd faas-netes
+$ helm upgrade --install --namespace openfaas --set functionNamespace=openfaas-fn --set async=true --set rbac=false --set serviceType=LoadBalancer openfaas chart/openfaas
+$ kubectl port-forward svc/gateway -n openfaas 8080:8080
+</pre>
+</div>
+ -->
+<div>
+<i>(okay that's not super easy)</i>
+</div>
+
+<!-- <div>
 <pre>
 $ curl -sL https://cli.openfaas.com | sudo sh
 </pre>
 </div>
-
-<div>
+ -->
+<!-- <div>
 <i>(okay that's a bad practice but it's easy)</i>
-</div>
+</div> -->
 
 <div>
 <pre>
@@ -824,12 +915,248 @@ Manage your OpenFaaS functions from the command line
 </div>
 
 <div>
-[ .. ]
+<pre>
+$ kubectl --namespace=openfaas get deployments -l "release=openfaas, app=openfaas"
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+alertmanager   1/1     1            1           34m
+faas-idler     1/1     1            1           34m
+gateway        1/1     1            1           34m
+nats           1/1     1            1           34m
+prometheus     1/1     1            1           34m
+queue-worker   1/1     1            1           34m
+</pre>
+</div>
+
+<div>
+<pre>
+$ <em>kubectl</em> --namespace=<em>openfaas</em> get deployments -l "release=openfaas, app=openfaas"
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+alertmanager   1/1     1            1           34m
+faas-idler     1/1     1            1           34m
+gateway        1/1     1            1           34m
+<em>nats</em>           1/1     1            1           34m
+<em>prometheus</em>     1/1     1            1           34m
+queue-worker   1/1     1            1           34m
+</pre>
+</div>
+
+<div>
+<img src="https://i.imgur.com/Gnu5NmW.png" />
+</div>
+
+<div>
+Let's make a function!
+</div>
+
+<div>
+<pre>
+$ faas new --lang python3 echoupper --prefix richjones
+Function created in folder: echoupper
+Stack file written: echoupper.yml
+</pre>
+</div>
+
+<div>
+<pre>
+def handle(<span class="grey">req</span>):
+     return req.upper()
+</pre>
+</div>
+
+<div>
+<pre>
+$ faas up -f echoupper.yml
+</pre>
+</div>
+
+<div>
+<pre>
+$ echo Hi! | faas-cli invoke echoupper
+HI!
+</pre>
+</div>
+
+<div>
+<pre>
+$ curl -d "Hi!" http://127.0.0.1:8080/function/echoupper
+HI!
+</pre>
 </div>
 
 <div>
 Sweet!
 </div>
+
+<div>
+An extremely complicated, highly scalable, non-AWS echo cloud function!
+</div>
+
+<div>
+<i>(oh wow how useful :|)</i>
+</div>
+
+<div>
+More functionality in the OpenFaaS <em>Function Store</em>!
+</div>
+
+<div>
+A growing collection of useful, community-contributed, <em>free and open-source microservices </em> for your application!
+</div>
+
+<div>
+<img src="https://i.imgur.com/4J7iziv.png">
+</div>
+
+<div>
+<em>LEGO</em> for big data processing and machine learning!
+</div>
+
+<div>
+<i>(oh, actually cool!)</i>
+</div>
+
+<div>
+<i>!!! <em>NEW PROJECT ALERT</em> !!!</i>
+</div>
+
+<div>
+<img src="https://i.imgur.com/OnsFlxn.png">
+</div>
+
+<div>
+Fashion: <em>Easy</em> and <em>Awesome</em> Python for OpenFaaS!
+</div>
+
+<div>
+Use OpenFaaS functions as if they were <em>native</em>,
+</div>
+
+<div>
+but they run in their <em>own containers</em>!
+</div>
+
+<div>
+<pre>
+from <em>fashion</em> import <em>figlet</em>
+hi = figlet("Hello, world!")
+<span class="grey">#  _   _      _ _                             _     _ _</span>
+<span class="grey"># | | | | ___| | | ___    __      _____  _ __| | __| | |</span>
+<span class="grey"># | |_| |/ _ \ | |/ _ \   \ \ /\ / / _ \| '__| |/ _` | |</span>
+<span class="grey"># |  _  |  __/ | | (_) |   \ V  V / (_) | |  | | (_| |_|</span>
+<span class="grey"># |_| |_|\___|_|_|\___( )   \_/\_/ \___/|_|  |_|\__,_(_)</span>
+<span class="grey">#                    |/</span>
+</pre>
+</div>
+
+<div>
+Chain functions together!
+</div>
+
+<div>
+<pre>
+from <em>fashion</em> import <em>leftpad</em>, <em>figlet</em>
+figlet(leftpad("Hello!"))
+<span class="grey">#  _                _   _      _ _       _ _</span>
+<span class="grey"># ( )              | | | | ___| | | ___ | ( )</span>
+<span class="grey"># |/               | |_| |/ _ \ | |/ _ \| |/</span>
+<span class="grey">#                  |  _  |  __/ | | (_) |_|</span>
+<span class="grey">#                  |_| |_|\___|_|_|\___/(_)</span>
+</pre>
+</div>
+
+<div>
+Limit functions to certain instance types!
+</div>
+
+<div>
+<pre>
+<span class="grey"># Runs on expensive GPU instance</span>
+from <em>fashion</em> import <em>update_model</em>
+
+<span class="grey"># Runs on cheap CPU instance</span>
+from <em>fashion</em> import <em>send_result_email</em>
+
+result = update_model(input)
+send_email(result)
+<span class="grey"># Email sent!</span>
+
+</pre>
+</div>
+
+<div>
+Make asynchronous calls!
+</div>
+
+<div>
+<pre>
+from <em>fashion</em> import <em>async_figlet</em>
+async_figlet("Hello!")
+<span class="grey"># "6a3ae7fb-a8ee-4988-b7de-e3b81d1aed65"</span>
+</pre>
+</div>
+
+<div>
+Chain async calls together to build pipelines!
+</div>
+
+<div>
+<pre>
+from <em>fashion</em> import <em>async_leftpad</em>
+async_leftpad("Hello", callback_function=<em>"figlet"</em>)
+<span class="grey"># "6a3ae7fb-a8ee-4988-b7de-d3b81d1aed65"</span>
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># Runs on expensive GPU instance</span>
+from <em>fashion</em> import <em>async_update_model</em>
+
+<span class="grey"># Runs on cheap CPU instance</span>
+from <em>fashion</em> import <em>send_result_email</em>
+
+async_update_model(input, callback_function=<em>"send_result_email"</em>)
+<span class="grey"># Email will be sent eventually!</span>
+
+</pre>
+</div>
+
+<div>
+Is this useful?
+</div>
+
+<div>
+I don't know!
+</div>
+
+<div>
+I hope so!
+</div>
+
+<div>
+OpenFaaS is still young, but it is an exemplary open source project with quite a good team behind it!
+</div>
+
+<!-- <div>
+Zappa vs PLONK
+</div>
+
+<div>
+ <table style="width:100%">
+  <tr>
+    <th>Zappa</th>
+    <th>PLONK</th>
+  </tr>
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td>
+  </tr>
+ </table>
+</div> -->
 
 <div>
 Now we can use "serverless" patterns on our own hardware, or more ethical web hosts!
@@ -840,7 +1167,7 @@ We're "<em>serverless</em>"..
 </div>
 
 <div>
-We're "<em>serverless</em>".. but we have a lot of servers.
+We're "<em>serverless</em>".. but we have a lot of servers. And tooling. And voodoo.
 </div>
 
 <div>
@@ -848,7 +1175,7 @@ Goal: <em>destroy</em> ops.
 </div>
 
 <div>
-End result: <em>So much</em> ops!
+Result: <em>more</em> ops!
 </div>
 
 <div>
@@ -860,27 +1187,23 @@ PLONK is good solution*..
 </div>
 
 <div>
-..if you can handle the complexity..
+..if you can handle the <em>complexity</em>..
 </div>
 
 <div>
-..and you're already commited to Kubernetes..
+..and you're already commited to <em>Kubernetes</em>..
 </div>
 
 <div>
-..and you can afford the ops burden.
+..and you can <em>afford</em> the ops burden.
 </div>
 
 <div>
-<i>(Kubernetes: great if you're a consultant, pretty terrible if you need to get anything done)</i>
+<i>(Kubernetes: great if you're a consultant, pretty terrible if you just need to get something done)</i>
 </div>
 
 <div>
-I'm not any of those things!
-</div>
-
-<div>
-I'm just a guy!
+I'm just a regular <em>guy</em>!
 </div>
 
 <div>
@@ -999,20 +1322,22 @@ Designed for data scientists (like you!) to share large, mutable datasets!
 </div>
 
 <div>
-Also, might save the web and us all!
+Also works great with web content!
 </div>
 
 <div>
-dat == HTTP
-dat-cli == cURL
-Beaker == Firefox
-Hashbase == GitHub
+<ul>
+  <li>dat == HTTP</li>
+  <li>dat-cli == cURL</li>
+  <li>Beaker == Firefox</li>
+  <li>Hashbase == GitHub</li>
+</ul>
 </div>
 
 <div>
 <pre>
-cd ~/src/my-website
-dat .
+$ cd ~/src/my-website
+$ dat .
 
 Created new dat in /Users/alice/my-website/.dat
 <em>dat://c81299cfc139791ccc6db42f0bcac8a9af590c03828e8066478fcfc60ca6e481</em>
@@ -1032,7 +1357,7 @@ Users download the site <em>each other</em>!*
 </div>
 
 <div>
-
+This could be the begining of a new alternative to the corporate controlled web!
 </div>
 
 <!-- <div>
@@ -1060,7 +1385,7 @@ with <em>free</em> and <em>open source</em> versions that don't <em>spy on us</e
 </div>
 
 <div>
-Even better, we can build new things we couldn't imagine before!
+Even better, we can build <em>new services</em> we couldn't imagine before!
 </div>
 
 <div>
