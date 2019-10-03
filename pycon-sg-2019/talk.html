@@ -188,6 +188,26 @@ Thank you for having me!
 </div>
 
 <div>
+Warning!
+</div>
+
+<div>
+This talk is going to move <em>fast</em>!
+</div>
+
+<div>
+Better to be <em>overwhelmed</em> than bored!
+</div>
+
+<div>
+Feel free to <em>interrupt</em>!
+</div>
+
+<div>
+Ask me <em>questions</em>!
+</div>
+
+<div>
 My name is <em>Rich Jones</em>!
 </div>
 
@@ -240,26 +260,6 @@ Welcome to..
 
 <div>
 Serverless!: <em>Lambda</em>.. and Beyond!
-</div>
-
-<div>
-Warning!
-</div>
-
-<div>
-This talk is going to move <em>fast</em>!
-</div>
-
-<div>
-Better to be <em>overwhelmed</em> than bored!
-</div>
-
-<div>
-Feel free to <em>interrupt</em>!
-</div>
-
-<div>
-Ask me <em>questions</em>!
 </div>
 
 <div>
@@ -562,7 +562,7 @@ One Lambda
 </div>
 
 <div>
-Rapid elastic parallel processing, no supercomputer required!
+Rapid elastic parallel processing, <em>no supercomputer required</em>!
 </div>
 
 <div>
@@ -574,6 +574,19 @@ Example 1: Parallel Data Processing
 </div>
 
 <div>
+Suppose I have a large genetic dataset, and I want to process it on a sample-wise basis!
+</div>
+
+<div>
+First, grab your dataset from <em>refine.bio</em>!
+</div>
+
+<div>
+<img src="https://i.imgur.com/7zKkiyw.png">
+</div>
+
+<div>
+<img src="https://i.imgur.com/IjaTCAi.png">
 </div>
 
 <div>
@@ -581,14 +594,42 @@ Example 2: ML in Production
 </div>
 
 <div>
-Lots of predictors, need to choose the best one
+Suppose you have <em>lots of predictors</em>, and you want to choose the one with the <em>highest confidence</em>.
 </div>
 
 <div>
+If each of the predictors can operate in less than the space of a request, but not all together:
+</div>
+
+<div>
+<pre>
+import concurrent.futures
+from zappa.asynchronous import run
+
+def run_predictions(request):
+  executor = concurrent.futures.ThreadPoolExecutor()
+  predictor_functions = ['predictor.alpha', 'predictor.beta', 'predictor.delta']
+  results = executor.map(runner, predictor_functions)
+
+  highest_confidence = 0.0
+  final_prediction = None
+  for result in results:
+      if result.confidence > highest_confidence:
+        final_prediction = result.prediction
+        highest_confience = result.confidence
+
+  return final_prediction
+</pre>
+</div>
+
+
+<div>
+<pre>
 def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
      ingredients = get_ingredients()
      cake = bake(ingredients)
      deliver(cake)
+</pre>
 </div>
 
 <!-- <div>
@@ -958,6 +999,20 @@ Stack file written: echoupper.yml
 
 <div>
 <pre>
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://localhost:8080
+functions:
+  sample:
+    lang: python3
+    handler: ./echoupper
+    image: richjones/echoupper:latest
+</pre>
+</div>
+
+<div>
+<pre>
 def handle(<span class="grey">req</span>):
      return req.upper()
 </pre>
@@ -1049,6 +1104,14 @@ hi = figlet("Hello, world!")
 </div>
 
 <div>
+No function definition required!
+</div>
+
+<div>
+<i>thanks, PEP562!</i>
+</div>
+
+<div>
 Chain functions together!
 </div>
 
@@ -1066,6 +1129,13 @@ figlet(leftpad("Hello!"))
 
 <div>
 Limit functions to certain instance types!
+</div>
+
+<div>
+<pre>
+   constraints:
+     - "node.labels.instance_type == gpu"
+</pre>
 </div>
 
 <div>
@@ -1211,7 +1281,7 @@ I just want to run a service and <em>not worry about servers</em>!
 </div>
 
 <div>
-Okay!
+Hmmm.. okay then!
 </div>
 
 <div>
@@ -1392,4 +1462,188 @@ Even better, we can build <em>new services</em> we couldn't imagine before!
 There is so much to be done!
 </div>
 
+<div>
+Next time you start a project, consider opportunities to <em>redecentralize</em>!
+</div>
+
+<div>
+Okay! That's probably enough!
+</div>
+
+<div>
+In conclusion!
+</div>
+
+<div>
+Save <em>time</em> and <em>money</em>,
+</div>
+
+<div>
+build awesome <em>event-driven</em> applications,
+</div>
+
+<div>
+never have <em>downtime</em>,
+</div>
+
+<div>
+be <em>fast</em> everywhere,
+</div>
+
+<div>
+use <em>Zappa</em>!
+</div>
+
+<div>
+(your favorite companies are!)
+</div>
+
+<div>
+Or, use <em>OpenFaaS</em> and <em>Fashion</em> if you want more control and don't want to give evil Jeff Bezos more of your money!
+</div>
+
+<div>
+Or, better still, build <em>peer to peer</em> applications with <em>dat</em> and skip centralized servers entirely!
+</div>
+
+<div>
+Want to <em>contribute</em>? 😃
+</div>
+
+<div>
+<em>100+</em> contributors,
+</div>
+
+<div>
+<img src="http://i.imgur.com/Mgpkgpa.png" style="width: 1000%">
+</div>
+
+<div>
+<em>6</em> continents!
+</div>
+
+<div>
+🐧
+</div>
+
+<div>
+Ways <em>you</em> can help:
+</div>
+
+<div>
+Join the Slack!
+https://slack.zappa.io
+</div>
+
+<div>
+Report bugs!
+</div>
+
+<div>
+Fix bugs!
+</div>
+
+<div>
+Pull request triage!
+</div>
+
+<div>
+  <pre>
+  shoutz
+  </pre>
+</div>
+
+<div>
+Patrons:
+<ul>
+  <li>
+    Nathan Lawrence
+  </li>
+  <li>
+    LaunchLab
+  </li>
+  <li>
+    Sean Paley
+  </li>
+</ul>
+
+</div>
+
+<div>
+  https://patreon.com/Zappa
+</div>
+
+<div>
+Special Thanks:
+<ul>
+  <li>
+    @edgarroman
+  </li>
+  <li>
+    @brianjinwright
+  </li>
+  <li>
+    @mcrowson
+  </li>
+  <li>
+    @mathom
+  </li>
+  <li>
+    @nikbora
+  </li>
+  <li>
+    @scoates
+  </li>
+  <li>
+    @richiverse
+  </li>
+  <li>
+    @bcongdon
+  </li>
+  <li>
+    @geeknam
+  </li>
+
+  <li>
+    MANY, MANY others!
+  </li>
+</div>
+
+<div>
+Do you need <em>awesome</em>, <em>scalable</em>, <em>server-less</em> apps?
+</div>
+
+<div>
+Hire me! 💸💸💸
+</div>
+
+<div>
+<em>Email</em>:
+miserlou@gmail.com
+</div>
+
+<div>
+<em>Code</em>:
+https://github.com/Miserlou/Zappa </br>
+https://github.com/Miserlou/Fashion </br>
+https://github.com/Miserlou/Talks </br>
+</em>
+</div>
+
+<div>
+<em>Slack</em>:
+https://slack.zappa.io
+</em>
+</div>
+
+<div>
+<em>Thank you</em>!
+</div>
+
+<div>
+Questions?
+</div>
+
+</body>
+</html>
 
