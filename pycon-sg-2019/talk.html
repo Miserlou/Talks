@@ -270,7 +270,7 @@ Ask me <em>questions</em>!
 </div>
 
 <div>
-Part 1: Going Serverless With Zappa
+<i>Part 1: Going <em>Serverless</em> With Zappa</i>
 </div>
 
 <div>
@@ -369,6 +369,10 @@ Orders of magnitude <em>less expensive</em>!
 
 <div>
 $0.000000002<em>/ms</em>
+</div>
+
+<div>
+SGD$0.00000000275<em>/ms</em>
 </div>
 
 <div>
@@ -558,7 +562,7 @@ $ zappa manage makemigrations
 </pre>
 </div>
 
-<div>
+<!-- <div>
 Secure deployments!
 </div>
 
@@ -583,7 +587,7 @@ Secure deployments!
     "validation_expression": "^Bearer \\w+$",
 }
 </pre>
-</div>
+</div> -->
 
 <div>
 Don't need to modify your existing apps!
@@ -1373,8 +1377,65 @@ First, grab your dataset from <em>refine.bio</em>!
 
 <div>
 <pre>
+from pandas import DataFrame
+from my_fancy_models import classify, store_result
+from <em>zappa.asynchronous</em> import <em>task</em>
+
+def load_samples(sample_path=<span class="grey">"mysamples.tsv"</span>):
+  df = DataFrame.from_csv(sample_path, sep="\t")
+samples = load_samples()
+
+<em>@task</em>
+def classify_sample(<span class="grey">sample</span>):
+    classification = classify(sample)
+    store_result(classification, sample)
+
+def process_all_samples():
+  for sample in samples:
+    process_sample(sample)
+</pre>
+</div>
+
+<div>
+<pre>
 $ zappa deploy
-$ zappa invoke 'mybioapp.process_genes'
+$ zappa invoke 'mybioapp.process_all_samples'
+</pre>
+</div>
+
+<div>
+Done!
+</div>
+
+<div>
+This code still works locally!
+</div>
+
+<div>
+Mix local and remote code:
+</div>
+
+<div>
+<pre>
+from pandas import DataFrame
+from my_fancy_models import classify, store_result
+from <em>zappa.asynchronous</em> import <em>task</em>
+
+def load_samples(sample_path=<span class="grey">"mysamples.tsv"</span>):
+  df = DataFrame.from_csv(sample_path, sep="\t")
+samples = load_samples()
+
+<em>@task</em>(
+  remote_aws_lambda_function_name=<span class="grey">'my-classifier'</span>,
+  remote_aws_region=<span class="grey">'us-east-1'</span><em>
+)</em>
+def classify_sample(<span class="grey">sample</span>):
+    classification = classify(sample)
+    store_result(classification, sample)
+
+def process_all_samples():
+  for sample in samples:
+    process_sample(sample)
 </pre>
 </div>
 
@@ -1416,35 +1477,8 @@ def run_predictions(<span class="grey">request</span>):
 </pre>
 </div>
 
-<!-- <div>
-Useful for quickly processing large data sets, online machine learning, quering multiple models in a single response requests!
-</div> -->
-
-<!-- <div>
-<pre>
-def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
-     ingredients = get_ingredients()
-     cake = bake(ingredients)
-     deliver(cake)
-</pre>
-</div>
-
 <div>
-<pre>
-from <em>zappa.async</em> import <em>task</em>
-
-<em>@task</em>
-def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
-     ingredients = get_ingredients()
-     cake = bake(ingredients)
-     deliver(cake)
-</pre>
-</div>
-
- -->
-
-<div>
-One requests -> Lots of predictions -> one response!
+One request -> Lots of predictions -> one response!
 </div>
 
 <div>
@@ -1472,7 +1506,7 @@ But now I've convinced thousands of people to use Amazon.
 </div>
 
 <div>
-Part 2: Why You Shouldn't Use Zappa
+<i>Part 2: Why You <em>Shouldn't Use</em> Zappa</i>
 </div>
 
 <div>
@@ -1904,7 +1938,36 @@ figlet(leftpad("Hello!"))
 </div>
 
 <div>
+Make asynchronous calls!
+</div>
+
+<div>
+<pre>
+from <em>fashion</em> import <em>async_figlet</em>
+async_figlet("Hello!")
+<span class="grey"># "6a3ae7fb-a8ee-4988-b7de-e3b81d1aed65"</span>
+</pre>
+</div>
+
+<div>
+Chain async calls together to build ETL pipelines!
+</div>
+
+<div>
+<pre>
+from <em>fashion</em> import <em>async_leftpad</em>
+cf = [<span class="grey">"figlet"</span>, <span class="grey">"send_email"</span>]
+async_leftpad("Hello", callback_functions=cf)
+<span class="grey"># "6a3ae7fb-a8ee-4988-b7de-d3b81d1aed65"</span>
+</pre>
+</div>
+
+<div>
 Limit functions to certain instance types!
+</div>
+
+<div>
+<i>(this is my favorite part)</i>
 </div>
 
 <div>
@@ -1940,31 +2003,11 @@ send_email(result)
 </div>
 
 <div>
+Automatic cost optimization at the application level!
+</div>
+
+<div>
 ✨✨✨magic!✨✨✨
-</div>
-
-<div>
-Make asynchronous calls!
-</div>
-
-<div>
-<pre>
-from <em>fashion</em> import <em>async_figlet</em>
-async_figlet("Hello!")
-<span class="grey"># "6a3ae7fb-a8ee-4988-b7de-e3b81d1aed65"</span>
-</pre>
-</div>
-
-<div>
-Chain async calls together to build pipelines!
-</div>
-
-<div>
-<pre>
-from <em>fashion</em> import <em>async_leftpad</em>
-async_leftpad("Hello", callback_functions=["figlet", "send_email"])
-<span class="grey"># "6a3ae7fb-a8ee-4988-b7de-d3b81d1aed65"</span>
-</pre>
 </div>
 
 <!-- <div>
@@ -1994,7 +2037,7 @@ I hope so!
 </div>
 
 <div>
-OpenFaaS is still young, but it is an exemplary open source project with quite a good team behind it!
+OpenFaaS is still young, but it is an <em>exemplary open source project</em> with a good team behind it!
 </div>
 
 <!-- <div>
@@ -2019,7 +2062,7 @@ Zappa vs PLONK
 </div> -->
 
 <div>
-Now we can use "serverless" patterns on our own hardware, or more ethical web hosts!
+Now we can use "serverless" patterns on our <em>own hardware</em>, or <em>more ethical</em> web hosts!
 </div>
 
 <div>
@@ -2067,11 +2110,11 @@ PLONK is good solution*..
 </div>
 
 <div>
-<i>(Kubernetes: great if you're a consultant, pretty terrible if you just need to get something done)</i>
+<i>(Kubernetes: great for consultants, lousy for lazy hackers)</i>
 </div>
 
 <div>
-Fortunately, more cloud vendors have off-the shelf Kubernetes, and OpenFaaS hosts are starting to appear.
+Fortunately, more cloud vendors offer <em>off-the shelf</em> Kubernetes, and <em>dedicated OpenFaaS hosts</em> are starting to appear.
 </div>
 
 <div>
@@ -2107,7 +2150,7 @@ For real this time!
 </div>
 
 <div>
-Part 3: Let's build a new internet!
+<i>Part 3: Let's build a <em>new internet</em>!</i>
 </div>
 
 <div>
@@ -2140,8 +2183,11 @@ There are tradeoffs.
    - Advertisers benefit from trolls.
    - Moderation
 
-
 -->
+
+<div>
+<img src="https://i0.wp.com/www.peacebiennale.info/blog/wp-content/uploads/2017/12/Fig-21.5-Baran_Diagrams-hi-res.jpg">
+</div>
 
 <div>
 There is an <em>exciting landscape</em> of new P2P technologies and protocols!
@@ -2168,11 +2214,11 @@ Better global distribution and interconnectivity!
 </div>
 
 <div>
-New models privacy!
+New models of privacy!
 </div>
 
 <div>
-More network resiliance!
+Better network resiliance!
 </div>
 
 <div>
@@ -2185,7 +2231,7 @@ More freedom for users!
 
 <!-- <div><i>(Legalize drugs and gay!)</i></div>
  -->
-
+<!--
 <div>
 <em>P</em>ersonal <em>D</em>ata <em>S</em>torage
 </div>
@@ -2197,7 +2243,7 @@ Control your own private data, share <em>selectively</em>.
 <div>
 ..but not the approach I am as interested in.
 </div>
-
+ -->
 <div>
 I want to run web services <em>without any</em> centralized servers!
 </div>
@@ -2211,7 +2257,23 @@ seed it,
 </div>
 
 <div>
-peers seed it after the original seed goes away!
+peers visit,
+</div>
+
+<div>
+peers keep seeding it
+</div>
+
+<div>
+peers keep seeding it, <em>even after the original seed goes away</em>!
+</div>
+
+<div>
+<i>"Sounds cool, but that sounds impossible!"</i>
+</div>
+
+<div>
+We can do it right now!
 </div>
 
 <div>
@@ -2227,11 +2289,15 @@ git + BitTorrent + HTTP = dat
 </div>
 
 <div>
-Designed for data scientists (like you!) to share large, mutable datasets!
+git + BitTorrent + HTTP + ✨✨✨magic✨✨✨ = dat
 </div>
 
 <div>
-git is bad for data, dat is great for data!
+Designed for data scientists (<em>like you</em>!) to share large, mutable datasets!
+</div>
+
+<div>
+<em>git</em> is bad for data, <em>dat</em> is great for data!
 </div>
 
 <div>
@@ -2253,8 +2319,9 @@ Let's publish a datsite!
 
 <div>
 <pre>
-$ npm install dat # this is like `pip`, but for JS
+$ npm install dat
 $ cd ~/src/my-website
+$ dat .
 </pre>
 </div>
 
@@ -2262,13 +2329,13 @@ $ cd ~/src/my-website
 <pre>
 $ dat .
 
-Created new dat in /Users/alice/my-website/.dat
+Created new dat in /Users/rjones/pyconsg-datsite/.dat
 <em>dat://c81299cfc139791ccc6db42f0bcac8a9af590c03828e8066478fcfc60ca6e481</em>
 </pre>
 </div>
 
 <div>
-<img src="https://beakerbrowser.com/img/view-source.png" />
+<img src="https://i.imgur.com/yoBYqbi.png" />
 </div>
 
 <div>
@@ -2280,7 +2347,23 @@ Users download the site <em>each other</em>!
 </div>
 
 <div>
-This could be the begining of a new alternative to the corporate controlled web!
+Dats can link to dats, and dats can be updated, so we can build <em>dynamic server-less applications</em>!
+</div>
+
+<div>
+<img src="https://i.imgur.com/GZslLEN.png">
+</div>
+
+<div>
+This could be the <em>begining of a new decentralized web</em>!
+</div>
+
+<div>
+It's also <em>really fun</em>, like the old web was!
+</div>
+
+<div>
+<img src="https://i.imgur.com/06Yudzf.png">
 </div>
 
 <!-- <div>
@@ -2348,15 +2431,23 @@ All tech incumbants can be <em>dethroned</em>!
 </div>
 
 <div>
-The opportunities are <em>too large</em> to ignore!
+<i>(not sorry)</i>
 </div>
 
 <div>
-Even better, we can build <em>new types of services</em> we couldn't imagine before!
+The opportunities are <em>too large</em> and <em>too exciting</em> to ignore!
+</div>
+
+<div>
+Even better, we can build <em>new types of collaborative services</em> we couldn't imagine before!
 </div>
 
 <div>
 A thousand projects on the magnitude of Wikipedia!
+</div>
+
+<div>
+<em>Free digital libraries</em> for everybody in the world!
 </div>
 
 <div>
@@ -2368,7 +2459,11 @@ we can <em>build liberated alternatives</em> that make the old systems obselete!
 </div>
 
 <div>
-This has been our story so far, and it should be our story into the future as well!
+This has been our story <em>so far</em>,
+</div>
+
+<div>
+and it should be our story into the <em>future</em> as well!
 </div>
 
 <div>
@@ -2376,7 +2471,7 @@ There is so much to be done!
 </div>
 
 <div>
-New opportunities come with new challenges!
+New opportunities come with new challenges, challenges are fun!
 </div>
 
 <div>
@@ -2420,11 +2515,15 @@ Or,
 </div>
 
 <div>
-if you don't want to give any more money to Jeff Bezos,
+if you don't want to give any more money to <em>Jeff Bezos</em>,
 </div>
 
 <div>
-use <em>OpenFaaS</em> and <em>Fashion</em> to run efficient data processing pipelines on your own FaaS!
+who is literally an evil Bond villain,
+</div>
+
+<div>
+use <em>PLONK</em> and <em>Fashion</em> to run efficient data processing pipelines on your own FaaS!
 </div>
 
 <div>
@@ -2432,15 +2531,23 @@ use <em>OpenFaaS</em> and <em>Fashion</em> to run efficient data processing pipe
 </div>
 
 <div>
+(which you can do at the workshop tomorrow!)
+</div>
+
+<div>
 Finally,
 </div>
 
 <div>
-if you want to be part of the next generation of web technologies and services</div>
+if you want to be part of the <em>next generation</em> of web technologies and services</div>
 </div>
 
 <div>
 join me in <em>redecentralizing</em> on the truly serverless <em>peer to peer</em> web!
+</div>
+
+<div>
+(I have big plans!)
 </div>
 
 <div>
@@ -2568,12 +2675,6 @@ miserlou@gmail.com
 https://github.com/Miserlou/Zappa </br>
 https://github.com/Miserlou/Fashion </br>
 https://github.com/Miserlou/Talks </br>
-</em>
-</div>
-
-<div>
-<em>Slack</em>:
-https://slack.zappa.io
 </em>
 </div>
 
