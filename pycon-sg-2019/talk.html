@@ -188,26 +188,6 @@ Thank you for having me!
 </div>
 
 <div>
-Warning!
-</div>
-
-<div>
-This talk is going to move <em>fast</em>!
-</div>
-
-<div>
-Better to be <em>overwhelmed</em> than bored!
-</div>
-
-<div>
-Feel free to <em>interrupt</em>!
-</div>
-
-<div>
-Ask me <em>questions</em>!
-</div>
-
-<div>
 My name is <em>Rich Jones</em>!
 </div>
 
@@ -240,16 +220,15 @@ Python's <em>serverless</em> framework!
 </div>
 
 <div>
-..also..
-</div>
-
-<div>
+And..
   <ul>
     <li>NoDB</li>
     <li>lambda-packages</li>
     <li>django-knockout-modeler</li>
     <li>django-easy-timezones</li>
     <li>`loop`</li>
+    <li>SoundScrape</li>
+    <li>omnihash</li>
     <li>And more!..
   </ul>
 </div>
@@ -263,7 +242,27 @@ Serverless!: <em>Lambda</em>.. and Beyond!
 </div>
 
 <div>
-<i>"Server-less?"</i>
+⚠️⚠⚠️️️️️Warning!⚠️⚠⚠
+</div>
+
+<div>
+This talk is going to move <em>fast</em>!
+</div>
+
+<div>
+Better to be <em>overwhelmed</em> than bored!
+</div>
+
+<div>
+Feel free to <em>interrupt</em>!
+</div>
+
+<div>
+Ask me <em>questions</em>!
+</div>
+
+<div>
+<i>"What does <em>serverless</em> mean?!"</i>
 </div>
 
 <div>
@@ -271,53 +270,24 @@ Serverless!: <em>Lambda</em>.. and Beyond!
 </div>
 
 <div>
+Part 1: Going Serverless With Zappa
+</div>
+
+<div>
+<i>aka</i>: "<em>no permanent infrastructure</em>"
+</div>
+
+<div>
 <i>aka</i>: "<em>no permanent infrastructure</em>"*
 </div>
 
-<div>
-Zero <em>maintainance</em>!
-</div>
-
-<div>
-Zero <em>load balancing</em>!
-</div>
-
-<div>
-Zero <em>security patches</em>!
-</div>
-
-<div>
-Zero <em>downtime</em>!
-</div>
-
-<div>
-Zero <em>worrying</em>!
-</div>
-
-<div>
-(fire your ops team)
-</div>
-
-<div>
-<i>"That sounds awesome, how do I get started?"</i>
-</div>
-
-<div>
-Zappa!
-</div>
-
-<div>
-<i>
-full disclosure: this is my baby
-</i>
-</div>
 
 <div>
 AWS <em>Lambda</em> + AWS <em>API Gateway</em>
 </div>
 
 <div>
-Works with your <em>existing</em> apps!
+There still <i>are</i> servers, but they are <em>ephemeral</em>
 </div>
 
 <div>
@@ -327,9 +297,9 @@ Traditional web server:
 <div>
 <ul>
   <li>Web server (Apache/NX) listens for request</li>
-  <li>Converts to WSGI environ</li>
+  <li>Converts to WSGI "environ"</li>
   <li>Sends to WSGI server (Gunicorn)</li>
-  <li>App processes the request</li>
+  <li>Django processes the request</li>
   <li>Web server returns it to the client</li>
   <li>Web server goes back to listening</li>
 </ul>
@@ -345,20 +315,24 @@ Zappa:
 <ul>
   <li>Request comes into API Gateway</li>
   <li>API request mapped to dict with VTL</li>
-  <li>Server is <em>created</em></li>
-  <li>Server converts dict to WSGI, feeds WSGI to application</li>
+  <li>"Server" is <em>created</em></li>
+  <li>"Server" converts dict to WSGI, feeds WSGI to Django</li>
   <li>Returns response to API Gateway</li>
-  <li>Server is <em>destroyed</em></li>
+  <li>"Server" is <em>destroyed</em></li>
   <li>API Gateway returns response to client</li>
 </ul>
 </div>
 
 <div>
-&lt;30ms!
+~30ms!
 </div>
 
 <div>
-By the time the user sees the page, the server has <em>disappeared</em>!
+By the time the user sees the page, the server has <em>disappeared</em>.
+</div>
+
+<div>
+ॐ
 </div>
 
 <div>
@@ -390,23 +364,11 @@ Super <em>scalable</em>!
 </div>
 
 <div>
-100000 requests = 100000 servers
-</div>
-
-<div>
-<em>Trillions</em> of events/year!
-</div>
-
-<div>
-Orders of magnitude <em>less expensive</em>*!
+Orders of magnitude <em>less expensive</em>!
 </div>
 
 <div>
 $0.000000002<em>/ms</em>
-</div>
-
-<div>
-($0.0000000027SGD<em>/ms</em>)
 </div>
 
 <div>
@@ -422,6 +384,208 @@ Zappa: $0.75 * 12 - Free = <em>$0/yr</em>
 </div>
 
 <div>
+Zero <em>maintainance</em>!
+</div>
+
+<div>
+Zero <em>load balancing</em>!
+</div>
+
+<div>
+Zero <em>security patches</em>!
+</div>
+
+<div>
+Zero <em>downtime</em>!
+</div>
+
+<div>
+(fire your ops team)
+</div>
+
+<div>
+<i>"Cool! What else can it do?"</i>
+</div>
+
+<div>
+<em>Event-driven</em> architecture!
+</div>
+
+<div>
+Code executes <em>in response to events</em>
+</div>
+
+<div>
+File uploads!
+</div>
+
+<div>
+Incoming emails!
+</div>
+
+<div>
+New users!
+</div>
+
+<div>
+<i>"Neat! But I demand even more features!"</i>
+</div>
+
+<div>
+You're in luck!
+</div>
+
+<div>
+Rollback!
+</div>
+
+<div>
+<pre>
+$ zappa rollback -n 2
+</pre>
+</div>
+
+<div>
+Free SSL certificates!
+</div>
+
+<div>
+<pre>
+$ zappa certify
+</pre>
+</div>
+
+<div>
+Log tailing!
+</div>
+
+<div>
+<pre>
+$ zappa tail
+</pre>
+</div>
+
+<div>
+Auto <em>keep-warm</em>!
+</div>
+
+<div>
+Use C-Extensions via <em>lambda-packages</em>!
+</div>
+
+<div>
+  <ul>
+    <li>MySQL-Python</li>
+    <li>numpy</li>
+    <li>OpenCV</li>
+    <li>psycopg2</li>
+    <li>Pillow (PIL)</li>
+    <li>LXML</li>
+    <li>PyCrypto</li>
+    <li>PyNaCl</li>
+    <li>cryptography</li>
+    <li>cffi</li>
+    <li>...+ hundreds more!</li>
+</div>
+
+<!-- <div>
+Use >50MB packages!
+</div> -->
+
+<div>
+Load <em>remote environment variables</em> from S3!
+</div>
+
+<div>
+<pre>
+<span class="grey">// my-config-bucket/super-secret-config.json</span>
+{
+    "<em>DB_CONNECTION_STRING</em>": "super-secret:database"
+}
+</pre>
+
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.json</span>
+"remote_env_bucket": "my-config-bucket",
+"remote_env_file": "super-secret-config.json"
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># your_zappa_app.py</span>
+import os
+db_string = os.environ('<em>DB_CONNECTION_STRING</em>')
+</pre>
+</div>
+
+<div>
+CI/CD <em>integration</em>!
+</div>
+
+<div>
+<pre>
+$ zappa status dev --json
+</pre>
+</div>
+
+<div>
+Remote command <em>invocation</em>!
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'my_app.my_func'
+</pre>
+</div>
+
+<div>
+<pre>
+$ zappa invoke 'print hello.upper()' --raw
+</pre>
+</div>
+
+<div>
+<em>Django</em> management commands!
+</div>
+
+<div>
+<pre>
+$ zappa manage makemigrations
+</pre>
+</div>
+
+<div>
+Secure deployments!
+</div>
+
+<div>
+<pre>
+"api_key_required": true
+</pre>
+</div>
+
+<div>
+<pre>
+"iam_authorization": true
+</pre>
+</div>
+
+<div>
+<pre>
+"authorizer": {
+    "function": "your_module.your_auth_function",
+    "result_ttl": 300,
+    "token_source": "Authorization",
+    "validation_expression": "^Bearer \\w+$",
+}
+</pre>
+</div>
+
+<div>
 Don't need to modify your existing apps!
 </div>
 
@@ -430,7 +594,39 @@ No vendor lock-in!
 </div>
 
 <div>
+Battle tested!
+</div>
+
+<div>
+Used in production by <em>banks</em>, <em>governments</em>, <em>medical</em> companies and more!
+</div>
+
+<div>
 Works with any <em>WSGI</em> application!
+</div>
+
+<div>
+Django!
+</div>
+
+<div>
+(Wagtail! django-cms! Pinax!)
+</div>
+
+<div>
+Flask!
+</div>
+
+<div>
+Pyramid!
+</div>
+
+<div>
+Bottle!
+</div>
+
+<div>
+Hug!
 </div>
 
 <div>
@@ -442,7 +638,595 @@ Works with any <em>WSGI</em> application!
 </div>
 
 <div>
-Super easy to <em>start</em>!
+<i>"Wow! Okay! How do I get started!"</i>
+</div>
+
+<div>
+It's super easy!
+</div>
+
+<div>
+<pre>$ pip install zappa</pre>
+</div>
+
+<div>
+<pre>$ zappa init</pre>
+</div>
+
+<div>
+<pre>
+
+<em>
+███████╗ █████╗ ██████╗ ██████╗  █████╗
+╚══███╔╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗
+  ███╔╝ ███████║██████╔╝██████╔╝███████║
+ ███╔╝  ██╔══██║██╔═══╝ ██╔═══╝ ██╔══██║
+███████╗██║  ██║██║     ██║     ██║  ██║
+╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝  ╚═╝
+</em>
+
+Welcome to Zappa!
+
+Zappa is a system for running server-less Python web applications on AWS Lambda and AWS API Gateway.
+This `init` command will help you create and configure your new Zappa deployment.
+Let's get started!
+
+Your Zappa configuration can support multiple production environments, like 'dev', 'staging', and 'production'.
+What do you want to call this environment (default 'dev'):
+</pre>
+</div>
+
+<div>
+  <pre>
+  {
+      "dev": {
+          "aws_region": "us-east-1",
+          "django_settings": "demo.settings",
+          "profile_name": "default",
+          "s3_bucket": "my-demo-bucket"
+      }
+  }
+  </pre>
+</div>
+
+<div>
+<pre>$ zappa deploy</pre>
+</div>
+
+<div>
+<ul>
+  <li>
+    Smoosh your project + venv into a package
+  </li>
+  <li>
+    Install Lambda-compatible dependancies
+  </li>
+  <li>
+    Install WSGI middleware to make Django work
+  </li>
+  <li>
+    Create permission policies and buckets (if necessary)
+  </li>
+  <li>
+    Upload package to S3
+  </li>
+  <li>
+    Register + configure Lambda function
+  </li>
+  <li>
+    Register + configure API Gateway
+  </li>
+  <li>
+    Delete package from S3
+  </li>
+  <li>
+    Create "keep-warm" event
+  </li>
+</div>
+
+<div>
+<pre>
+Calling deploy for stage dev..
+Downloading and installing dependencies..
+Packaging project as zip..
+Uploading demo1-dev-1502298757.zip (11.1MiB)..
+Scheduling..
+Scheduled demo1-dev-zappa-keep-warm-handler.keep_warm_callback with expression rate(4 minutes)!
+Uploading demo1-dev-template-1502298785.json (1.6KiB)..
+Waiting for stack demo1-dev to create (this can take a bit)..
+Deploying API Gateway..
+<em>Deployment complete!</em>: https://8x24a8pmn7.execute-api.us-east-1.amazonaws.com/dev
+</pre>
+</div>
+
+<div>
+BAM!
+</div>
+
+<div>
+You're server-less!
+</div>
+
+<div>
+🐘
+</div>
+
+<div>
+<em>Database</em>!
+</div>
+
+<div>
+<i>*uh-oh*</i>
+</div>
+
+<div>
+This is tricky!
+</div>
+
+<div>
+Do you <em>need</em> a database?
+</div>
+
+<div>
+Think <em>serverlessly</em>!
+</div>
+
+<div>
+Avoid <em>infrastructure</em>!
+</div>
+
+<div>
+ex: <em>NoDB</em> - incredibly simple, SQL-less, S3-based "database"
+</div>
+
+<div>
+<pre>$ pip install nodb</pre>
+</div>
+
+<div>
+<pre>
+from <em>nodb</em> import <em>NoDB</em>
+
+nodb = NoDB()
+nodb.bucket = "my-s3-bucket"
+nodb.index = "name"
+
+<span class="grey"># Save an object!</span>
+user = {"name": "Jeff", "age": 19}
+<em>nodb.save(user)</em>
+
+<span class="grey"># Load our object!</span>
+<em>user = nodb.load("Jeff")</em>
+print user.age # 19
+
+<span class="grey"># Delete our object</span>
+nodb.delete("Jeff") # True
+</pre>
+</div>
+
+<div>
+ex: <em>zappa-bittorrent-tracker</em> can serve millions of peers with S3-database
+</div>
+
+<div>
+<em>Event-driven</em> architecture!
+</div>
+
+<div>
+This is the fun part!
+</div>
+
+<div>
+Execute code in response to AWS ecosystem <em>events</em>!
+</div>
+
+<div>
+No blocking pages!
+</div>
+
+<div>
+No Celery!
+</div>
+
+<div>
+Example 1: <em>Avatar resizing</em>
+</div>
+
+<div>
+User uploads an image, we make a thumbnail
+</div>
+
+<div>
+HTTP -> S3 -> Lambda -> S3
+</div>
+
+<div>
+  <img src="http://i.imgur.com/j4rirEL.png">
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: <em>users.util.process_avatar</em>
+  event_source:
+    arn: arn:aws:s3:::your-upload-bucket
+    events:
+    - <em>s3:ObjectCreated:*</em>
+</pre>
+</div>
+
+<div>
+<pre> $ zappa schedule </pre>
+</div>
+
+<div>
+That's it! :D
+</div>
+
+<div>
+  <i>*pro tip!*</i>
+</div>
+
+<div>
+Make sure you don't get stuck in an infinite loop!
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: users.util.process_avatar
+  event_source:
+    arn: arn:aws:s3:::your-upload-bucket
+    events:
+    - s3:ObjectCreated:<em>/uploads/*</em>
+</pre>
+</div>
+
+<div>
+Example 2: <em>Daily notifications</em>
+</div>
+
+<div>
+<em>Time</em> is an event source!
+</div>
+
+<div>
+Send daily notifications to your Slack channel!
+</div>
+
+<div>
+<img src="http://i.imgur.com/WDt1gyL.png">
+</div>
+
+<div>
+<pre>
+<span class="grey">// zappa_settings.yml</span>
+events:
+- function: my_app.util.send_notifications
+  expression: <em>rate(24 hours)</em>
+</pre>
+</div>
+
+<!-- <div>
+<pre>
+{
+  "dev": {
+     ...
+     "events": [{
+         "function": "my_app.utils.send_notifications",
+         "expression": <em>"rate(24 hours)"</em>
+     }],
+     ...
+  }
+}
+</pre>
+</div> -->
+
+<div>
+<pre> $ zappa schedule </pre>
+</div>
+
+<div>
+<img src="http://i.imgur.com/HmiGJW9.png" style="width: 200%">
+</div>
+
+<div>
+Hooray!
+</div>
+
+<div>
+🎉<img src="https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/96/robot-face_1f916.png" style="width: 25%"> 🎉
+🎉<img src="https://emojipedia-us.s3.amazonaws.com/thumbs/240/apple/96/robot-face_1f916.png" style="width: 25%"> 🎉
+</div>
+
+<!-- <div>
+We can use <em>cron</em> and <em>rate</em> syntax!
+</div>
+
+<div>
+Multiple schedules!
+</div>
+
+<div>
+<pre>
+{
+  "dev": {
+     ...
+     "events": [{
+         "function": "my_app.utils.calc_status",
+         "expressions": [<em>
+            "cron(0 20-23 ? * SUN-THU *)",
+            "cron(0 0-8 ? * MON-FRI *)"</em>
+          ]
+     }],
+     ...
+  }
+}
+</pre>
+</div> -->
+
+<div>
+<i>"Sweet! But what if I don't want to wait for an event?</i>
+</div>
+
+<div>
+Zappa can execute functions <em>asynchronously</em> in a <em>different</em> Lambda!
+</div>
+
+<div>
+Example 3: Let's bake a cake!
+</div>
+
+<div>
+🍰
+</div>
+
+<div>
+<pre>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+from <em>zappa.asynchronous</em> import <em>task</em>
+
+<em>@task</em>
+def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
+     ingredients = get_ingredients()
+     cake = bake(ingredients)
+     deliver(cake)
+</pre>
+</div>
+
+<div>
+<pre>
+<span class="grey"># url('api/order/cake')</span>
+def order_cake(<span class="grey">request</span>):
+    <em>bake_cake()</em>
+    return HttpResponse("Your cake is being made!")
+</pre>
+</div>
+
+<div>
+It's that easy!
+</div>
+
+<div>
+No config!
+</div>
+
+<div>
+No queues!
+</div>
+
+<div>
+No Celery!
+</div>
+
+<div>
+Go nuts!
+</div>
+
+<div>
+🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰🍰
+</div>
+
+<div>
+<i>"But what if I need to bake mission-critical cakes for the whole planet?"</i>
+</div>
+
+<div>
+<em>Globally-available</em> server-less architecture!
+</div>
+
+<div>
+<i>"That sounds cool! But why do I want that?"</i>
+</div>
+
+<div>
+If your servers are <em>no-where</em>, then they can be <em>everywhere</em>!
+</div>
+
+<div>
+Benefits of global deployments:
+</div>
+
+<div>
+<i>#1</i>: <em>Redunancy</em>!
+</div>
+
+<div>
+Cloud computing is an <em>act of faith</em>.
+</div>
+
+<div>
+Amazon goes down too!
+</div>
+
+<div>
+<i>*gasp*</i>
+</div>
+
+<div>
+<img src="http://i.imgur.com/vJYLaQA.png">
+</div>
+
+<div>
+Amazon goes down too..
+</div>
+
+<div>
+..but (usually) <em>not across the planet</em>.
+</div>
+
+<div>
+<i>Pro tip!</i>
+</div>
+
+<div>
+Don't host your status page <em>on your own infrastructure</em>!
+</div>
+
+<div>
+<img src="http://i.imgur.com/38nRhf4.png">
+</div>
+
+<div>
+<img src="http://i.imgur.com/76V8CEd.png" style="width: 1000%">
+</div>
+
+<div>
+<img src="http://i.imgur.com/CM42sF5.png">
+</div>
+
+<div>
+<i>fail</i>
+</div>
+
+<div>
+<i>#2</i>: <em>Speed</em>!
+</div>
+
+<div>
+<pre>
+$ ping apigateway.us-east-2.amazonaws.com <span class="grey"># Ohio</span>
+--- apigateway.us-east-2.amazonaws.com ping statistics ---
+round-trip min/avg/max/stddev = 35.274/<em>39.257</em>/42.731/2.499 ms
+</pre>
+</div>
+
+<div>
+<pre>
+$ ping apigateway.ap-northeast-1.amazonaws.com <span class="grey"># Tokyo</span>
+--- apigateway.ap-northeast-1.amazonaws.com ping statistics ---
+round-trip min/avg/max/stddev = 177.616/<em>202.745</em>/305.468/46.281 ms
+</pre>
+</div>
+
+<div>
+<em>&gt;200ms</em> just for the round trip!
+</div>
+
+<div>
+(Earth is big!)
+</div>
+
+<div>
+Please provide <em>non-US</em> and <em>US</em> users with equally great service!
+</div>
+
+<div>
+<i>#3</i>: <em>Scalability</em>!
+</div>
+
+<div>
+1 region: ~<em>5,000</em> simultaneous connections
+</div>
+
+<div>
+9 regions: ~<em>45,000</em> simultaneous connections!
+</div>
+
+<div>
+<em>1,420,092,000,000</em> hits/year!
+</div>
+
+<div>
+(Trillion! With a <i>t</i>!)
+</div>
+
+<div>
+<i>#4</i>: <em>Security</em>!
+</div>
+
+<div>
+<em>Compartmentalize</em> data, <em>limit</em> damage.
+</div>
+
+<!-- <div>
+Combine <em>corporate policy</em>, <em>host security policy</em> (IAM), <em>virtual separation</em> and <em>physical separation</em>.
+</div>
+ -->
+<div>
+Defend against <em>internal</em> and <em>external</em> threats!
+</div>
+
+<div>
+Prevent <em>non-US</em> employees accessing <em>US data</em>, etc.
+</div>
+
+<div>
+PSA: This is a <em>big topic</em>. I'm <em>not</em> saying deploying globally makes you more secure by default. Consult your local hacker for more details.
+</div>
+
+<div>
+<i>#5</i>: <em>Regulatory compliance</em>!
+</div>
+
+<div>
+Different <em>countries</em> have different <em>laws</em>.
+</div>
+
+<div>
+    Medical Data
+</div>
+
+<div>
+    Financial Data
+</div>
+
+<div>
+    Personally Identifying Information
+</div>
+
+<div>
+    Private Communications
+</div>
+
+<div>
+    Data Retention
+</div>
+
+<div>
+    Etcetera..
+</div>
+
+<div>
+(I'm not your lawyer. Thank goodness.)
+</div>
+
+<div>
+<em>One</em> product may have different compliance needs in <em>many</em> countries.
+</div>
+
+<div>
+<i>"Well, I'm convinced! How do we do it?"</i>
 </div>
 
 <div>
@@ -452,87 +1236,85 @@ $ zappa init
 </div>
 
 <div>
-Automatically detects app type, creates bucket, IAM, etc..
-</div>
-
-<div>
-Super easy to <em>deploy</em>!
-</div>
-
-<div>
 <pre>
-$ zappa deploy
-</pre>
-</div>
-
-<div>
-Great for <em>microservices</em>! (Flask APIs, IoT, chatbots, etc.)
-</div>
-
-<div>
-Great for <em>macroservices</em>! (Django, CMSes, etc.)
-</div>
-
-<div>
-React to AWS events (S3/SQS/etc.)!
-</div>
-
-<div>
-<pre>
-<span class="grey">// zappa_settings.json</span>
-
- "events": [{
-      "function": "<em>your_module.your_function</em>",
-      "event_source": {
-            "arn":  "arn:aws:s3:::my-bucket",
-            "events": [
-              "<em>s3:ObjectCreated:*</em>"
-            ]
-         }
-      }]
-</pre>
-</div>
-
-<div>
-Timed Events!
-</div>
-
-<div>
-<pre>
- "events": [{
-     "function": "your_module.your_function",
-     "expression": "<em>rate(1 minute)</em>"
- }]
+Do you want to make this a <em>global</em> application? Y
 </pre>
 </div>
 
 <div>
 <pre>
-$ zappa schedule
-$ zappa unschedule
-</pre>
-</div>
+{
+    "dev_ap_northeast_1": {
+        "app_function": "geocake.app",
+        "aws_region": "ap-northeast-1",
+        "domain": "dev-ap-northeast-1.geocake.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_1"
+    },
+    "dev_ap_northeast_2": {
+        "app_function": "geocake.app",
+        "aws_region": "ap-northeast-2",
+        "domain": "dev-ap-northeast-2.geocake.biz",
+        "s3_bucket": "lmbda_dev_ap_northeast_2"
+    },
 
-<div>
-Free SSL!
+    [ ... ],
+
+    "dev_us_west_2": {
+        "app_function": "geocake.app",
+        "aws_region": "us-west-2",
+        "domain": "dev-us-west-2.geocake.biz",
+        "s3_bucket": "lmbda_dev_us_west_2"
+    }
+}
+</pre>
 </div>
 
 <div>
 <pre>
-$ zappa certify
+$ zappa deploy --all
+$ zappa certify --all
 </pre>
 </div>
 
 <div>
-..and many, many more features!
+Bam!
 </div>
 
 <div>
-Normally I talk about <em>scalable web services</em>,
+<pre>
+httpstat https://dev-ap-northeast-1.geocake.biz/
+httpstat https://dev-ap-northeast-2.geocake.biz/
+...
+httpstat https://dev-us-west-2.geocake.biz/
+</pre>
+</div>
+
+<!-- <div>
+<pre>
+  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
+[     5ms    |       8ms      |     50ms     |       42ms       |        0ms       ]
+             |                |               |                   |                  |
+    namelookup:5ms            |               |                   |                  |
+                        connect:13ms          |                   |                  |
+                                    pretransfer:75ms              |                  |
+                                                      starttransfer:198ms            |
+                                                                                 total:<em>198ms</em>
+</pre>
+</div> -->
+
+<!-- <div>
+<pre>
+import os
+this_region = os.environ.get('AWS_REGION')
+</pre>
+</div> -->
+
+<div>
+RAWK \m/
 </div>
 
 <div>
-but since we're at <em>PyConSG</em>, I'd like to talk about
+Since we're at <em>PyConSG</em>, I'd like to talk about
 </div>
 
 <div>
@@ -574,7 +1356,7 @@ Example 1: Parallel Data Processing
 </div>
 
 <div>
-Suppose I have a large genetic dataset, and I want to process it on a sample-wise basis!
+Suppose I have a <em>large genetic dataset</em>, and I want to process it on a sample-wise basis!
 </div>
 
 <div>
@@ -587,6 +1369,13 @@ First, grab your dataset from <em>refine.bio</em>!
 
 <div>
 <img src="https://i.imgur.com/IjaTCAi.png">
+</div>
+
+<div>
+<pre>
+$ zappa deploy
+$ zappa invoke 'mybioapp.process_genes'
+</pre>
 </div>
 
 <div>
@@ -604,12 +1393,17 @@ If each of the predictors can operate in less than the space of a request, but n
 <div>
 <pre>
 import concurrent.futures
-from zappa.asynchronous import run
+from <em>zappa.asynchronous</em> import <em>run</em>
 
-def run_predictions(request):
+predictor_functions = [
+  <span class="grey">'predictor.alpha'</span>,
+  <span class="grey">'predictor.beta'</span>,
+  <span class="grey">'predictor.delta'</span>
+]
+
+def run_predictions(<span class="grey">request</span>):
   executor = concurrent.futures.ThreadPoolExecutor()
-  predictor_functions = ['predictor.alpha', 'predictor.beta', 'predictor.delta']
-  results = executor.map(runner, predictor_functions)
+  results = executor.map(<em>run</em>, predictor_functions)
 
   highest_confidence = 0.0
   final_prediction = None
@@ -622,21 +1416,11 @@ def run_predictions(request):
 </pre>
 </div>
 
-
-<div>
-<pre>
-def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
-     ingredients = get_ingredients()
-     cake = bake(ingredients)
-     deliver(cake)
-</pre>
-</div>
-
 <!-- <div>
 Useful for quickly processing large data sets, online machine learning, quering multiple models in a single response requests!
 </div> -->
 
-<div>
+<!-- <div>
 <pre>
 def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span>):
      ingredients = get_ingredients()
@@ -657,27 +1441,10 @@ def bake_cake(<span class="grey">*args</span>, <span class="grey">**kwargs</span
 </pre>
 </div>
 
-<div>
-<pre>
-$ zappa deploy
-$ zappa invoke 'mybioapp.process_genes'
-</pre>
-</div>
+ -->
 
 <div>
-It's that easy!
-</div>
-
-<div>
-No config!
-</div>
-
-<div>
-No queues!
-</div>
-
-<div>
-No Celery!
+One requests -> Lots of predictions -> one response!
 </div>
 
 <div>
@@ -702,6 +1469,10 @@ But now I've convinced thousands of people to use Amazon.
 
 <div>
 >:[
+</div>
+
+<div>
+Part 2: Why You Shouldn't Use Zappa
 </div>
 
 <div>
@@ -999,6 +1770,7 @@ Stack file written: echoupper.yml
 
 <div>
 <pre>
+<span class="grey">#echoupper.yml</span>
 version: 1.0
 provider:
   name: openfaas
@@ -1079,7 +1851,11 @@ A growing collection of useful, community-contributed, <em>free and open-source 
 </div>
 
 <div>
-Fashion: <em>Easy</em> and <em>Awesome</em> Python for OpenFaaS!
+Fashion: <em>Easy</em> and <em>Awesome</em> Pythonic OpenFaaS!
+</div>
+
+<div>
+<img src="https://i.imgur.com/rID7qi6.png">
 </div>
 
 <div>
@@ -1132,7 +1908,13 @@ Limit functions to certain instance types!
 </div>
 
 <div>
+Run the <em>hard problems</em> on <em>expensive hardware</em>, run the <em>easy problems</em> on <em>cheap hardware</em>!
+</div>
+
+<div>
 <pre>
+<span class="grey">#update_model.yml</span>
+  [..]
    constraints:
      - "node.labels.instance_type == gpu"
 </pre>
@@ -1154,6 +1936,14 @@ send_email(result)
 </div>
 
 <div>
+<em>PLONK</em> handles the placement and elasticity!
+</div>
+
+<div>
+✨✨✨magic!✨✨✨
+</div>
+
+<div>
 Make asynchronous calls!
 </div>
 
@@ -1172,12 +1962,12 @@ Chain async calls together to build pipelines!
 <div>
 <pre>
 from <em>fashion</em> import <em>async_leftpad</em>
-async_leftpad("Hello", callback_function=<em>"figlet"</em>)
+async_leftpad("Hello", callback_functions=["figlet", "send_email"])
 <span class="grey"># "6a3ae7fb-a8ee-4988-b7de-d3b81d1aed65"</span>
 </pre>
 </div>
 
-<div>
+<!-- <div>
 <pre>
 <span class="grey"># Runs on expensive GPU instance</span>
 from <em>fashion</em> import <em>async_update_model</em>
@@ -1189,7 +1979,7 @@ async_update_model(input, callback_function=<em>"send_result_email"</em>)
 <span class="grey"># Email will be sent eventually!</span>
 
 </pre>
-</div>
+</div> -->
 
 <div>
 Is this useful?
@@ -1237,6 +2027,14 @@ We're "<em>serverless</em>"..
 </div>
 
 <div>
+We're "<em>serverless</em>".. but we have a lot of servers.
+</div>
+
+<div>
+We're "<em>serverless</em>".. but we have a lot of servers. And tooling.
+</div>
+
+<div>
 We're "<em>serverless</em>".. but we have a lot of servers. And tooling. And voodoo.
 </div>
 
@@ -1273,7 +2071,15 @@ PLONK is good solution*..
 </div>
 
 <div>
-I'm just a regular <em>guy</em>!
+Fortunately, more cloud vendors have off-the shelf Kubernetes, and OpenFaaS hosts are starting to appear.
+</div>
+
+<div>
+But..
+</div>
+
+<div>
+I'm just a <em>regular guy</em>!
 </div>
 
 <div>
@@ -1281,7 +2087,11 @@ I just want to run a service and <em>not worry about servers</em>!
 </div>
 
 <div>
-Hmmm.. okay then!
+Hmmm..
+</div>
+
+<div>
+Okay then!
 </div>
 
 <div>
@@ -1290,6 +2100,14 @@ Let's go <em>actually</em> serverless!
 
 <div>
 As in, <em>literally no servers</em>!
+</div>
+
+<div>
+For real this time!
+</div>
+
+<div>
+Part 3: Let's build a new internet!
 </div>
 
 <div>
@@ -1334,22 +2152,39 @@ Solid, NextCloud, ZeroNet, GUN, IPFS, dat, Scuttlebot, DataShards, WebTorrent, a
 </div>
 
 <div>
-More privacy!
+"<em>RE-DECENTRALIZE</em>"
 </div>
 
 <div>
-Less corporate control!
+This is what Tim Berners Lee is working on!
 </div>
 
 <div>
-Less censorship!
+Less centralized corporate control!
 </div>
 
 <div>
-More freedom!
+Better global distribution and interconnectivity!
 </div>
 
-<div><i>(Legalize drugs and gay!)</i></div>
+<div>
+New models privacy!
+</div>
+
+<div>
+More network resiliance!
+</div>
+
+<div>
+Less censorship, more creative expression!
+</div>
+
+<div>
+More freedom for users!
+</div>
+
+<!-- <div><i>(Legalize drugs and gay!)</i></div>
+ -->
 
 <div>
 <em>P</em>ersonal <em>D</em>ata <em>S</em>torage
@@ -1357,10 +2192,6 @@ More freedom!
 
 <div>
 Control your own private data, share <em>selectively</em>.
-</div>
-
-<div>
-This is what Tim Berners Lee is working on!
 </div>
 
 <div>
@@ -1372,7 +2203,15 @@ I want to run web services <em>without any</em> centralized servers!
 </div>
 
 <div>
-Run a service, seed it, peers seed it after the original seed dies!
+Publish a service,
+</div>
+
+<div>
+seed it,
+</div>
+
+<div>
+peers seed it after the original seed goes away!
 </div>
 
 <div>
@@ -1392,7 +2231,11 @@ Designed for data scientists (like you!) to share large, mutable datasets!
 </div>
 
 <div>
-Also works great with web content!
+git is bad for data, dat is great for data!
+</div>
+
+<div>
+Also works great with dynamic web content!
 </div>
 
 <div>
@@ -1405,8 +2248,18 @@ Also works great with web content!
 </div>
 
 <div>
+Let's publish a datsite!
+</div>
+
+<div>
 <pre>
+$ npm install dat # this is like `pip`, but for JS
 $ cd ~/src/my-website
+</pre>
+</div>
+
+<div>
+<pre>
 $ dat .
 
 Created new dat in /Users/alice/my-website/.dat
@@ -1423,7 +2276,7 @@ Super easy!
 </div>
 
 <div>
-Users download the site <em>each other</em>!*
+Users download the site <em>each other</em>!
 </div>
 
 <div>
@@ -1451,11 +2304,71 @@ We can replace <em>Google</em>, <em>Twitter</em>, <em>Facebook</em>, <em>Netflix
 </div>
 
 <div>
+We <strike>can</strike> should replace <em>Google</em>, <em>Twitter</em>, <em>Facebook</em>, <em>Netflix</em>, <em>Uber</em>, <em>Slack</em>, <em>Spotify</em>, <em>SoundCloud</em>..
+</div>
+
+<div>
+We <strike>can</strike> <strike>should</strike> must replace <em>Google</em>, <em>Twitter</em>, <em>Facebook</em>, <em>Netflix</em>, <em>Uber</em>, <em>Slack</em>, <em>Spotify</em>, <em>SoundCloud</em>..
+</div>
+
+<div>
 with <em>free</em> and <em>open source</em> versions that don't <em>spy on us</em>!
 </div>
 
 <div>
-Even better, we can build <em>new services</em> we couldn't imagine before!
+I want to live in a post-advertising world!
+</div>
+
+<div>
+<i>"But they're too entrenched and powerful!"</i>
+</div>
+
+<div>
+<img src="https://i2-prod.walesonline.co.uk/news/wales-news/article15532146.ece/ALTERNATES/s615/1_myspace-tom.jpg">
+</div>
+
+<div>
+(if you get that joke, you're officially old)
+</div>
+
+<div>
+Dogpile, MySpace, Yahoo!, AOL, Snapchat, Digg, SourceForge, etc., etc.,
+</div>
+
+<div>
+All tech incumbants can be <em>dethroned</em>!
+</div>
+
+<div>
+<img src="https://fsmedia.imgix.net/d0/c7/ba/03/4910/4f4a/8c74/04f8b28d78be/drogon-with-a-dying-daenerys.jpeg?rect=0%2C29%2C970%2C486&auto=format%2Ccompress&dpr=2&w=650">
+</div>
+
+<div>
+<i>sorry</i>
+</div>
+
+<div>
+The opportunities are <em>too large</em> to ignore!
+</div>
+
+<div>
+Even better, we can build <em>new types of services</em> we couldn't imagine before!
+</div>
+
+<div>
+A thousand projects on the magnitude of Wikipedia!
+</div>
+
+<div>
+Rather than dismantling oppressive systems,
+</div>
+
+<div>
+we can <em>build liberated alternatives</em> that make the old systems obselete!
+</div>
+
+<div>
+This has been our story so far, and it should be our story into the future as well!
 </div>
 
 <div>
@@ -1463,11 +2376,15 @@ There is so much to be done!
 </div>
 
 <div>
+New opportunities come with new challenges!
+</div>
+
+<div>
 Next time you start a project, consider opportunities to <em>redecentralize</em>!
 </div>
 
 <div>
-Okay! That's probably enough!
+Okay!
 </div>
 
 <div>
@@ -1499,11 +2416,31 @@ use <em>Zappa</em>!
 </div>
 
 <div>
-Or, use <em>OpenFaaS</em> and <em>Fashion</em> if you want more control and don't want to give evil Jeff Bezos more of your money!
+Or,
 </div>
 
 <div>
-Or, better still, build <em>peer to peer</em> applications with <em>dat</em> and skip centralized servers entirely!
+if you don't want to give any more money to Jeff Bezos,
+</div>
+
+<div>
+use <em>OpenFaaS</em> and <em>Fashion</em> to run efficient data processing pipelines on your own FaaS!
+</div>
+
+<div>
+(but you'll have to learn Kubernetes!)
+</div>
+
+<div>
+Finally,
+</div>
+
+<div>
+if you want to be part of the next generation of web technologies and services</div>
+</div>
+
+<div>
+join me in <em>redecentralizing</em> on the truly serverless <em>peer to peer</em> web!
 </div>
 
 <div>
@@ -1548,12 +2485,16 @@ Pull request triage!
 </div>
 
 <div>
+Build cool stuff!
+</div>
+
+<!-- <div>
   <pre>
   shoutz
   </pre>
-</div>
+</div> -->
 
-<div>
+<!-- <div>
 Patrons:
 <ul>
   <li>
@@ -1567,13 +2508,13 @@ Patrons:
   </li>
 </ul>
 
-</div>
+</div> -->
 
-<div>
+<!-- <div>
   https://patreon.com/Zappa
-</div>
+</div> -->
 
-<div>
+<!-- <div>
 Special Thanks:
 <ul>
   <li>
@@ -1607,7 +2548,7 @@ Special Thanks:
   <li>
     MANY, MANY others!
   </li>
-</div>
+</div> -->
 
 <div>
 Do you need <em>awesome</em>, <em>scalable</em>, <em>server-less</em> apps?
@@ -1641,7 +2582,15 @@ https://slack.zappa.io
 </div>
 
 <div>
+<em>HUGE</em> round of applause for our awesome organizers!
+</div>
+
+<div>
 Questions?
+</div>
+
+<div>
+🍺🍺🍺 Let's get some beers! 🍺🍺🍺
 </div>
 
 </body>
