@@ -1,0 +1,1052 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#000;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+ul, pre {
+  letter-spacing: 0px;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color: #ff0000;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+/* normally not good, but ok in context of full screen directional navigation */
+:focus {
+    outline: 0;
+}
+
+.grey{
+  color: #888;
+}
+
+</style><script type='text/javascript'>
+window.onload = function() {
+  var s = document.getElementsByTagName('div'), ti, i;
+  for (i = 0; i < s.length; i++) s[i].setAttribute('tabindex', 0);
+  if (!s.length) return;
+  var big = window.big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+  function resize() {
+    var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+    e.style.fontSize = h + 'px';
+    function pass(cinch, start) {
+      for (var i = start; i > 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= cinch) {
+        e.style.fontSize = i + 'px';
+      }
+      return i + cinch;
+    }
+    pass(2, pass(5, pass(10, h - 2)));
+    e.style.marginTop = (h - e.offsetHeight) / 2 + 'px';
+  }
+  function go(n) {
+    big.current = n;
+    var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+      notes = e.getElementsByTagName('notes');
+    document.body.className = e.getAttribute('data-bodyclass') || '';
+    for (i = 0; i < s.length; i++) s[i].style.display = 'none';
+    e.style.display = 'inline';
+    e.focus();
+    for (i = 0; typeof console === 'object' && i < notes.length; i++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[i].innerHTML.trim());
+    if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+      document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+      e.firstChild.style.display = 'none';
+      if ('classList' in e) e.classList.add('imageText');
+    } else {
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundColor = e.style.backgroundColor;
+    }
+    if (ti !== undefined) window.clearInterval(ti);
+    if (t > 0) ti = window.setTimeout(fwd, t * 1000);
+    resize();
+    if (window.location.hash !== n) window.location.hash = n;
+    document.title = e.textContent || e.innerText;
+  }
+  document.onclick = function() { go(++big.current % s.length); };
+  function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+  function rev() { go(Math.max(0, --big.current)); }
+  document.onkeydown = function(e) {
+    if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+    if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+  };
+  document.ontouchstart = function(e) {
+    var x0 = e.changedTouches[0].pageX;
+    document.ontouchend = function(e2) {
+      var x1 = e2.changedTouches[0].pageX;
+      if (x1 - x0 < 0) fwd();
+      if (x1 - x0 > 0) rev();
+    };
+  };
+  function parse_hash() {
+    return Math.max(Math.min(s.length - 1,
+      parseInt(window.location.hash.substring(1), 10)), 0);
+  }
+  if (window.location.hash) big.current = parse_hash() || big.current;
+  window.onhashchange = function() {
+    i = parse_hash();
+    if (i !== big.current) go(i);
+  };
+  window.onresize = resize;
+  go(big.current);
+};
+</script></head><body>
+
+<div>
+Hello!
+</div>
+
+<div>
+Thank you for having me!
+</div>
+
+<div>
+My name is <em>Rich Jones</em>!
+</div>
+
+<div>
+Founder of <em>gun.io</em>!
+</div>
+
+<div>
+<img src="http://i.imgur.com/UmYyAla.png">
+</div>
+
+<div>
+(Awesome freelance gigs for F/OSS hackers!)
+</div>
+
+<div>
+Author of
+</div>
+
+<div>
+(shameless plug alert)
+</div>
+
+<div>
+Zappa!
+</div>
+
+<div>
+Python's <em>serverless</em> framework!
+</div>
+
+<div>
+And..
+  <ul>
+    <li>omnihash</li>
+    <li>`loop`</li>
+    <li>NoDB</li>
+    <li>lambda-packages</li>
+    <li>django-knockout-modeler</li>
+    <li>django-easy-timezones</li>
+    <li>SoundScrape</li>
+    <li>And more!..
+  </ul>
+</div>
+
+<div>
+<i>FULL DISCLOSURE!
+</div>
+
+<div>
+I HAVE BEEN LOCKED IN MY HOUSE FOR <em>FIVE MONTHS</em>
+</div>
+
+<div>
+AND COMPLETELY LOST MY MIND
+</div>
+
+<div>
+SO IF THIS SEEMS LIKE THE UNHINGED RAVINGS OF A MAD PERSON
+</div>
+
+<div>
+IT'S BECAUSE IT IS
+</div>
+
+<div>
+I ALSO BROKE MY HAND
+</div>
+
+<div>
+MY RIGHT HAND
+</div>
+
+<div>
+DURING LONG TERM ISOLATION</i>
+</div>
+
+<!--
+Lazy, Stupid and Unconcerned - Why You Are The Perfect Target
+
+Okay, so what I actually mean, by you, is me
+Not fancy
+Fun and stupid script kidie stuff against developers
+
+What can go wrong
+  - Twitter
+  - Capital One (80m *)
+
+Lazy:
+  Poisoning Deps
+  Poisoning Docker Images
+  Copying and Pasting Random stuff from the internet (\n)
+
+Stupid:
+  - Announcing Your Stack On the Internet
+  - Constantly talking about what tools you're using
+  - Keeping prod systems on your laptop
+  - Believing vendors
+  - Web-based network mapping
+  - DNS rebinding
+    - against docker, and other services
+
+Unconcerened:
+  - Using Cloud Services
+  - Trigger warnings
+  - DDoS your gmail so you don't get the notifications
+  - Calander invites
+-->
+
+<div>
+Welcome to..
+</div>
+
+<div>
+<em>Lazy</em>, <em>Unconcerned</em> and <em>Stupid</em>!
+</div>
+
+<div>
+<i>Why <em>You</em>* Are the Perfect Target</i>
+</div>
+
+<div>
+*and when I say "<em>you</em>"
+</div>
+
+<div>
+*I actually mean "<em>me</em>"
+</div>
+
+<div>
+This talk is going to be about
+</div>
+
+<div>
+Why <em>developers</em> make better targets than <em>systems</em>
+</div>
+
+<div>
+Not going to drop any cool zero days or unpublished research
+</div>
+
+<div>
+😢
+</div>
+
+<div>
+Skript kiddie bullshit!
+</div>
+
+<div>
+😉
+</div>
+
+<div>
+Fuck with your <em>friends</em>,
+</div>
+
+<div>
+impress your <em>admirers</em>,
+</div>
+
+<div>
+destroy your <em>corporate rivals</em>!
+</div>
+
+<div>
+Preamble:
+</div>
+
+<div>
+<em>Why</em> developers and not systems?
+</div>
+
+<div>
+<em>Systems</em>:
+</div>
+
+<div>
+Hardened!
+</div>
+
+<div>
+Monitored!
+</div>
+
+<div>
+Audited!
+</div>
+
+<div>
+<em>Developers</em>:
+</div>
+
+<div>
+Will run any literally bullshit they find on <em>StackOverflow</em>
+</div>
+
+<div>
+Keep <em>credentials</em> just laying about whereever
+</div>
+
+<div>
+Probably have <em>production data</em> and <em>source code</em> laying around
+</div>
+
+<div>
+In the news:
+</div>
+
+<div>
+<img src="https://i.imgur.com/KWKsQej.png">
+</div>
+
+<div>
+<img src="https://i.imgur.com/Cd0cdnH.png">
+</div>
+
+<div>
+<em>NOT</em> a hack of systems!
+</div>
+
+<div>
+Hack of <em>employees</em>!
+</div>
+
+<div>
+The NSA does this too!
+</div>
+
+<div>
+<img src="https://i.imgur.com/Ii9cBKg.png">
+</div>
+
+<div>
+Chapter One:
+</div>
+
+<div>
+<em><i>Lazy</i></em>
+</div>
+
+<div>
+Developers are lazy sacks of shit!
+</div>
+
+<div>
+Most of the time, this is a "<em>virtue</em>"
+</div>
+
+<div>
+Repetitive tasks get scripted and out-sourced.
+</div>
+
+<div>
+This is <em>not</em> always good!
+</div>
+
+<div>
+How software <i>actually</i> gets made:
+</div>
+
+<div>
+Idiot middle manager goes to conference and learns about..
+</div>
+
+<div>
+ <em>HOT NEW THING</em>
+</div>
+
+<div>
+Tells dev they need <em>HOT NEW THING</em>
+</div>
+
+<div>
+Developer Googles "<em>how to HOT NEW THING</em>"
+</div>
+
+<div>
+Developer finds a library written by an underpaid, idealistic neckbeard
+</div>
+
+<div>
+`pip install <em>hot-new-thing</em>`
+</div>
+
+<div>
+DONE!
+</div>
+
+<div>
+...
+</div>
+
+<div>
+or was that `pip install <em>hotnewthing</em>`?
+</div>
+
+<div>
+or <em>python-hot-new-thing</em>
+</div>
+
+<div>
+or <em>python-hotnewthing</em>
+</div>
+
+<div>
+or <em>pyhotnewthing</em>?
+</div>
+
+<div>
+Doesn't matter!
+</div>
+
+<div>
+Either way,
+</div>
+
+<div>
+they <em>didn't read</em> the code!
+</div>
+
+<div>
+And they definately didn't read the <em>post-install scripts</em>
+</div>
+
+<div>
+and they definately didn't read the <em>dependencies</em>
+</div>
+
+<div>
+and they definately didn't read the <em>depenancy post-install scripts</em>!
+</div>
+
+<div>
+sometimes, this approach to software development leads to hilarious, large-scale <em>fail</em>
+</div>
+
+<div>
+`left-pad`
+</div>
+
+<div>
+<img src="https://i.imgur.com/HrCC5LD.png">
+</div>
+
+<div>
+'this'
+</div>
+
+<div>
+'  this'
+</div>
+
+<div>
+<img src="https://i.imgur.com/9OwsFrf.png">
+</div>
+
+<div>
+butthurt* developer removed the package
+</div>
+
+<div>
+*actually this was a lawyer's fault, fuck lawyers, fuck laws, ALAB
+</div>
+
+<div>
+all javascript everywhere stopped working
+</div>
+
+<div>
+<img src="https://i.imgur.com/rE9DYbn.jpg">
+</div>
+
+<div>
+AN <em>ASIDE</em>!
+</div>
+
+<div>
+Can we use this as an approach to <em>smash capitalism</em>?
+</div>
+
+<div>
+F/OSS on <em>strike</em>!
+</div>
+
+<div>
+I don't want to make Jeff Bezos any richer!
+</div>
+
+<div>
+Hit me up!
+</div>
+
+<div>
+/aside
+</div>
+
+<div>
+Not just fail, sometimes <em>megafail</em>!
+</div>
+
+<div>
+<img src="https://i.imgur.com/l6jZT27.png">
+</div>
+
+<div>
+<img src="https://i.imgur.com/IXahEpR.png">
+</div>
+
+<div>
+<img src="https://i.imgur.com/CzCCnnr.png">
+</div>
+
+<div>
+This is a a <em>constant problem</em> for every single package manager at this point
+</div>
+
+<div>
+(some of this is because <em>developers suck at naming things</em>)
+</div>
+
+<div>
+<img src="https://i.imgur.com/ANvbpqT.png">
+</div>
+
+<div>
+Don't call your library `telnetservlib` if `telnet` is still available!
+</div>
+
+<div>
+Most were for lame <em>crypto-stealing</em> attacks!
+</div>
+
+<div>
+Another <em>aside</em>!
+</div>
+
+<div>
+Cryptocurrency sucks ass and makes everything <em>boring</em>!
+</div>
+
+<div>
+Hack for <em>fun</em> and <em>glory</em>, not for profit!
+</div>
+
+<div>
+Obfuscate! Leave no trace!
+</div>
+
+<div>
+Steal marvelous secrets and <em>don't get caught</em>!
+</div>
+
+<div>
+/aside
+</div>
+
+<div>
+Malicious packages? It gets better!
+</div>
+
+<div>
+Why run <em>code</em> written by random untrusted internet strangers..
+</div>
+
+<div>
+..when you can have your <em>entire stack</em> built by random internet strangers!
+</div>
+
+<div>
+DOCKER!
+</div>
+
+<div>
+We all use containers for everything now,
+</div>
+
+<div>
+because Google told us to and we don't want to <em>lose our jobs</em>.
+</div>
+
+<div>
+Even if Docker doesn't provide <em>any kernel security</em>,
+</div>
+
+<div>
+takes fucking <em>forever</em>,
+</div>
+
+<div>
+makes interactive <em>debugging</em> way harder,
+</div>
+
+<div>
+and eats up your <em>whole hard drive</em>,
+</div>
+
+<div>
+you do get the added benefit of running <em>random untrusted code your system</em>.
+</div>
+
+<div>
+A R T I F I C I A L  I N T E L L I G E N C E*
+</div>
+
+<div>
+*super hard to get up and running
+</div>
+
+<div>
+But are there really <em>pre-owned</em> Docker images out there?
+</div>
+
+<div>
+<img src="https://i.imgur.com/s9Cj5li.png">
+</div>
+
+<div>
+Again, that was only the <em>lamest crypto dorks</em>!
+</div>
+
+<div>
+With even the <em><i>slighted modocum of effort</i></em>, this could be used for something far more fun!
+</div>
+
+<div>
+Finally, the classic lazy developer move:
+</div>
+
+<div>
+<i>Copy and Pasting Random Shit from the Internet</i>
+</div>
+
+<div>
+This is still the preferred installation technique for many popular software packages!
+</div>
+
+<div>
+<img src="https://i.imgur.com/Uojs28g.png">
+</div>
+
+<div>
+Why stop there?
+</div>
+
+<div>
+You can inject whatever you like into a <em>pastebuffer</em>!
+</div>
+
+<div>
+<img src="https://i.imgur.com/VN1U2EW.png">
+</div>
+
+<div>
+<img src="https://i.imgur.com/uZWvoNA.png">
+</div>
+
+<div>
+Steal AWS keys, open up a backdoor, exfil delicious files..
+</div>
+
+<div>
+How to mitigate that?
+</div>
+
+<div>
+Copy and paste random shit from the internet!
+</div>
+
+<div>
+<img src="https://i.imgur.com/g5JL7L7.png" />
+</div>
+
+<div>
+<img src="https://i.imgur.com/Wgn099i.png">
+</div>
+
+<div>
+To sumise:
+</div>
+
+<div>
+Modern software development is really just shit stacked on shit stacked on shit,
+</div>
+
+<div>
+it's all far too complicated and abstracted for any single person to actually understand all of it,
+</div>
+
+<div>
+it's easily exploitable and there's nothing we can do about it.
+</div>
+
+<div>
+Chapter Two:
+</div>
+
+<div>
+<em>Unconcerned</em>
+</div>
+
+<div>
+To developers, warnings and alerts are <em>annoyances</em> to be ignored and suppressed
+</div>
+
+<div>
+This is a natural response to being constantly bombarded with warnings and popups and similar bullshit
+</div>
+
+<div>
+Prod systems have all kind of bells and alarms for when something's fishy
+</div>
+
+<div>
+(or, probably not)
+</div>
+
+<div>
+Developers don't!
+</div>
+
+<div>
+A developer's concern is to have <em>less things to be concerned about</em>
+</div>
+
+<div>
+Enter, cloud services
+</div>
+
+<div>
+... more ...
+</div>
+
+<div>
+Maybe you _do_ get email alerts
+</div>
+
+<div>
+Okay, but Google won't show those if your inbox is full
+</div>
+
+<div>
+and I can fill up your inbox with Drive shares
+</div>
+
+<!-- Unconcerened:
+  - Using Cloud Services
+  - Trigger warnings
+  - DDoS your gmail so you don't get the notifications
+  - Calander invites -->
+
+<div>
+Chapter Three:
+</div>
+
+<!-- Stupid:
+  - Announcing Your Stack On the Internet
+  - Constantly talking about what tools you're using
+  - Keeping prod systems on your laptop
+  - Believing vendors
+  - Web-based network mapping
+  - DNS rebinding
+    - against docker, and other services -->
+
+<div>
+<i><em>Stupid</em></i>
+</div>
+
+<div>
+Stupidity and Intelligence are on completely <em>different axes</em>!
+</div>
+
+<div>
+<img src="https://i.imgur.com/nC8bBuh.png">
+</div>
+
+<div>
+Very intelligent people can be very stupid!
+</div>
+
+<div>
+<img src="https://i.imgur.com/NCI45vK.png">
+</div>
+
+<div>
+<img src="https://i.imgur.com/tMDixUd.png">
+</div>
+
+<div>
+Stupid things developers do:
+</div>
+
+<div>
+Keeping production <em>data</em> on your workstation
+</div>
+
+<div>
+<em>Believing</em> cloud vendors
+</div>
+
+<div>
+Clicking on <em>random links</em>
+</div>
+
+<div>
+Announcing your <em>whole stack</em> on the internet
+</div>
+
+<div>
+Constantly talking about what <em>tools</em> you're using
+</div>
+
+<div>
+<i>*specific examples removed*</i>
+</div>
+
+<div>
+Your social media presence tells me:
+</div>
+
+<div>
+Where you work,
+</div>
+
+<div>
+who your boss is,
+</div>
+
+<div>
+who your co-workers are,
+</div>
+
+<div>
+what your stack is,
+</div>
+
+<div>
+what tools you like,
+</div>
+
+<div>
+and what kind of bullshit clickbait you like clicking on.
+</div>
+
+<div>
+<img src="https://i.imgur.com/MzQyGm9.png">
+</div>
+
+<div>
+Yet another aside:
+</div>
+
+<div>
+The web experiment has absolutely <em>failed</em>!
+</div>
+
+<div>
+Can we please collectively acknowledge this?
+</div>
+
+<div>
+It's way worse than TV ever was!
+</div>
+
+<div>
+Awful people screaming at each other, reposts, hatred, divisiveness, surveillance, advertising, depression, memes, ruined political discourse, everybody is alienated!
+</div>
+
+<div>
+When was the last time the web brought you any <em>joy</em>?
+</div>
+
+<div>
+When was the last time it made you feel awful about the world?
+</div>
+
+<div>
+Why are we still doing this?
+</div>
+
+<div>
+The only good thing about the web is how <em>insecure</em> it is!
+</div>
+
+<div>
+Web based port scanning!
+</div>
+
+<div>
+WebRTC + WebSockets = nmap!
+</div>
+
+<div>
+Major corporate websites are doing this <em>to YOU</em>, all the time!
+</div>
+
+<div>
+<img src="https://i.imgur.com/CYGyqBF.png">
+</div>
+
+<div>
+All sorts of fun!
+</div>
+
+<div>
+Loads of variants!
+</div>
+
+<div>
+Vanilla, WebRTC, WebSocktets, WebRTC + ICE
+</div>
+
+<div>
+Shoutout to @mandatoryprogrammer / `sonar.js`!
+</div>
+
+<div>
+<img src="https://i.imgur.com/VvIFvtw.png">
+</div>
+
+<div>
+Map internal network,
+</div>
+
+<div>
+exfiltrate local NoSQL databases,
+</div>
+
+<div>
+exploit insecure IoT garbage!
+</div>
+
+<div>
+Are you running an unprotected copy for your production app on 8000?
+</div>
+
+<div>
+What about k3s? Are you running http://app/?
+</div>
+
+<div>
+Remeber that dumb thing developers do where they keep production data on their local machines?
+</div>
+
+<div>
+Hmm
+</div>
+
+<div>
+It gets even better!
+</div>
+
+<div>
+DNS Rebinding!
+</div>
+
+<div>
+via @brannondorsey
+</div>
+
+<div>
+How it works!
+</div>
+
+<!-- *Here's the new thing!*
+https://github.com/jacob-baines/turnscan.js
+
+ -->
+<div>
+Do you need <div>awesome</em>, <div>scalable</em>, <div>server-less</em> apps?
+</div>
+
+<div>
+Hire me! 💸💸💸
+</div>
+
+<div>
+<div>Email</em>:
+miserlou@gmail.com
+</div>
+
+<div>
+<div>Code</em>:
+https://github.com/Miserlou/Zappa </br>
+https://github.com/Miserlou/Fashion </br>
+https://github.com/Miserlou/Talks </br>
+</em>
+</div>
+
+<div>
+<div>Thank you</em>!
+</div>
+
+<div>
+<div>HUGE</em> round of applause for our awesome organizers!
+</div>
+
+<div>
+Questions?
+</div>
+
+<div>
+🍺🍺🍺 Let's get some beers! 🍺🍺🍺
+</div>
+
+</body>
+</html>
+
